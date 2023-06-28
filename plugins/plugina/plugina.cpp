@@ -9,5 +9,5 @@ PluginA::pluginName() const
 QUrl
 PluginA::mainLink() const
 {
-    return QUrl("Todo!");
+    return QUrl("qrc:/qml/entrance.qml");
 }

@@ -21,6 +21,8 @@ file(GLOB_RECURSE Interface_SRCS
 
 qt_add_executable(${PROJECT_NAME}
     src/main.cpp
+    src/PluginLoader.h
+    src/PluginLoader.cpp
     ${Interface_SRCS}
 )
 

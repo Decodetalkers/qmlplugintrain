@@ -5,6 +5,7 @@ find_package(Qt6 COMPONENTS Quick Widgets QuickControls2 REQUIRED)
 add_library(${LIBNAME} SHARED
     plugina.h
     plugina.cpp
+    source.qrc
 )
 
 target_include_directories(${LIBNAME} PUBLIC
