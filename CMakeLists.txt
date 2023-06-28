@@ -15,8 +15,13 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 COMPONENTS Quick Widgets QuickControls2 REQUIRED)
 
+file(GLOB_RECURSE Interface_SRCS
+    "./include/interface/*.h"
+)
+
 qt_add_executable(${PROJECT_NAME}
     src/main.cpp
+    ${Interface_SRCS}
 )
 
 # Not Format Me
@@ -27,9 +32,15 @@ qt_add_qml_module(${PROJECT_NAME}
         ./qml/main.qml
 )
 
+target_include_directories(${PROJECT_NAME} PUBLIC
+    include/interface
+)
+
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
     Qt6::Quick
     Qt6::Widgets
     Qt6::QuickControls2
 )
+
+add_subdirectory(plugins/plugina)
