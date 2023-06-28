@@ -1,7 +1,10 @@
 import QtQuick.Controls
 import QtQuick
+
+import PluginA.Global
+
 Page {
     Text {
-        text: "cccc"
+        text: GlobalConst.name
     }
 }
