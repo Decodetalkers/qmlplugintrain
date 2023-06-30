@@ -19,10 +19,27 @@ file(GLOB_RECURSE Interface_SRCS
     "./include/interface/*.h"
 )
 
+add_library(qmlpluginstrainInterface SHARED
+    ${Interface_SRCS}
+    src/interface/modulemodel.cpp
+)
+
+target_include_directories(qmlpluginstrainInterface PUBLIC
+    include/interface
+)
+
+target_link_libraries(qmlpluginstrainInterface
+    PUBLIC
+    Qt6::Quick
+    Qt6::Widgets
+    Qt6::QuickControls2
+
+)
+
 qt_add_executable(${PROJECT_NAME}
-    src/main.cpp
-    src/PluginLoader.h
-    src/PluginLoader.cpp
+    src/frame/main.cpp
+    src/frame/PluginLoader.h
+    src/frame/PluginLoader.cpp
     ${Interface_SRCS}
 )
 
@@ -43,6 +60,9 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Quick
     Qt6::Widgets
     Qt6::QuickControls2
+    qmlpluginstrainInterface
 )
+
+
 
 add_subdirectory(plugins/plugina)

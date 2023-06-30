@@ -6,17 +6,32 @@ ApplicationWindow {
     Connections {
         function onUrlLoader(url) {
             console.log(url)
-            stackView.push(url)
+            model.append({
+                name: "sss",
+                url: url
+            })
         }
         target: PluginLoader
     }
-    StackView {
-        id: stackView
-        anchors.fill: parent
-        initialItem: Pane {
-            Text {
-                text: "sss"
-            }
+    GridView {
+        width: parent.width
+        height: parent.height
+        model: ListModel {
+            id: model
+        }
+        delegate: Button {
+            text: model.name
+            width: 300
+            height: 300
         }
     }
+    //StackView {
+    //    id: stackView
+    //    anchors.fill: parent
+    //    initialItem: Pane {
+    //        Text {
+    //            text: "sss"
+    //        }
+    //    }
+    //}
 }
