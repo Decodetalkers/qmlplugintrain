@@ -13,4 +13,5 @@ public:
 
     QString pluginName() const override;
     QUrl mainLink() const override;
+    Interfaces::ModuleModel topModule() const override;
 };

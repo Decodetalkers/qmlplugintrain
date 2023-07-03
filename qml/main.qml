@@ -25,13 +25,4 @@ ApplicationWindow {
             height: 300
         }
     }
-    //StackView {
-    //    id: stackView
-    //    anchors.fill: parent
-    //    initialItem: Pane {
-    //        Text {
-    //            text: "sss"
-    //        }
-    //    }
-    //}
 }
