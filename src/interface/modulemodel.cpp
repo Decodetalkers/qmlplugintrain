@@ -1,5 +1,15 @@
 #include <modulemodel.h>
-#include <type_traits>
+
+template<class... Ts>
+
+struct overloaded : Ts...
+{
+    using Ts::operator()...;
+};
+
+// NOTE: in cpp 20, noneeded again
+template<class... Ts>
+overloaded(Ts...) -> overloaded<Ts...>;
 
 BaseModuleModel::BaseModuleModel(const QString &displayName,
                                  const QString &description,
@@ -15,9 +25,10 @@ BaseModuleModel::BaseModuleModel(const QString &displayName,
   , m_url(url)
 {
 }
+
 HModuleModel::HModuleModel(const QString &displayName,
                            const QString &description,
-                           QList<ModuleModel *> models,
+                           QList<ModuleModel> models,
                            std::optional<QString> upModule,
                            QObject *parent)
   : QAbstractListModel(parent)
@@ -37,13 +48,41 @@ HModuleModel::rowCount(const QModelIndex &index) const
 QVariant
 HModuleModel::data(const QModelIndex &index, int role) const
 {
-    if (role == DisplayName) {
-        return m_displayName;
-    }
-    if (role == Description) {
-        return m_description;
-    }
-    return QVariant();
+    return get_model_data(index.row(), role);
+}
+
+QVariant
+HModuleModel::get_model_data(int row, int role) const
+{
+    const ModuleModel data = m_models[row];
+    return std::visit(overloaded{[role](BaseModuleModel *model) -> QVariant {
+                                     switch (role) {
+                                     case DisplayName:
+                                         return model->displayName();
+                                     case Description:
+                                         return model->description();
+                                     }
+                                     return QVariant();
+                                 },
+                                 [role](HModuleModel *model) -> QVariant {
+                                     switch (role) {
+                                     case DisplayName:
+                                         return model->displayName();
+                                     case Description:
+                                         return model->description();
+                                     }
+                                     return QVariant();
+                                 },
+                                 [role](VModuleModel *model) -> QVariant {
+                                     switch (role) {
+                                     case DisplayName:
+                                         return model->displayName();
+                                     case Description:
+                                         return model->description();
+                                     }
+                                     return QVariant();
+                                 }},
+                      data);
 }
 
 QHash<int, QByteArray>
@@ -56,7 +95,7 @@ HModuleModel::roleNames() const
 
 VModuleModel::VModuleModel(const QString &displayName,
                            const QString &description,
-                           QList<ModuleModel *> models,
+                           QList<ModuleModel> models,
                            std::optional<QString> upModule,
                            QObject *parent)
   : QAbstractListModel(parent)
@@ -76,13 +115,41 @@ VModuleModel::rowCount(const QModelIndex &index) const
 QVariant
 VModuleModel::data(const QModelIndex &index, int role) const
 {
-    if (role == DisplayName) {
-        return m_displayName;
-    }
-    if (role == Description) {
-        return m_description;
-    }
-    return QVariant();
+    return get_model_data(index.row(), role);
+}
+
+QVariant
+VModuleModel::get_model_data(int row, int role) const
+{
+    const ModuleModel data = m_models[row];
+    return std::visit(overloaded{[role](BaseModuleModel *model) -> QVariant {
+                                     switch (role) {
+                                     case DisplayName:
+                                         return model->displayName();
+                                     case Description:
+                                         return model->description();
+                                     }
+                                     return QVariant();
+                                 },
+                                 [role](HModuleModel *model) -> QVariant {
+                                     switch (role) {
+                                     case DisplayName:
+                                         return model->displayName();
+                                     case Description:
+                                         return model->description();
+                                     }
+                                     return QVariant();
+                                 },
+                                 [role](VModuleModel *model) -> QVariant {
+                                     switch (role) {
+                                     case DisplayName:
+                                         return model->displayName();
+                                     case Description:
+                                         return model->description();
+                                     }
+                                     return QVariant();
+                                 }},
+                      data);
 }
 
 QHash<int, QByteArray>

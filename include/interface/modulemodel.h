@@ -10,7 +10,7 @@
 class BaseModuleModel;
 class HModuleModel;
 class VModuleModel;
-using ModuleModel = std::variant<BaseModuleModel, HModuleModel, VModuleModel>;
+using ModuleModel = std::variant<BaseModuleModel *, HModuleModel *, VModuleModel *>;
 
 class BaseModuleModel final : public QObject
 {
@@ -26,13 +26,16 @@ public:
     inline QStringList searchpatterns() { return m_searchpatterns; }
 
     Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
-    inline QString displayName() { return m_displayName; }
+    inline QString displayName() const { return m_displayName; }
 
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    inline QString description() { return m_description; }
+    inline QString description() const { return m_description; }
 
     Q_PROPERTY(QUrl url READ url NOTIFY urlChanged)
-    inline QUrl url() { return m_url; }
+    inline QUrl url() const { return m_url; }
+
+    Q_PROPERTY(QString type READ type NOTIFY typeChanged)
+    inline QString type() { return "base"; }
 
     inline std::optional<QString> upModule() { return m_upModule; }
 
@@ -41,6 +44,7 @@ signals:
     void displayNameChanged();
     void urlChanged();
     void descriptionChanged();
+    void typeChanged();
 
 private:
     QString m_displayName;
@@ -57,27 +61,32 @@ class HModuleModel final : public QAbstractListModel
 public:
     explicit HModuleModel(const QString &displayName,
                           const QString &description,
-                          QList<ModuleModel *> models,
+                          QList<ModuleModel> models,
                           std::optional<QString> upModule,
                           QObject *parent = nullptr);
     enum ModuleRole
     {
         DisplayName = Qt::DisplayRole,
         Description = Qt::UserRole,
-        Model,
     };
     Q_ENUM(ModuleRole)
 
     Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
-    inline QString displayName() { return m_displayName; }
+    inline QString displayName() const { return m_displayName; }
 
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    inline QString description() { return m_description; }
+    inline QString description() const { return m_description; }
 
-    Q_PROPERTY(QList<ModuleModel *> models READ models NOTIFY modelsChanged)
-    inline QList<ModuleModel *> models() { return m_models; }
+    Q_PROPERTY(QList<ModuleModel> models READ models NOTIFY modelsChanged)
+    inline QList<ModuleModel> models() { return m_models; }
+
+    Q_PROPERTY(QString type READ type NOTIFY typeChanged)
+    inline QString type() { return "hmodule"; }
 
     inline std::optional<QString> upModule() { return m_upModule; }
+
+private:
+    QVariant get_model_data(int row, int role) const;
 
 private:
     int rowCount(const QModelIndex & = QModelIndex()) const override;
@@ -88,11 +97,12 @@ signals:
     void displayNameChanged();
     void descriptionChanged();
     void modelsChanged();
+    void typeChanged();
 
 private:
     QString m_displayName;
     QString m_description;
-    QList<ModuleModel *> m_models;
+    QList<ModuleModel> m_models;
     std::optional<QString> m_upModule;
 };
 
@@ -103,7 +113,7 @@ class VModuleModel final : public QAbstractListModel
 public:
     explicit VModuleModel(const QString &displayName,
                           const QString &description,
-                          QList<ModuleModel *> models,
+                          QList<ModuleModel> models,
                           std::optional<QString> upModule,
                           QObject *parent = nullptr);
     enum ModuleRole
@@ -115,15 +125,21 @@ public:
     Q_ENUM(ModuleRole)
 
     Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
-    inline QString displayName() { return m_displayName; }
+    inline QString displayName() const { return m_displayName; }
 
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    inline QString description() { return m_description; }
+    inline QString description() const { return m_description; }
 
-    Q_PROPERTY(QList<ModuleModel *> models READ models NOTIFY modelsChanged)
-    inline QList<ModuleModel *> models() { return m_models; }
+    Q_PROPERTY(QList<ModuleModel> models READ models NOTIFY modelsChanged)
+    inline QList<ModuleModel> models() { return m_models; }
+
+    Q_PROPERTY(QString type READ type NOTIFY typeChanged)
+    inline QString type() { return "vmodule"; }
 
     inline std::optional<QString> upModule() { return m_upModule; }
+
+private:
+    QVariant get_model_data(int row, int role) const;
 
 private:
     int rowCount(const QModelIndex & = QModelIndex()) const override;
@@ -134,10 +150,11 @@ signals:
     void displayNameChanged();
     void descriptionChanged();
     void modelsChanged();
+    void typeChanged();
 
 private:
     QString m_displayName;
     QString m_description;
-    QList<ModuleModel *> m_models;
+    QList<ModuleModel> m_models;
     std::optional<QString> m_upModule;
 };
