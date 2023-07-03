@@ -61,8 +61,9 @@ HModuleModel::get_model_data(int row, int role) const
                                          return model->displayName();
                                      case Description:
                                          return model->description();
+                                     [[unlikely]] default:
+                                         return QVariant();
                                      }
-                                     return QVariant();
                                  },
                                  [role](HModuleModel *model) -> QVariant {
                                      switch (role) {
@@ -70,8 +71,9 @@ HModuleModel::get_model_data(int row, int role) const
                                          return model->displayName();
                                      case Description:
                                          return model->description();
+                                     [[unlikely]] default:
+                                         return QVariant();
                                      }
-                                     return QVariant();
                                  },
                                  [role](VModuleModel *model) -> QVariant {
                                      switch (role) {
@@ -79,8 +81,9 @@ HModuleModel::get_model_data(int row, int role) const
                                          return model->displayName();
                                      case Description:
                                          return model->description();
+                                     [[unlikely]] default:
+                                         return QVariant();
                                      }
-                                     return QVariant();
                                  }},
                       data);
 }
@@ -128,8 +131,9 @@ VModuleModel::get_model_data(int row, int role) const
                                          return model->displayName();
                                      case Description:
                                          return model->description();
+                                     [[unlikely]] default:
+                                         return QVariant();
                                      }
-                                     return QVariant();
                                  },
                                  [role](HModuleModel *model) -> QVariant {
                                      switch (role) {
@@ -137,8 +141,9 @@ VModuleModel::get_model_data(int row, int role) const
                                          return model->displayName();
                                      case Description:
                                          return model->description();
+                                     [[unlikely]] default:
+                                         return QVariant();
                                      }
-                                     return QVariant();
                                  },
                                  [role](VModuleModel *model) -> QVariant {
                                      switch (role) {
@@ -146,8 +151,9 @@ VModuleModel::get_model_data(int row, int role) const
                                          return model->displayName();
                                      case Description:
                                          return model->description();
+                                     [[unlikely]] default:
+                                         return QVariant();
                                      }
-                                     return QVariant();
                                  }},
                       data);
 }

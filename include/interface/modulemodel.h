@@ -120,7 +120,6 @@ public:
     {
         DisplayName = Qt::DisplayRole,
         Description = Qt::UserRole,
-        Model,
     };
     Q_ENUM(ModuleRole)
 
