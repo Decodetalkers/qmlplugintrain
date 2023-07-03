@@ -48,7 +48,8 @@ PluginA::topModule() const
                                      {"descrption", QObject::tr("test9999")},
                                      {"searchpatterns", std::invoke([]() -> QJsonArray {
                                           return {"sss", "sss", "bbb"};
-                                      })}});
+                                      })},
+                                     {"url", "qrc:/qml/entrance.qml"}});
             return array;
         })}});
 }

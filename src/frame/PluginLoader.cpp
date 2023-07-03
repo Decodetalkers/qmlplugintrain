@@ -1,5 +1,6 @@
 #include "PluginLoader.h"
 
+#include <QJsonArray>
 #include <baseInterface.h>
 
 #include <QCoreApplication>

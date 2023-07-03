@@ -2,7 +2,7 @@
 
 #include <functional>
 #include <modulemodel.h>
-#include <qdatetime.h>
+
 template<class... Ts>
 
 struct overloaded : Ts...
@@ -76,9 +76,10 @@ model_fromjson(QJsonObject object)
                                    object["upModule"].isNull()
                                      ? std::make_optional(object["upModule"].toString())
                                      : std::nullopt,
-                                   object["url"].toString());
+                                   QUrl(object["url"].toString()));
     }
 }
+
 int
 insert_model(const ModuleModel &topModule, ModuleModel object, const QString &parentModule)
 {
@@ -91,6 +92,7 @@ insert_model(const ModuleModel &topModule, ModuleModel object, const QString &pa
                                  }},
                       topModule);
 };
+
 BaseModuleModel::BaseModuleModel(const QString &name,
                                  const QString &displayName,
                                  const QString &description,
@@ -306,7 +308,8 @@ operator<<(QDebug d, const BaseModuleModel *model)
     d << "{"
       << "name: " << model->name() << ","
       << "displayName: " << model->displayName() << ","
-      << "searchpatterns: " << model->searchpatterns() << "}";
+      << "searchpatterns: " << model->searchpatterns() << ","
+      << "url :" << model->url() << "}";
     return d;
 }
 QDebug

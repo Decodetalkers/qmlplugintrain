@@ -6,7 +6,6 @@
 #include <QUrl>
 
 #include <optional>
-#include <qjsonarray.h>
 #include <variant>
 
 namespace Interfaces {
