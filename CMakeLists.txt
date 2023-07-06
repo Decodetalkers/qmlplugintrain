@@ -49,6 +49,8 @@ qt_add_qml_module(${PROJECT_NAME}
     VERSION 1.0
     QML_FILES
         ./qml/main.qml
+        ./qml/VListView.qml
+        ./qml/NormalPage.qml
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC

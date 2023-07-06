@@ -6,6 +6,7 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QSettings>
+#include <qqml.h>
 
 void
 registerGlobalTypes()
@@ -14,6 +15,10 @@ registerGlobalTypes()
       "Marine.Global", 1, 0, "PluginLoader", [](QQmlEngine *, QJSEngine *) -> QObject * {
           return new PluginLoader;
       });
+    qmlRegisterType<Interfaces::ModuleModel>("Marine.Global", 1, 0, "ModuleModel");
+    qmlRegisterType<Interfaces::BaseModuleModel>("Marine.Global", 1, 0, "BaseModuleModel");
+    qmlRegisterType<Interfaces::HModuleModel>("Marine.Global", 1, 0, "HModuleModel");
+    qmlRegisterType<Interfaces::VModuleModel>("Marine.Global", 1, 0, "VModuleModel");
 }
 
 int

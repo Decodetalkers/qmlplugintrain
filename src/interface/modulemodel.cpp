@@ -3,6 +3,9 @@
 #include <functional>
 #include <modulemodel.h>
 
+#define FAILED -1
+#define SUCCESSED 0
+
 template<class... Ts>
 
 struct overloaded : Ts...
@@ -83,7 +86,7 @@ model_fromjson(QJsonObject object)
 int
 insert_model(const ModuleModel &topModule, ModuleModel object, const QString &parentModule)
 {
-    return std::visit(overloaded{[](BaseModuleModel *model) -> int { return -1; },
+    return std::visit(overloaded{[](BaseModuleModel *model) -> int { return FAILED; },
                                  [object, parentModule](HModuleModel *model) -> int {
                                      return model->insert_model(object, parentModule);
                                  },
@@ -187,14 +190,14 @@ HModuleModel::insert_model(ModuleModel object, const QString &parentModule)
 {
     if (parentModule == name()) {
         m_models.append(object);
-        return 0;
+        return SUCCESSED;
     }
     for (auto model : models()) {
         if (Interfaces::insert_model(model, object, parentModule) == 0) {
-            return 0;
+            return SUCCESSED;
         }
     }
-    return -1;
+    return FAILED;
 }
 
 VModuleModel::VModuleModel(const QString &name,
@@ -312,6 +315,7 @@ operator<<(QDebug d, const BaseModuleModel *model)
       << "url :" << model->url() << "}";
     return d;
 }
+
 QDebug
 operator<<(QDebug d, const HModuleModel *model)
 {

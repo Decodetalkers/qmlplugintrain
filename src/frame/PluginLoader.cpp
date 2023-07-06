@@ -26,24 +26,10 @@ PluginLoader::load_plugins()
             QObject *plugin = pluginLoader.instance();
             if (plugin) {
                 PluginInterface *pd = qobject_cast<PluginInterface *>(plugin);
-                auto modlue         = Interfaces::model_fromjson(
-                  {{"objectName", "hmodule"},
-                           {"name", "test100"},
-                           {"displayName", QObject::tr("test1")},
-                           {"descrption", QObject::tr("test33433")},
-                           {"models", std::invoke([]() -> QJsonArray {
-                        QJsonArray array;
-                        array.append(QJsonObject{{"objectName", "base"},
-                                                         {"name", "test2"},
-                                                         {"displayName", QObject::tr("test2")},
-                                                         {"descrption", QObject::tr("test9999")},
-                                                         {"searchpatterns", std::invoke([]() -> QJsonArray {
-                                                      return {"sss", "sss", "bbb"};
-                                                  })}});
-                        return array;
-                    })}});
-                auto topModule = pd->topModule();
-                Interfaces::insert_model(topModule, modlue, "test1");
+                auto topModule      = pd->topModule();
+                m_modules.append(topModule);
+                Q_EMIT modulesChanged();
+                // Interfaces::insert_model(topModule, modlue, "test1");
                 qDebug() << topModule;
                 Q_EMIT urlLoader(pd->mainLink());
             }
