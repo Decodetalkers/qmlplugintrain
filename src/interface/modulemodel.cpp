@@ -18,22 +18,26 @@ template<class... Ts>
 overloaded(Ts...) -> overloaded<Ts...>;
 namespace Interfaces {
 
-ModuleModel
-model_fromjson(QJsonObject object)
+BaseModule::BaseModule(QObject *parent)
+{
+}
+
+BaseModule *
+BaseModule::fromJson(QJsonObject object)
 {
     if (object["objectName"].toString() == "hmodule") {
         return new HModuleModel(object["name"].toString(),
                                 object["displayName"].toString(),
                                 object["description"].toString(),
-                                std::invoke([object]() -> QList<ModuleModel> {
+                                std::invoke([object]() -> QList<BaseModule *> {
                                     if (object["models"].isNull()) {
                                         return {};
                                     }
-                                    QList<ModuleModel> arrays;
+                                    QList<BaseModule *> arrays;
                                     auto models = object["models"].toArray();
                                     for (auto arr : models) {
                                         QJsonObject model = arr.toObject();
-                                        arrays.push_back(model_fromjson(model));
+                                        arrays.push_back(fromJson(model));
                                     }
                                     return arrays;
                                 }),
@@ -44,15 +48,15 @@ model_fromjson(QJsonObject object)
         return new VModuleModel(object["name"].toString(),
                                 object["displayName"].toString(),
                                 object["description"].toString(),
-                                std::invoke([object]() -> QList<ModuleModel> {
+                                std::invoke([object]() -> QList<BaseModule *> {
                                     if (object["models"].isNull()) {
                                         return {};
                                     }
-                                    QList<ModuleModel> arrays;
+                                    QList<BaseModule *> arrays;
                                     auto models = object["models"].toArray();
                                     for (auto arr : models) {
                                         QJsonObject model = arr.toObject();
-                                        arrays.push_back(model_fromjson(model));
+                                        arrays.push_back(fromJson(model));
                                     }
                                     return arrays;
                                 }),
@@ -84,16 +88,9 @@ model_fromjson(QJsonObject object)
 }
 
 int
-insert_model(const ModuleModel &topModule, ModuleModel object, const QString &parentModule)
+insert_model(BaseModule *topModule, BaseModule *object, const QString &parentModule)
 {
-    return std::visit(overloaded{[](BaseModuleModel *model) -> int { return FAILED; },
-                                 [object, parentModule](HModuleModel *model) -> int {
-                                     return model->insert_model(object, parentModule);
-                                 },
-                                 [object, parentModule](VModuleModel *model) -> int {
-                                     return model->insert_model(object, parentModule);
-                                 }},
-                      topModule);
+    return topModule->insert_model(object, parentModule);
 };
 
 BaseModuleModel::BaseModuleModel(const QString &name,
@@ -103,7 +100,7 @@ BaseModuleModel::BaseModuleModel(const QString &name,
                                  std::optional<QString> upModule,
                                  const QUrl &url,
                                  QObject *parent)
-  : QObject(parent)
+  : BaseModule(parent)
   , m_name(name)
   , m_displayName(displayName)
   , m_description(description)
@@ -116,10 +113,10 @@ BaseModuleModel::BaseModuleModel(const QString &name,
 HModuleModel::HModuleModel(const QString &name,
                            const QString &displayName,
                            const QString &description,
-                           QList<ModuleModel> models,
+                           QList<BaseModule *> models,
                            std::optional<QString> upModule,
                            QObject *parent)
-  : QAbstractListModel(parent)
+  : BaseModule(parent)
   , m_name(name)
   , m_displayName(displayName)
   , m_description(description)
@@ -143,38 +140,15 @@ HModuleModel::data(const QModelIndex &index, int role) const
 QVariant
 HModuleModel::get_model_data(int row, int role) const
 {
-    const ModuleModel data = m_models[row];
-    return std::visit(overloaded{[role](BaseModuleModel *model) -> QVariant {
-                                     switch (role) {
-                                     case DisplayName:
-                                         return model->displayName();
-                                     case Description:
-                                         return model->description();
-                                     [[unlikely]] default:
-                                         return QVariant();
-                                     }
-                                 },
-                                 [role](HModuleModel *model) -> QVariant {
-                                     switch (role) {
-                                     case DisplayName:
-                                         return model->displayName();
-                                     case Description:
-                                         return model->description();
-                                     [[unlikely]] default:
-                                         return QVariant();
-                                     }
-                                 },
-                                 [role](VModuleModel *model) -> QVariant {
-                                     switch (role) {
-                                     case DisplayName:
-                                         return model->displayName();
-                                     case Description:
-                                         return model->description();
-                                     [[unlikely]] default:
-                                         return QVariant();
-                                     }
-                                 }},
-                      data);
+    const BaseModule *data = m_models[row];
+    switch (role) {
+    case DisplayName:
+        return data->displayName();
+    case Description:
+        return data->description();
+    [[unlikely]] default:
+        return QVariant();
+    }
 }
 
 QHash<int, QByteArray>
@@ -186,7 +160,7 @@ HModuleModel::roleNames() const
 }
 
 int
-HModuleModel::insert_model(ModuleModel object, const QString &parentModule)
+HModuleModel::insert_model(BaseModule *object, const QString &parentModule)
 {
     if (parentModule == name()) {
         m_models.append(object);
@@ -203,10 +177,10 @@ HModuleModel::insert_model(ModuleModel object, const QString &parentModule)
 VModuleModel::VModuleModel(const QString &name,
                            const QString &displayName,
                            const QString &description,
-                           QList<ModuleModel> models,
+                           QList<BaseModule *> models,
                            std::optional<QString> upModule,
                            QObject *parent)
-  : QAbstractListModel(parent)
+  : BaseModule(parent)
   , m_name(name)
   , m_displayName(displayName)
   , m_description(description)
@@ -230,38 +204,15 @@ VModuleModel::data(const QModelIndex &index, int role) const
 QVariant
 VModuleModel::get_model_data(int row, int role) const
 {
-    const ModuleModel data = m_models[row];
-    return std::visit(overloaded{[role](BaseModuleModel *model) -> QVariant {
-                                     switch (role) {
-                                     case DisplayName:
-                                         return model->displayName();
-                                     case Description:
-                                         return model->description();
-                                     [[unlikely]] default:
-                                         return QVariant();
-                                     }
-                                 },
-                                 [role](HModuleModel *model) -> QVariant {
-                                     switch (role) {
-                                     case DisplayName:
-                                         return model->displayName();
-                                     case Description:
-                                         return model->description();
-                                     [[unlikely]] default:
-                                         return QVariant();
-                                     }
-                                 },
-                                 [role](VModuleModel *model) -> QVariant {
-                                     switch (role) {
-                                     case DisplayName:
-                                         return model->displayName();
-                                     case Description:
-                                         return model->description();
-                                     [[unlikely]] default:
-                                         return QVariant();
-                                     }
-                                 }},
-                      data);
+    const BaseModule *data = m_models[row];
+    switch (role) {
+    case DisplayName:
+        return data->displayName();
+    case Description:
+        return data->description();
+    [[unlikely]] default:
+        return QVariant();
+    }
 }
 
 QHash<int, QByteArray>
@@ -273,7 +224,7 @@ VModuleModel::roleNames() const
 }
 
 int
-VModuleModel::insert_model(ModuleModel object, const QString &parentModule)
+VModuleModel::insert_model(BaseModule *object, const QString &parentModule)
 {
     if (parentModule == name()) {
         m_models.append(object);
@@ -288,21 +239,10 @@ VModuleModel::insert_model(ModuleModel object, const QString &parentModule)
 }
 
 QDebug
-operator<<(QDebug d, const ModuleModel &model)
+operator<<(QDebug d, const BaseModule &model)
 {
-    return std::visit(overloaded{[d](BaseModuleModel *model) -> QDebug {
-                                     d << model;
-                                     return d;
-                                 },
-                                 [d](HModuleModel *model) -> QDebug {
-                                     d << model;
-                                     return d;
-                                 },
-                                 [d](VModuleModel *model) -> QDebug {
-                                     d << model;
-                                     return d;
-                                 }},
-                      model);
+    d << model;
+    return d;
 }
 
 QDebug

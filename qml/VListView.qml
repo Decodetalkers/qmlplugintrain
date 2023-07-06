@@ -18,8 +18,8 @@ Row {
         Item {
             width: 180; height: 40
             Column {
-                Text { text: modelData }
-                //Text { text: description }
+                Text { text: modelData.displayName }
+                Text { text: modelData.description }
             }
         }
     }

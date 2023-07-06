@@ -32,14 +32,14 @@ PluginA::mainLink() const
     return QUrl("qrc:/qml/entrance.qml");
 }
 
-Interfaces::ModuleModel
+Interfaces::BaseModule *
 PluginA::topModule() const
 {
-    return Interfaces::model_fromjson(
+    return Interfaces::BaseModule::fromJson(
       {{"objectName", "hmodule"},
        {"name", "test1"},
        {"displayName", QObject::tr("test1")},
-       {"descrption", QObject::tr("test33433")},
+       {"description", QObject::tr("test33433")},
        {"models", std::invoke([]() -> QJsonArray {
             QJsonArray array;
             array.append(QJsonObject{{"objectName", "base"},

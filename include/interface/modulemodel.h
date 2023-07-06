@@ -12,15 +12,25 @@ namespace Interfaces {
 class BaseModuleModel;
 class HModuleModel;
 class VModuleModel;
-using ModuleModel = std::variant<BaseModuleModel *, HModuleModel *, VModuleModel *>;
-
-ModuleModel
-model_fromjson(QJsonObject object);
+class BaseModule;
 
 int
-insert_model(const ModuleModel &topModule, ModuleModel object, const QString &parentModule);
+insert_model(BaseModule *topModule, BaseModule *object, const QString &parentModule);
 
-class BaseModuleModel final : public QObject
+class BaseModule : public QAbstractListModel
+{
+    Q_OBJECT
+
+public:
+    BaseModule(QObject *parent = nullptr);
+    static BaseModule *fromJson(QJsonObject object);
+    virtual QString type() const                                              = 0;
+    virtual QString displayName() const                                       = 0;
+    virtual QString description() const                                       = 0;
+    virtual int insert_model(BaseModule *object, const QString &parentModule) = 0;
+};
+
+class BaseModuleModel final : public BaseModule
 {
     Q_OBJECT
 public:
@@ -38,18 +48,31 @@ public:
     inline QString name() const { return m_name; }
 
     Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
-    inline QString displayName() const { return m_displayName; }
+    inline QString displayName() const override { return m_displayName; }
 
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    inline QString description() const { return m_description; }
+    inline QString description() const override { return m_description; }
 
     Q_PROPERTY(QUrl url READ url NOTIFY urlChanged)
     inline QUrl url() const { return m_url; }
 
     Q_PROPERTY(QString type READ type NOTIFY typeChanged)
-    inline QString type() { return "base"; }
+    inline QString type() const override { return "base"; }
+
+    int insert_model(BaseModule *object, const QString &parentModule) override { return -1; };
 
     inline std::optional<QString> upModule() { return m_upModule; }
+
+private:
+    int rowCount(const QModelIndex & = QModelIndex()) const override {
+        return 0;
+    };
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override {
+        return m_displayName;
+    };
+    QHash<int, QByteArray> roleNames() const override {
+        return {};
+    };
 
 signals:
     void nameChanged();
@@ -68,7 +91,7 @@ private:
     QUrl m_url;
 };
 
-class HModuleModel final : public QAbstractListModel
+class HModuleModel final : public BaseModule
 {
     Q_OBJECT
 
@@ -76,7 +99,7 @@ public:
     explicit HModuleModel(const QString &name,
                           const QString &displayName,
                           const QString &description,
-                          QList<ModuleModel> models,
+                          QList<BaseModule *> models,
                           std::optional<QString> upModule,
                           QObject *parent = nullptr);
     enum ModuleRole
@@ -90,20 +113,20 @@ public:
     inline QString name() const { return m_name; }
 
     Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
-    inline QString displayName() const { return m_displayName; }
+    inline QString displayName() const override { return m_displayName; }
 
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    inline QString description() const { return m_description; }
+    inline QString description() const override { return m_description; }
 
-    Q_PROPERTY(QList<ModuleModel> models READ models NOTIFY modelsChanged)
-    inline QList<ModuleModel> models() const { return m_models; }
+    Q_PROPERTY(QList<BaseModule *> models READ models NOTIFY modelsChanged)
+    inline QList<BaseModule *> models() const { return m_models; }
 
     Q_PROPERTY(QString type READ type NOTIFY typeChanged)
-    inline QString type() { return "hmodule"; }
+    inline QString type() const override { return "hmodule"; }
 
     inline std::optional<QString> upModule() { return m_upModule; }
 
-    int insert_model(ModuleModel object, const QString &parentModule);
+    int insert_model(BaseModule *object, const QString &parentModule) override;
 
 private:
     QVariant get_model_data(int row, int role) const;
@@ -124,11 +147,11 @@ private:
     QString m_name;
     QString m_displayName;
     QString m_description;
-    QList<ModuleModel> m_models;
+    QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;
 };
 
-class VModuleModel final : public QAbstractListModel
+class VModuleModel final : public BaseModule
 {
     Q_OBJECT
 
@@ -136,7 +159,7 @@ public:
     explicit VModuleModel(const QString &name,
                           const QString &displayName,
                           const QString &description,
-                          QList<ModuleModel> models,
+                          QList<BaseModule *> models,
                           std::optional<QString> upModule,
                           QObject *parent = nullptr);
     enum ModuleRole
@@ -150,20 +173,20 @@ public:
     inline QString name() const { return m_name; }
 
     Q_PROPERTY(QString displayName READ displayName NOTIFY displayNameChanged)
-    inline QString displayName() const { return m_displayName; }
+    inline QString displayName() const override { return m_displayName; }
 
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    inline QString description() const { return m_description; }
+    inline QString description() const override { return m_description; }
 
-    Q_PROPERTY(QList<ModuleModel> models READ models NOTIFY modelsChanged)
-    inline QList<ModuleModel> models() const { return m_models; }
+    Q_PROPERTY(QList<BaseModule *> models READ models NOTIFY modelsChanged)
+    inline QList<BaseModule *> models() const { return m_models; }
 
     Q_PROPERTY(QString type READ type NOTIFY typeChanged)
-    inline QString type() { return "vmodule"; }
+    inline QString type() const override { return "vmodule"; }
 
     inline std::optional<QString> upModule() { return m_upModule; }
 
-    int insert_model(ModuleModel object, const QString &parentModule);
+    int insert_model(BaseModule *object, const QString &parentModule) override;
 
 private:
     QVariant get_model_data(int row, int role) const;
@@ -184,12 +207,10 @@ private:
     QString m_name;
     QString m_displayName;
     QString m_description;
-    QList<ModuleModel> m_models;
+    QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;
 };
 
-QDebug
-operator<<(QDebug d, const ModuleModel &model);
 QDebug
 operator<<(QDebug d, const BaseModuleModel *model);
 QDebug

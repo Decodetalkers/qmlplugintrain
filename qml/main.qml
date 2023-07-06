@@ -8,7 +8,6 @@ ApplicationWindow {
         function onUrlLoader(url) {
             console.log(url)
             console.log(PluginLoader.modules)
-            console.log(PluginLoader.names)
             console.log(PluginLoader.modules[0])
         }
         target: PluginLoader
@@ -26,6 +25,6 @@ ApplicationWindow {
     //    }
     //}
     VListView {
-        model: PluginLoader.names
+        model: PluginLoader.modules
     }
 }
