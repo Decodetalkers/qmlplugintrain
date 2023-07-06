@@ -22,12 +22,14 @@ class BaseModule : public QAbstractListModel
     Q_OBJECT
 
 public:
-    BaseModule(QObject *parent = nullptr);
     static BaseModule *fromJson(QJsonObject object);
     virtual QString type() const                                              = 0;
     virtual QString displayName() const                                       = 0;
     virtual QString description() const                                       = 0;
     virtual int insert_model(BaseModule *object, const QString &parentModule) = 0;
+
+protected:
+    BaseModule(QObject *parent = nullptr);
 };
 
 class BaseModuleModel final : public BaseModule
@@ -64,15 +66,12 @@ public:
     inline std::optional<QString> upModule() { return m_upModule; }
 
 private:
-    int rowCount(const QModelIndex & = QModelIndex()) const override {
-        return 0;
-    };
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override {
+    int rowCount(const QModelIndex & = QModelIndex()) const override { return 0; };
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override
+    {
         return m_displayName;
     };
-    QHash<int, QByteArray> roleNames() const override {
-        return {};
-    };
+    QHash<int, QByteArray> roleNames() const override { return {}; };
 
 signals:
     void nameChanged();

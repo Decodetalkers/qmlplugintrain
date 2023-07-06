@@ -68,3 +68,4 @@ target_link_libraries(${PROJECT_NAME}
 
 
 add_subdirectory(plugins/plugina)
+add_subdirectory(plugins/pluginb)

@@ -4,14 +4,6 @@ import QtQuick.Controls
 import QtQuick
 ApplicationWindow {
     visible: true
-    Connections {
-        function onUrlLoader(url) {
-            console.log(url)
-            console.log(PluginLoader.modules)
-            console.log(PluginLoader.modules[0])
-        }
-        target: PluginLoader
-    }
     //GridView {
     //    width: parent.width
     //    height: parent.height

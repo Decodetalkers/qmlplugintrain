@@ -30,8 +30,6 @@ PluginLoader::load_plugins()
                 m_modules.append(topModule);
                 Q_EMIT modulesChanged();
                 // Interfaces::insert_model(topModule, modlue, "test1");
-                qDebug() << topModule;
-                Q_EMIT urlLoader(pd->mainLink());
             }
         }
     }
