@@ -15,12 +15,6 @@ Loader {
 
     required property ModuleModel model
 
-    //Component {
-    //    id: boolComponent
-    //    PageLoader {
-    //        model: model.models
-    //    }
-    //}
     source: "VListView.qml"
 
     Binding {

@@ -4,7 +4,7 @@ import QtQuick.Controls
 
 Page {
     Text {
-        text: GlobalConst.name
+        text: "betaass"
     }
 
 }

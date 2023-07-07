@@ -41,24 +41,31 @@ Row {
     Component {
         id: defaults
 
-        Text {
-            text: "ss"
+        Loader {
+            source: page.model[leftview.currentIndex].url
         }
-
     }
 
     Component {
         id: defaults2
 
+        PageLoader {
+            model: page.model[leftview.currentIndex]
+        }
+
+    }
+
+    Component {
+        id: defaults3
+
         Text {
-            text: "bb"
+            text: "welcome"
         }
 
     }
 
     Loader {
-        sourceComponent: leftview.currentIndex == 1 ? defaults : defaults2
+        sourceComponent: leftview.currentIndex < 0 ? defaults3 : page.model[leftview.currentIndex].type == "base" ? defaults : defaults2
     }
-    //PageLoader {
 
 }

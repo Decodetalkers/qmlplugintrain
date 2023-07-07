@@ -50,7 +50,6 @@ qt_add_qml_module(${PROJECT_NAME}
     QML_FILES
         ./qml/main.qml
         ./qml/VListView.qml
-        ./qml/NormalPage.qml
         ./qml/PageLoader.qml
 )
 
