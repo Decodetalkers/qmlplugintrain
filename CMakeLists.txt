@@ -33,7 +33,6 @@ target_link_libraries(qmlpluginstrainInterface
     Qt6::Quick
     Qt6::Widgets
     Qt6::QuickControls2
-
 )
 
 qt_add_executable(${PROJECT_NAME}
