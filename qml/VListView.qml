@@ -1,27 +1,64 @@
+import Marine
+import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick
 
 Row {
-    property alias model: left.model
+    id: page
+
+    property alias model: leftview.model
+
     ListView {
-        id: left
-        width: 300
-        height: 300
-        delegate: contactDelegate
-        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+        id: leftview
+
+        height: parent.height
+        width: 100
         focus: true
+
+        delegate: ItemDelegate {
+            width: 100
+            height: 50
+            highlighted: ListView.isCurrentItem
+            onClicked: {
+                leftview.currentIndex = index;
+            }
+
+            Column {
+                Text {
+                    text: modelData.displayName
+                }
+
+                Text {
+                    text: modelData.description
+                }
+
+            }
+
+        }
+
     }
 
     Component {
-        id: contactDelegate
-        Item {
-            width: 180; height: 40
-            Column {
-                Text { text: modelData.displayName }
-                Text { text: modelData.description }
-            }
+        id: defaults
+
+        Text {
+            text: "ss"
         }
+
     }
-    Text { text: "aa" }
+
+    Component {
+        id: defaults2
+
+        Text {
+            text: "bb"
+        }
+
+    }
+
+    Loader {
+        sourceComponent: leftview.currentIndex == 1 ? defaults : defaults2
+    }
+    //PageLoader {
+
 }

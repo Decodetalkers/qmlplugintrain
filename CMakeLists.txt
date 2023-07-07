@@ -51,6 +51,7 @@ qt_add_qml_module(${PROJECT_NAME}
         ./qml/main.qml
         ./qml/VListView.qml
         ./qml/NormalPage.qml
+        ./qml/PageLoader.qml
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC

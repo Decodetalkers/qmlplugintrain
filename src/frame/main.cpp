@@ -15,10 +15,10 @@ registerGlobalTypes()
       "Marine.Global", 1, 0, "PluginLoader", [](QQmlEngine *, QJSEngine *) -> QObject * {
           return new PluginLoader;
       });
-    qmlRegisterType<Interfaces::BaseModule>("Marine.Global", 1, 0, "ModuleModel");
-    qmlRegisterType<Interfaces::BaseModuleModel>("Marine.Global", 1, 0, "BaseModuleModel");
-    qmlRegisterType<Interfaces::HModuleModel>("Marine.Global", 1, 0, "HModuleModel");
-    qmlRegisterType<Interfaces::VModuleModel>("Marine.Global", 1, 0, "VModuleModel");
+    qmlRegisterType<Interfaces::BaseModule>("Marine.Model", 1, 0, "ModuleModel");
+    qmlRegisterType<Interfaces::BaseModuleModel>("Marine.Model", 1, 0, "BaseModuleModel");
+    qmlRegisterType<Interfaces::HModuleModel>("Marine.Model", 1, 0, "HModuleModel");
+    qmlRegisterType<Interfaces::VModuleModel>("Marine.Model", 1, 0, "VModuleModel");
 }
 
 int

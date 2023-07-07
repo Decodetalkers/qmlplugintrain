@@ -1,22 +1,14 @@
-import Marine.Global 1.0
 import Marine
-import QtQuick.Controls
+import Marine.Global 1.0
 import QtQuick
+import QtQuick.Controls
+
 ApplicationWindow {
     visible: true
-    //GridView {
-    //    width: parent.width
-    //    height: parent.height
-    //    model: ListModel {
-    //        id: model
-    //    }
-    //    delegate: Button {
-    //        text: model.name
-    //        width: 300
-    //        height: 300
-    //    }
-    //}
+
     VListView {
+        anchors.fill: parent
         model: PluginLoader.modules
     }
+
 }

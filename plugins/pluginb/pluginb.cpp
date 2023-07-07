@@ -43,8 +43,8 @@ PluginA::topModule() const
        {"models", std::invoke([]() -> QJsonArray {
             QJsonArray array;
             array.append(QJsonObject{{"objectName", "base"},
-                                     {"name", "test2"},
-                                     {"displayName", QObject::tr("test2")},
+                                     {"name", "test2222"},
+                                     {"displayName", QObject::tr("test3232")},
                                      {"descrption", QObject::tr("test9999")},
                                      {"searchpatterns", std::invoke([]() -> QJsonArray {
                                           return {"sss", "sss", "bbb"};

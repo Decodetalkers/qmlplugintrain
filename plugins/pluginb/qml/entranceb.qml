@@ -1,10 +1,10 @@
-import QtQuick.Controls
-import QtQuick
-
 import PluginA.Global
+import QtQuick
+import QtQuick.Controls
 
 Page {
     Text {
         text: GlobalConst.name
     }
+
 }
