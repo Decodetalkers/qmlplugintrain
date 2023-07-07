@@ -8,7 +8,7 @@ public:
     explicit GlobalConst(QObject *parent = nullptr);
 
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
-    inline QString name() { return "abcd"; }
+    inline QString name() { return "Pu to te la"; }
 
 signals:
 
