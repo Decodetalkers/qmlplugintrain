@@ -6,18 +6,18 @@ Page {
     id: page
 
     property alias model: head.model
-
-    height: 1000
+    property alias pageHeight: page.height
+    property alias pageWidth: page.width
 
     Loader {
         sourceComponent: {
             if (header.currentIndex < 0)
                 return welcomeDefault;
 
-            if (page.model[header.currentIndex].type == "base")
+            if (page.model[header.currentIndex].type === "base")
                 return baseView;
 
-            if (page.model[header.currentIndex].type == "vmodule")
+            if (page.model[header.currentIndex].type === "vmodule")
                 return vViewComponent;
 
             return hViewComponent;
@@ -38,6 +38,8 @@ Page {
 
         PageLoaderV {
             model: page.model[header.currentIndex]
+            pageHeight: page.height - header.height
+            pageWidth: page.width
         }
 
     }
@@ -56,6 +58,8 @@ Page {
 
         PageLoaderH {
             model: page.model[header.currentIndex]
+            pageHeight: page.height - header.height
+            pageWidth: page.width
         }
 
     }

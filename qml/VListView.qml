@@ -1,14 +1,13 @@
 import Marine
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
 
 Row {
     id: page
 
     property alias model: leftview.model
-
-    height: 1000
+    property alias pageHeight: page.height
+    property alias pageWidth: page.width
 
     ListView {
         id: leftview
@@ -54,6 +53,8 @@ Row {
 
         PageLoaderV {
             model: page.model[leftview.currentIndex]
+            pageHeight: page.height
+            pageWidth: page.width - 100
         }
 
     }
@@ -72,6 +73,8 @@ Row {
 
         PageLoaderH {
             model: page.model[leftview.currentIndex]
+            pageHeight: page.height
+            pageWidth: page.width - 100
         }
 
     }
@@ -84,7 +87,7 @@ Row {
             if (page.model[leftview.currentIndex].type === "base")
                 return baseViewComponent;
 
-            if (page.model[leftview.currentIndex].type == "vmodule")
+            if (page.model[leftview.currentIndex].type === "vmodule")
                 return vViewComponent;
 
             return hViewComponent;
