@@ -50,6 +50,14 @@ PluginA::topModule() const
                                           return {"sss", "sss", "bbb"};
                                       })},
                                      {"url", "qrc:/qml/entrance.qml"}});
+            array.append(QJsonObject{{"objectName", "base"},
+                                     {"name", "test3"},
+                                     {"displayName", QObject::tr("test333")},
+                                     {"description", QObject::tr("test9999")},
+                                     {"searchpatterns", std::invoke([]() -> QJsonArray {
+                                          return {"sss", "sss", "bbb"};
+                                      })},
+                                     {"url", "qrc:/qml/entrancec.qml"}});
             return array;
         })}});
 }
