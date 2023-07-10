@@ -209,7 +209,8 @@ private:
     QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;
 };
-
+QDebug
+operator<<(QDebug d, const BaseModuleModel *model);
 QDebug
 operator<<(QDebug d, const BaseModuleModel *model);
 QDebug

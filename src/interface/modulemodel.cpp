@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <modulemodel.h>
+#include <type_traits>
 
 #define FAILED -1
 #define SUCCESSED 0
@@ -239,9 +240,18 @@ VModuleModel::insert_model(BaseModule *object, const QString &parentModule)
 }
 
 QDebug
-operator<<(QDebug d, const BaseModule &model)
+operator<<(QDebug d, const BaseModule *model)
 {
-    d << model;
+    using T = std::decay_t<decltype(model)>;
+    if constexpr (std::is_same_v<T, const BaseModuleModel *>) {
+        d << dynamic_cast<const BaseModuleModel *>(model);
+    } else if constexpr (std::is_same_v<T, const HModuleModel *>) {
+        d << dynamic_cast<const HModuleModel *>(model);
+    } else if constexpr (std::is_same_v<T, const VModuleModel *>) {
+        d << dynamic_cast<const VModuleModel *>(model);
+    } else {
+        d << model;
+    }
     return d;
 }
 
