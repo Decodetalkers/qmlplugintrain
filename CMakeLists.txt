@@ -49,7 +49,9 @@ qt_add_qml_module(${PROJECT_NAME}
     QML_FILES
         ./qml/main.qml
         ./qml/VListView.qml
-        ./qml/PageLoader.qml
+        ./qml/PageLoaderV.qml
+        ./qml/HListView.qml
+        ./qml/PageLoaderH.qml
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC

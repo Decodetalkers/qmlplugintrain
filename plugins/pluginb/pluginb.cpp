@@ -36,7 +36,7 @@ Interfaces::BaseModule *
 PluginA::topModule() const
 {
     return Interfaces::BaseModule::fromJson(
-      {{"objectName", "hmodule"},
+      {{"objectName", "vmodule"},
        {"name", "test2"},
        {"displayName", QObject::tr("testb")},
        {"description", QObject::tr("test33433")},

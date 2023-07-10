@@ -44,12 +44,13 @@ Row {
         Loader {
             source: page.model[leftview.currentIndex].url
         }
+
     }
 
     Component {
         id: defaults2
 
-        PageLoader {
+        PageLoaderV {
             model: page.model[leftview.currentIndex]
         }
 
@@ -64,8 +65,17 @@ Row {
 
     }
 
+    Component {
+        id: defaults4
+
+        PageLoaderH {
+            model: page.model[leftview.currentIndex]
+        }
+
+    }
+
     Loader {
-        sourceComponent: leftview.currentIndex < 0 ? defaults3 : page.model[leftview.currentIndex].type == "base" ? defaults : defaults2
+        sourceComponent: leftview.currentIndex < 0 ? defaults3 : page.model[leftview.currentIndex].type == "base" ? defaults : page.model[leftview.currentIndex].type == "vmodule" ? defaults2 : defaults4
     }
 
 }
