@@ -7,16 +7,6 @@
 #define FAILED -1
 #define SUCCESSED 0
 
-template<class... Ts>
-
-struct overloaded : Ts...
-{
-    using Ts::operator()...;
-};
-
-// NOTE: in cpp 20, noneeded again
-template<class... Ts>
-overloaded(Ts...) -> overloaded<Ts...>;
 namespace Interfaces {
 
 BaseModule::BaseModule(QObject *parent)
