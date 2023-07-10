@@ -10,11 +10,22 @@ Page {
     height: 1000
 
     Loader {
-        sourceComponent: header.currentIndex < 0 ? defaults3 : page.model[header.currentIndex].type == "base" ? defaults : page.model[header.currentIndex].type == "vmodule" ? defaults2 : defaults4
+        sourceComponent: {
+            if (header.currentIndex < 0)
+                return welcomeDefault;
+
+            if (page.model[header.currentIndex].type == "base")
+                return baseView;
+
+            if (page.model[header.currentIndex].type == "vmodule")
+                return vViewComponent;
+
+            return hViewComponent;
+        }
     }
 
     Component {
-        id: defaults
+        id: baseView
 
         Loader {
             source: page.model[header.currentIndex].url
@@ -23,7 +34,7 @@ Page {
     }
 
     Component {
-        id: defaults2
+        id: vViewComponent
 
         PageLoaderV {
             model: page.model[header.currentIndex]
@@ -32,7 +43,7 @@ Page {
     }
 
     Component {
-        id: defaults3
+        id: welcomeDefault
 
         Text {
             text: "welcome"
@@ -41,7 +52,7 @@ Page {
     }
 
     Component {
-        id: defaults4
+        id: hViewComponent
 
         PageLoaderH {
             model: page.model[header.currentIndex]

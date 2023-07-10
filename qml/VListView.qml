@@ -8,6 +8,8 @@ Row {
 
     property alias model: leftview.model
 
+    height: 1000
+
     ListView {
         id: leftview
 
@@ -39,7 +41,7 @@ Row {
     }
 
     Component {
-        id: defaults
+        id: baseViewComponent
 
         Loader {
             source: page.model[leftview.currentIndex].url
@@ -48,7 +50,7 @@ Row {
     }
 
     Component {
-        id: defaults2
+        id: vViewComponent
 
         PageLoaderV {
             model: page.model[leftview.currentIndex]
@@ -57,7 +59,7 @@ Row {
     }
 
     Component {
-        id: defaults3
+        id: welcomedefault
 
         Text {
             text: "welcome"
@@ -66,7 +68,7 @@ Row {
     }
 
     Component {
-        id: defaults4
+        id: hViewComponent
 
         PageLoaderH {
             model: page.model[leftview.currentIndex]
@@ -75,7 +77,18 @@ Row {
     }
 
     Loader {
-        sourceComponent: leftview.currentIndex < 0 ? defaults3 : page.model[leftview.currentIndex].type == "base" ? defaults : page.model[leftview.currentIndex].type == "vmodule" ? defaults2 : defaults4
+        sourceComponent: {
+            if (leftview.currentIndex < 0)
+                return welcomedefault;
+
+            if (page.model[leftview.currentIndex].type === "base")
+                return baseViewComponent;
+
+            if (page.model[leftview.currentIndex].type == "vmodule")
+                return vViewComponent;
+
+            return hViewComponent;
+        }
     }
 
 }

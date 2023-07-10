@@ -2,6 +2,6 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/entranceb.qml</file>
-        <file>qml/entrancec.qml</file>
+        <file>qml/entrancef.qml</file>
     </qresource>
 </RCC>

@@ -12,7 +12,7 @@
 PluginLoader::PluginLoader(QObject *parent)
   : QObject(parent)
 {
-    QTimer::singleShot(0, [this] { load_plugins(); });
+    load_plugins();
 }
 
 void
@@ -29,7 +29,6 @@ PluginLoader::load_plugins()
                 auto topModule      = pd->topModule();
                 m_modules.append(topModule);
                 Q_EMIT modulesChanged();
-                // Interfaces::insert_model(topModule, modlue, "test1");
             }
         }
     }
