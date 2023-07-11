@@ -17,7 +17,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt${QT_VERSION} COMPONENTS Quick Widgets QuickControls2 REQUIRED)
-
+find_package(Dtk COMPONENTS Core Gui)
+find_package(DtkDeclarative)
 file(GLOB_RECURSE Interface_SRCS
     "./include/interface/*.h"
 )
@@ -77,6 +78,9 @@ target_link_libraries(${PROJECT_NAME}
     Qt::Quick
     Qt::Widgets
     Qt::QuickControls2
+    Dtk::Gui
+    Dtk::Core
+    ${DtkDeclarative_LIBRARIES}
     qmlpluginstrainInterface
 )
 

@@ -6,7 +6,8 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QSettings>
-#include <qqml.h>
+
+#include <DLog>
 
 void
 registerGlobalTypes()
@@ -27,6 +28,9 @@ main(int argc, char *argv[])
 
     registerGlobalTypes();
     QQmlApplicationEngine engine;
+
+    Dtk::Core::DLogManager::registerConsoleAppender();
+    // QQuickStyle::setStyle("Chameleon");
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const QUrl url = QUrl("qrc:/Marine/qml/main.qml");
