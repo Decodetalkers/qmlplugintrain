@@ -1,5 +1,5 @@
 import Marine.Model
-import QtQuick
+import QtQuick 2.15
 
 Loader {
     id: loader
