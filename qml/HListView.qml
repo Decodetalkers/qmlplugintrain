@@ -1,4 +1,3 @@
-import Marine
 import QtQuick
 import QtQuick.Controls
 
@@ -28,7 +27,22 @@ Page {
         id: baseView
 
         Loader {
+            id: baseLoader
+
             source: page.model[header.currentIndex].url
+
+            Binding {
+                target: baseLoader.item
+                property: "width"
+                value: page.width
+            }
+
+            Binding {
+                target: baseLoader.item
+                property: "height"
+                value: page.height - header.height
+            }
+
         }
 
     }

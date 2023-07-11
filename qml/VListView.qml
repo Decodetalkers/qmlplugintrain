@@ -1,4 +1,3 @@
-import Marine
 import QtQuick
 import QtQuick.Controls
 
@@ -43,7 +42,22 @@ Row {
         id: baseViewComponent
 
         Loader {
+            id: baseLoader
+
             source: page.model[leftview.currentIndex].url
+
+            Binding {
+                target: baseLoader.item
+                property: "width"
+                value: page.width - 100
+            }
+
+            Binding {
+                target: baseLoader.item
+                property: "height"
+                value: page.height
+            }
+
         }
 
     }
