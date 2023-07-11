@@ -67,6 +67,7 @@ else()
         qml/source.qrc
     )
 endif()
+
 target_include_directories(${PROJECT_NAME} PUBLIC
     include/interface
 )
@@ -78,8 +79,6 @@ target_link_libraries(${PROJECT_NAME}
     Qt::QuickControls2
     qmlpluginstrainInterface
 )
-
-
 
 add_subdirectory(plugins/plugina)
 add_subdirectory(plugins/pluginb)
