@@ -1,6 +1,6 @@
 set(LIBNAME plugina)
 
-find_package(Qt6 COMPONENTS Quick Widgets QuickControls2 REQUIRED)
+find_package(Qt${QT_VERSION} COMPONENTS Quick Widgets QuickControls2 REQUIRED)
 
 add_library(${LIBNAME} SHARED
     plugina.h
@@ -15,9 +15,9 @@ target_include_directories(${LIBNAME} PUBLIC
 )
 
 target_link_libraries(${LIBNAME} PUBLIC
-    Qt6::Quick
-    Qt6::Widgets
-    Qt6::QuickControls2
+    Qt::Quick
+    Qt::Widgets
+    Qt::QuickControls2
 )
 
 set_target_properties(${LIBNAME} PROPERTIES

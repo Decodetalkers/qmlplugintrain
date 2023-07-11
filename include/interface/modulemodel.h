@@ -17,6 +17,7 @@ class BaseModule;
 int
 insert_model(BaseModule *topModule, BaseModule *object, const QString &parentModule);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 class BaseModule : public QAbstractListModel
 {
     Q_OBJECT
@@ -31,6 +32,30 @@ public:
 protected:
     BaseModule(QObject *parent = nullptr);
 };
+#else
+class BaseModule : public QAbstractListModel
+{
+    Q_OBJECT
+
+public:
+    static BaseModule *fromJson(QJsonObject object);
+    virtual QString type() const { return ""; }
+    virtual QString displayName() const { return ""; }
+    virtual QString description() const { return ""; }
+    virtual int insert_model(BaseModule *object, const QString &parentModule) { return -1; };
+
+private:
+    int rowCount(const QModelIndex & = QModelIndex()) const override { return 0; };
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override
+    {
+        return "";
+    };
+    QHash<int, QByteArray> roleNames() const override { return {}; };
+
+protected:
+    BaseModule(QObject *parent = nullptr);
+};
+#endif
 
 class BaseModuleModel final : public BaseModule
 {

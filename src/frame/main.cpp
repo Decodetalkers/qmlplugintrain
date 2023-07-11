@@ -16,9 +16,6 @@ registerGlobalTypes()
           return new PluginLoader;
       });
     qmlRegisterType<Interfaces::BaseModule>("Marine.Model", 1, 0, "ModuleModel");
-    qmlRegisterType<Interfaces::BaseModuleModel>("Marine.Model", 1, 0, "BaseModuleModel");
-    qmlRegisterType<Interfaces::HModuleModel>("Marine.Model", 1, 0, "HModuleModel");
-    qmlRegisterType<Interfaces::VModuleModel>("Marine.Model", 1, 0, "VModuleModel");
 }
 
 int
@@ -31,7 +28,11 @@ main(int argc, char *argv[])
     registerGlobalTypes();
     QQmlApplicationEngine engine;
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    const QUrl url = QUrl("qrc:/Marine/qml/main.qml");
+#else
     const QUrl url(u"qrc:/Marine/qml/main.qml"_qs);
+#endif
     QObject::connect(
       &engine,
       &QQmlApplicationEngine::objectCreated,
