@@ -28,6 +28,10 @@ public:
     virtual QString displayName() const                                       = 0;
     virtual std::optional<QString> description() const                        = 0;
     virtual int insert_model(BaseModule *object, const QString &parentModule) = 0;
+    virutal bool isNotify() const                                             = 0;
+
+public slots:
+    virtual void setNotify(bool active) = 0;
 
 protected:
     BaseModule(QObject *parent = nullptr);
@@ -43,6 +47,10 @@ public:
     virtual QString displayName() const { return ""; }
     virtual QString description() const { return ""; }
     virtual int insert_model(BaseModule *object, const QString &parentModule) { return -1; };
+    virtual bool isNotify() const { return false; }
+
+public slots:
+    virtual void setNotify(bool active) {}
 
 private:
     int rowCount(const QModelIndex & = QModelIndex()) const override { return 0; };
@@ -86,9 +94,15 @@ public:
     Q_PROPERTY(QString type READ type NOTIFY typeChanged)
     inline QString type() const override { return "base"; }
 
+    Q_PROPERTY(bool isNotify READ isNotify WRITE setNotify NOTIFY isNotifyChanged)
+    bool isNotify() const override { return m_isNotify; }
+
     int insert_model(BaseModule *object, const QString &parentModule) override { return -1; };
 
     inline std::optional<QString> upModule() { return m_upModule; }
+
+public slots:
+    void setNotify(bool notify) override;
 
 private:
     int rowCount(const QModelIndex & = QModelIndex()) const override { return 0; };
@@ -105,6 +119,7 @@ signals:
     void urlChanged();
     void descriptionChanged();
     void typeChanged();
+    void isNotifyChanged(bool);
 
 private:
     QString m_name;
@@ -113,6 +128,7 @@ private:
     QStringList m_searchpatterns;
     std::optional<QString> m_upModule;
     QUrl m_url;
+    bool m_isNotify = false;
 };
 
 class HModuleModel final : public BaseModule
@@ -148,9 +164,15 @@ public:
     Q_PROPERTY(QString type READ type NOTIFY typeChanged)
     inline QString type() const override { return "hmodule"; }
 
+    Q_PROPERTY(bool isNotify READ isNotify WRITE setNotify NOTIFY isNotifyChanged)
+    bool isNotify() const override { return m_isNotify; }
+
     inline std::optional<QString> upModule() { return m_upModule; }
 
     int insert_model(BaseModule *object, const QString &parentModule) override;
+
+public slots:
+    void setNotify(bool notify) override;
 
 private:
     QVariant get_model_data(int row, int role) const;
@@ -166,6 +188,7 @@ signals:
     void descriptionChanged();
     void modelsChanged();
     void typeChanged();
+    void isNotifyChanged(bool);
 
 private:
     QString m_name;
@@ -173,6 +196,7 @@ private:
     std::optional<QString> m_description;
     QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;
+    bool m_isNotify = false;
 };
 
 class VModuleModel final : public BaseModule
@@ -208,6 +232,9 @@ public:
     Q_PROPERTY(QString type READ type NOTIFY typeChanged)
     inline QString type() const override { return "vmodule"; }
 
+    Q_PROPERTY(bool isNotify READ isNotify WRITE setNotify NOTIFY isNotifyChanged)
+    bool isNotify() const override { return m_isNotify; }
+
     inline std::optional<QString> upModule() { return m_upModule; }
 
     int insert_model(BaseModule *object, const QString &parentModule) override;
@@ -220,12 +247,16 @@ private:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+public slots:
+    void setNotify(bool notify) override;
+
 signals:
     void nameChanged();
     void displayNameChanged();
     void descriptionChanged();
     void modelsChanged();
     void typeChanged();
+    void isNotifyChanged(bool);
 
 private:
     QString m_name;
@@ -233,9 +264,10 @@ private:
     std::optional<QString> m_description;
     QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;
+    bool m_isNotify = false;
 };
 QDebug
-operator<<(QDebug d, const BaseModuleModel *model);
+operator<<(QDebug d, const BaseModule *model);
 QDebug
 operator<<(QDebug d, const BaseModuleModel *model);
 QDebug

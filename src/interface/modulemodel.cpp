@@ -2,7 +2,6 @@
 
 #include <functional>
 #include <modulemodel.h>
-#include <type_traits>
 
 #define FAILED -1
 #define SUCCESSED 0
@@ -103,6 +102,13 @@ BaseModuleModel::BaseModuleModel(const QString &name,
 {
 }
 
+void
+BaseModuleModel::setNotify(bool notify)
+{
+    m_isNotify = notify;
+    Q_EMIT isNotifyChanged(m_isNotify);
+}
+
 HModuleModel::HModuleModel(const QString &name,
                            const QString &displayName,
                            std::optional<QString> description,
@@ -116,6 +122,20 @@ HModuleModel::HModuleModel(const QString &name,
   , m_models(models)
   , m_upModule(upModule)
 {
+    for (auto model : m_models) {
+        if (model->type() == "base") {
+            auto modelnew = dynamic_cast<BaseModuleModel *>(model);
+            connect(modelnew, &BaseModuleModel::isNotifyChanged, this, &HModuleModel::setNotify);
+        } else if (model->type() == "hmodule") {
+            auto modelnew = dynamic_cast<HModuleModel *>(model);
+            connect(modelnew, &HModuleModel::isNotifyChanged, this, &HModuleModel::setNotify);
+        } else if (model->type() == "vmodule") {
+            auto modelnew = dynamic_cast<VModuleModel *>(model);
+            connect(modelnew, &VModuleModel::isNotifyChanged, this, &HModuleModel::setNotify);
+        }
+    }
+
+    setNotify(true);
 }
 
 QString
@@ -173,16 +193,32 @@ HModuleModel::insert_model(BaseModule *object, const QString &parentModule)
     if (parentModule == name()) {
         m_models.append(object);
         if (!m_description.has_value()) {
+            setNotify(true);
             Q_EMIT descriptionChanged();
         }
         return SUCCESSED;
     }
     for (auto model : models()) {
         if (Interfaces::insert_model(model, object, parentModule) == 0) {
+            setNotify(true);
             return SUCCESSED;
         }
     }
     return FAILED;
+}
+
+void
+HModuleModel::setNotify([[maybe_unused]] bool notify)
+{
+    for (auto model : m_models) {
+        if (model->isNotify()) {
+            m_isNotify = true;
+            Q_EMIT isNotifyChanged(m_isNotify);
+            return;
+        }
+    }
+    m_isNotify = false;
+    Q_EMIT isNotifyChanged(m_isNotify);
 }
 
 VModuleModel::VModuleModel(const QString &name,
@@ -198,6 +234,19 @@ VModuleModel::VModuleModel(const QString &name,
   , m_models(models)
   , m_upModule(upModule)
 {
+    for (auto model : m_models) {
+        if (model->type() == "base") {
+            auto modelnew = dynamic_cast<BaseModuleModel *>(model);
+            connect(modelnew, &BaseModuleModel::isNotifyChanged, this, &VModuleModel::setNotify);
+        } else if (model->type() == "hmodule") {
+            auto modelnew = dynamic_cast<HModuleModel *>(model);
+            connect(modelnew, &HModuleModel::isNotifyChanged, this, &VModuleModel::setNotify);
+        } else if (model->type() == "vmodule") {
+            auto modelnew = dynamic_cast<VModuleModel *>(model);
+            connect(modelnew, &VModuleModel::isNotifyChanged, this, &VModuleModel::setNotify);
+        }
+    }
+    setNotify(true);
 }
 
 QString
@@ -255,30 +304,43 @@ VModuleModel::insert_model(BaseModule *object, const QString &parentModule)
     if (parentModule == name()) {
         m_models.append(object);
         if (!m_description.has_value()) {
+            setNotify(true);
             Q_EMIT descriptionChanged();
         }
         return SUCCESSED;
     }
     for (auto model : models()) {
         if (Interfaces::insert_model(model, object, parentModule) == SUCCESSED) {
+            setNotify(true);
             return SUCCESSED;
         }
     }
     return FAILED;
 }
 
+void
+VModuleModel::setNotify([[maybe_unused]] bool notify)
+{
+    for (auto model : m_models) {
+        if (model->isNotify()) {
+            m_isNotify = true;
+            Q_EMIT isNotifyChanged(m_isNotify);
+            return;
+        }
+    }
+    m_isNotify = false;
+    Q_EMIT isNotifyChanged(m_isNotify);
+}
+
 QDebug
 operator<<(QDebug d, const BaseModule *model)
 {
-    using T = std::decay_t<decltype(model)>;
-    if constexpr (std::is_same_v<T, const BaseModuleModel *>) {
+    if (model->type() == "base") {
         d << dynamic_cast<const BaseModuleModel *>(model);
-    } else if constexpr (std::is_same_v<T, const HModuleModel *>) {
+    } else if (model->type() == "hmodule") {
         d << dynamic_cast<const HModuleModel *>(model);
-    } else if constexpr (std::is_same_v<T, const VModuleModel *>) {
+    } else if (model->type() == "vmodule") {
         d << dynamic_cast<const VModuleModel *>(model);
-    } else {
-        d << model;
     }
     return d;
 }

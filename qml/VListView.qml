@@ -1,7 +1,6 @@
 import "."
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-
 import org.deepin.dtk 1.0 as Dtk
 
 Row {
@@ -33,6 +32,7 @@ Row {
 
             Row {
                 topPadding: 5
+
                 Dtk.QtIcon {
                     name: "vlc"
                     sourceSize: "50x50"
