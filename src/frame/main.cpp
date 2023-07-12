@@ -30,7 +30,7 @@ main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     Dtk::Core::DLogManager::registerConsoleAppender();
-    // QQuickStyle::setStyle("Chameleon");
+    QQuickStyle::setStyle("Chameleon");
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const QUrl url = QUrl("qrc:/Marine/qml/main.qml");
