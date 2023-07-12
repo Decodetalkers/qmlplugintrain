@@ -12,6 +12,5 @@ public:
     ~PluginA() = default;
 
     QString pluginName() const override;
-    QUrl mainLink() const override;
     Interfaces::BaseModule* topModule() const override;
 };

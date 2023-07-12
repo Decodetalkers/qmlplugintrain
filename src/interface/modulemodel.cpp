@@ -17,43 +17,45 @@ BaseModule *
 BaseModule::fromJson(QJsonObject object)
 {
     if (object["objectName"].toString() == "hmodule") {
-        return new HModuleModel(object["name"].toString(),
-                                object["displayName"].toString(),
-                                object["description"].toString(),
-                                std::invoke([object]() -> QList<BaseModule *> {
-                                    if (object["models"].isNull()) {
-                                        return {};
-                                    }
-                                    QList<BaseModule *> arrays;
-                                    auto models = object["models"].toArray();
-                                    for (auto arr : models) {
-                                        QJsonObject model = arr.toObject();
-                                        arrays.push_back(fromJson(model));
-                                    }
-                                    return arrays;
-                                }),
-                                object["upModule"].isNull()
-                                  ? std::make_optional(object["upModule"].toString())
-                                  : std::nullopt);
+        return new HModuleModel(
+          object["name"].toString(),
+          object["displayName"].toString(),
+          object["description"].isNull() ? std::nullopt
+                                         : std::make_optional(object["description"].toString()),
+          std::invoke([object]() -> QList<BaseModule *> {
+              if (object["models"].isNull()) {
+                  return {};
+              }
+              QList<BaseModule *> arrays;
+              auto models = object["models"].toArray();
+              for (auto arr : models) {
+                  QJsonObject model = arr.toObject();
+                  arrays.push_back(fromJson(model));
+              }
+              return arrays;
+          }),
+          object["upModule"].isNull() ? std::make_optional(object["upModule"].toString())
+                                      : std::nullopt);
     } else if (object["objectName"].toString() == "vmodule") {
-        return new VModuleModel(object["name"].toString(),
-                                object["displayName"].toString(),
-                                object["description"].toString(),
-                                std::invoke([object]() -> QList<BaseModule *> {
-                                    if (object["models"].isNull()) {
-                                        return {};
-                                    }
-                                    QList<BaseModule *> arrays;
-                                    auto models = object["models"].toArray();
-                                    for (auto arr : models) {
-                                        QJsonObject model = arr.toObject();
-                                        arrays.push_back(fromJson(model));
-                                    }
-                                    return arrays;
-                                }),
-                                object["upModule"].isNull()
-                                  ? std::make_optional(object["upModule"].toString())
-                                  : std::nullopt);
+        return new VModuleModel(
+          object["name"].toString(),
+          object["displayName"].toString(),
+          object["description"].isNull() ? std::nullopt
+                                         : std::make_optional(object["description"].toString()),
+          std::invoke([object]() -> QList<BaseModule *> {
+              if (object["models"].isNull()) {
+                  return {};
+              }
+              QList<BaseModule *> arrays;
+              auto models = object["models"].toArray();
+              for (auto arr : models) {
+                  QJsonObject model = arr.toObject();
+                  arrays.push_back(fromJson(model));
+              }
+              return arrays;
+          }),
+          object["upModule"].isNull() ? std::make_optional(object["upModule"].toString())
+                                      : std::nullopt);
     } else {
         return new BaseModuleModel(object["name"].toString(),
                                    object["displayName"].toString(),
@@ -103,7 +105,7 @@ BaseModuleModel::BaseModuleModel(const QString &name,
 
 HModuleModel::HModuleModel(const QString &name,
                            const QString &displayName,
-                           const QString &description,
+                           std::optional<QString> description,
                            QList<BaseModule *> models,
                            std::optional<QString> upModule,
                            QObject *parent)
@@ -114,6 +116,21 @@ HModuleModel::HModuleModel(const QString &name,
   , m_models(models)
   , m_upModule(upModule)
 {
+}
+
+QString
+HModuleModel::description() const
+{
+    if (m_description.has_value()) {
+        return m_description.value();
+    }
+    QString description;
+    for (const auto &model : m_models) {
+        description.push_back(model->displayName());
+        description.push_back(", ");
+    }
+    description.chop(2);
+    return description;
 }
 
 int
@@ -155,6 +172,9 @@ HModuleModel::insert_model(BaseModule *object, const QString &parentModule)
 {
     if (parentModule == name()) {
         m_models.append(object);
+        if (!m_description.has_value()) {
+            Q_EMIT descriptionChanged();
+        }
         return SUCCESSED;
     }
     for (auto model : models()) {
@@ -167,7 +187,7 @@ HModuleModel::insert_model(BaseModule *object, const QString &parentModule)
 
 VModuleModel::VModuleModel(const QString &name,
                            const QString &displayName,
-                           const QString &description,
+                           std::optional<QString> description,
                            QList<BaseModule *> models,
                            std::optional<QString> upModule,
                            QObject *parent)
@@ -178,6 +198,21 @@ VModuleModel::VModuleModel(const QString &name,
   , m_models(models)
   , m_upModule(upModule)
 {
+}
+
+QString
+VModuleModel::description() const
+{
+    if (m_description.has_value()) {
+        return m_description.value();
+    }
+    QString description;
+    for (const auto &model : m_models) {
+        description.push_back(model->displayName());
+        description.push_back(", ");
+    }
+    description.chop(2);
+    return description;
 }
 
 int
@@ -219,14 +254,17 @@ VModuleModel::insert_model(BaseModule *object, const QString &parentModule)
 {
     if (parentModule == name()) {
         m_models.append(object);
-        return 0;
+        if (!m_description.has_value()) {
+            Q_EMIT descriptionChanged();
+        }
+        return SUCCESSED;
     }
     for (auto model : models()) {
-        if (Interfaces::insert_model(model, object, parentModule) == 0) {
-            return 0;
+        if (Interfaces::insert_model(model, object, parentModule) == SUCCESSED) {
+            return SUCCESSED;
         }
     }
-    return -1;
+    return FAILED;
 }
 
 QDebug

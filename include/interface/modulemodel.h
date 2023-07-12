@@ -26,7 +26,7 @@ public:
     static BaseModule *fromJson(QJsonObject object);
     virtual QString type() const                                              = 0;
     virtual QString displayName() const                                       = 0;
-    virtual QString description() const                                       = 0;
+    virtual std::optional<QString> description() const                        = 0;
     virtual int insert_model(BaseModule *object, const QString &parentModule) = 0;
 
 protected:
@@ -122,7 +122,7 @@ class HModuleModel final : public BaseModule
 public:
     explicit HModuleModel(const QString &name,
                           const QString &displayName,
-                          const QString &description,
+                          std::optional<QString> description,
                           QList<BaseModule *> models,
                           std::optional<QString> upModule,
                           QObject *parent = nullptr);
@@ -140,7 +140,7 @@ public:
     inline QString displayName() const override { return m_displayName; }
 
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    inline QString description() const override { return m_description; }
+    QString description() const override;
 
     Q_PROPERTY(QList<BaseModule *> models READ models NOTIFY modelsChanged)
     inline QList<BaseModule *> models() const { return m_models; }
@@ -170,7 +170,7 @@ signals:
 private:
     QString m_name;
     QString m_displayName;
-    QString m_description;
+    std::optional<QString> m_description;
     QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;
 };
@@ -182,7 +182,7 @@ class VModuleModel final : public BaseModule
 public:
     explicit VModuleModel(const QString &name,
                           const QString &displayName,
-                          const QString &description,
+                          std::optional<QString> description,
                           QList<BaseModule *> models,
                           std::optional<QString> upModule,
                           QObject *parent = nullptr);
@@ -200,7 +200,7 @@ public:
     inline QString displayName() const override { return m_displayName; }
 
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
-    inline QString description() const override { return m_description; }
+    QString description() const override;
 
     Q_PROPERTY(QList<BaseModule *> models READ models NOTIFY modelsChanged)
     inline QList<BaseModule *> models() const { return m_models; }
@@ -230,7 +230,7 @@ signals:
 private:
     QString m_name;
     QString m_displayName;
-    QString m_description;
+    std::optional<QString> m_description;
     QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;
 };

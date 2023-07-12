@@ -7,7 +7,6 @@ class PluginInterface : public QObject
 {
 public:
     virtual QString pluginName() const    = 0;
-    virtual QUrl mainLink() const         = 0;
     virtual Interfaces::BaseModule * topModule() const = 0;
 };
 
