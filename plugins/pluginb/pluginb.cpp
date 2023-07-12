@@ -15,32 +15,32 @@ registerGlobalTypes()
       });
 }
 
-PluginA::PluginA()
+PluginB::PluginB()
 {
     registerGlobalTypes();
 }
 
 QString
-PluginA::pluginName() const
+PluginB::pluginName() const
 {
     return "PluginA";
 }
 
 Interfaces::BaseModule *
-PluginA::topModule() const
+PluginB::topModule() const
 {
     return Interfaces::BaseModule::fromJson(
       {{"objectName", "vmodule"},
        {"name", "test2"},
        {"displayName", QObject::tr("testb")},
-       {"icon", "vlc"},
+       {"icon", "firefox"},
        {"description", QObject::tr("test33433")},
        {"models", std::invoke([]() -> QJsonArray {
             QJsonArray array;
             array.append(QJsonObject{{"objectName", "base"},
                                      {"name", "test2ff22"},
                                      {"displayName", QObject::tr("ffff232")},
-                                     {"icon", "vlc"},
+                                     {"icon", "gparted"},
                                      {"description", QObject::tr("test9999")},
                                      {"searchpatterns", std::invoke([]() -> QJsonArray {
                                           return {"sss", "sss", "bbb"};
@@ -48,7 +48,7 @@ PluginA::topModule() const
                                      {"url", "qrc:/qml/entranceb.qml"}});
             array.append(QJsonObject{{"objectName", "base"},
                                      {"name", "test44444444"},
-                                     {"icon", "vlc"},
+                                     {"icon", "pinta"},
                                      {"displayName", QObject::tr("test32ee32")},
                                      {"description", QObject::tr("test9999")},
                                      {"searchpatterns", std::invoke([]() -> QJsonArray {

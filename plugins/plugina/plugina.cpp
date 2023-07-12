@@ -15,19 +15,19 @@ registerGlobalTypes()
       });
 }
 
-PluginA::PluginA()
+PluginB::PluginB()
 {
     registerGlobalTypes();
 }
 
 QString
-PluginA::pluginName() const
+PluginB::pluginName() const
 {
     return "PluginA";
 }
 
 Interfaces::BaseModule *
-PluginA::topModule() const
+PluginB::topModule() const
 {
     return Interfaces::BaseModule::fromJson(
       {{"objectName", "hmodule"},

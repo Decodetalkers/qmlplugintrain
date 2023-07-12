@@ -2,14 +2,14 @@
 
 #include <baseInterface.h>
 
-class PluginA final: public PluginInterface
+class PluginB final: public PluginInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID PluginInterface_id)
     Q_INTERFACES(PluginInterface)
 public:
-    explicit PluginA();
-    ~PluginA() = default;
+    explicit PluginB();
+    ~PluginB() = default;
 
     QString pluginName() const override;
     Interfaces::BaseModule* topModule() const override;

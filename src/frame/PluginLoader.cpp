@@ -42,7 +42,7 @@ PluginLoader::load_plugins()
                       }
                       uint v2pos = v2->position().value();
                       uint v1pos = v1->position().value();
-                      return v1pos > v2pos;
+                      return v1pos < v2pos;
                   });
         for (auto plugin : plugins) {
             auto topModule = plugin->topModule();
