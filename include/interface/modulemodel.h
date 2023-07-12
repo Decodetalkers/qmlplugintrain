@@ -17,7 +17,6 @@ class BaseModule;
 int
 insert_model(BaseModule *topModule, BaseModule *object, const QString &parentModule);
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 class BaseModule : public QAbstractListModel
 {
     Q_OBJECT
@@ -26,9 +25,9 @@ public:
     static BaseModule *fromJson(QJsonObject object);
     virtual QString type() const                                              = 0;
     virtual QString displayName() const                                       = 0;
-    virtual std::optional<QString> description() const                        = 0;
+    virtual QString description() const                                       = 0;
     virtual int insert_model(BaseModule *object, const QString &parentModule) = 0;
-    virutal bool isNotify() const                                             = 0;
+    virtual bool isNotify() const                                             = 0;
 
 public slots:
     virtual void setNotify(bool active) = 0;
@@ -36,34 +35,6 @@ public slots:
 protected:
     BaseModule(QObject *parent = nullptr);
 };
-#else
-class BaseModule : public QAbstractListModel
-{
-    Q_OBJECT
-
-public:
-    static BaseModule *fromJson(QJsonObject object);
-    virtual QString type() const { return ""; }
-    virtual QString displayName() const { return ""; }
-    virtual QString description() const { return ""; }
-    virtual int insert_model(BaseModule *object, const QString &parentModule) { return -1; };
-    virtual bool isNotify() const { return false; }
-
-public slots:
-    virtual void setNotify(bool active) {}
-
-private:
-    int rowCount(const QModelIndex & = QModelIndex()) const override { return 0; };
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override
-    {
-        return "";
-    };
-    QHash<int, QByteArray> roleNames() const override { return {}; };
-
-protected:
-    BaseModule(QObject *parent = nullptr);
-};
-#endif
 
 class BaseModuleModel final : public BaseModule
 {
