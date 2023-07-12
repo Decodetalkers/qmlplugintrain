@@ -6,5 +6,6 @@
         <file>PageLoaderH.qml</file>
         <file>PageLoaderV.qml</file>
         <file>VListView.qml</file>
+        <file>TopVListView.qml</file>
     </qresource>
 </RCC>

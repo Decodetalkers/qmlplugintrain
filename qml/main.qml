@@ -8,7 +8,7 @@ Dtk.ApplicationWindow {
     visible: true
     Dtk.DWindow.enabled: true
 
-    VListView {
+    TopVListView {
         anchors.fill: parent
         model: PluginLoader.modules
     }
