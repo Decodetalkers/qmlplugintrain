@@ -8,42 +8,52 @@ Row {
 
     property alias model: leftview.model
 
-    ListView {
-        id: leftview
+    Rectangle {
+        color: Dtk.DTK.palette.shadow
+        width: leftview.width
+        height: leftview.height
 
-        height: parent.height
-        width: 260
-        focus: true
-        spacing: 10
-        leftMargin: 5
-        rightMargin: 5
-        topMargin: 5
-        bottomMargin: 5
-        delegate: ItemDelegate {
-            width: 250
-            height: modelData.isSpecial ? 70 : 60
-            highlighted: ListView.isCurrentItem
-            onClicked: {
-                leftview.currentIndex = index;
-            }
+        ListView {
+            id: leftview
 
-            Row {
-                topPadding: 5
-                leftPadding: 10
+            height: page.height
+            width: 260
+            focus: true
+            spacing: 10
+            leftMargin: 5
+            rightMargin: 5
+            topMargin: 5
+            bottomMargin: 5
 
-                Dtk.QtIcon {
-                    name: modelData.icon
-                    sourceSize: modelData.isSpecial ? "60x60" : "50x50"
+            delegate: ItemDelegate {
+                width: 250
+                height: modelData.isSpecial ? 70 : 60
+                highlighted: ListView.isCurrentItem
+                onClicked: {
+                    leftview.currentIndex = index;
                 }
 
-                Column {
-                    Text {
-                        text: modelData.displayName
+                Row {
+                    topPadding: 5
+                    leftPadding: 10
+                    spacing: 10
+
+                    Dtk.QtIcon {
+                        name: modelData.icon
+                        sourceSize: modelData.isSpecial ? "60x60" : "50x50"
                     }
 
-                    Text {
-                        visible: modelData.isSpecial
-                        text: modelData.description
+                    Column {
+                        Text {
+                            text: modelData.displayName
+                        }
+
+                        Text {
+                            visible: modelData.isSpecial
+                            text: modelData.description
+                            color: "gray"
+                        }
+
                     }
 
                 }

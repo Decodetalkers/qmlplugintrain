@@ -30,6 +30,7 @@ public:
     virtual int insert_model(BaseModule *object, const QString &parentModule) = 0;
     virtual bool isNotify() const                                             = 0;
     virtual bool isSpecial() const                                            = 0;
+    virtual std::optional<QString> upModule()                                 = 0;
 
 public slots:
     virtual void setNotify(bool notify) = 0;
@@ -80,7 +81,7 @@ public:
 
     int insert_model(BaseModule *object, const QString &parentModule) override { return -1; };
 
-    inline std::optional<QString> upModule() { return m_upModule; }
+    inline std::optional<QString> upModule() override { return m_upModule; }
 
 public slots:
     void setNotify(bool notify) override;
@@ -160,7 +161,7 @@ public:
     Q_PROPERTY(bool isSpecial READ isSpecial NOTIFY isSpecialChanged)
     inline bool isSpecial() const override { return m_isSpecial; }
 
-    inline std::optional<QString> upModule() { return m_upModule; }
+    inline std::optional<QString> upModule() override { return m_upModule; }
 
     int insert_model(BaseModule *object, const QString &parentModule) override;
 
@@ -240,7 +241,7 @@ public:
     Q_PROPERTY(bool isSpecial READ isSpecial NOTIFY isSpecialChanged)
     inline bool isSpecial() const override { return m_isSpecial; }
 
-    inline std::optional<QString> upModule() { return m_upModule; }
+    inline std::optional<QString> upModule() override { return m_upModule; }
 
     int insert_model(BaseModule *object, const QString &parentModule) override;
 

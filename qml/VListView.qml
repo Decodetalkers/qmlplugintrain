@@ -33,6 +33,7 @@ Row {
             Row {
                 topPadding: 5
                 leftPadding: 10
+                spacing: 10
 
                 Dtk.QtIcon {
                     name: modelData.icon
