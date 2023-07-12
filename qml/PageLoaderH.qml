@@ -1,4 +1,4 @@
-import Marine.Model
+import Marine.Model 1.0
 import QtQuick 2.15
 
 Loader {

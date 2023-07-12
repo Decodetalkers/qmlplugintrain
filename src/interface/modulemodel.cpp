@@ -2,7 +2,6 @@
 
 #include <functional>
 #include <modulemodel.h>
-#include <type_traits>
 
 #define FAILED -1
 #define SUCCESSED 0
@@ -17,43 +16,45 @@ BaseModule *
 BaseModule::fromJson(QJsonObject object)
 {
     if (object["objectName"].toString() == "hmodule") {
-        return new HModuleModel(object["name"].toString(),
-                                object["displayName"].toString(),
-                                object["description"].toString(),
-                                std::invoke([object]() -> QList<BaseModule *> {
-                                    if (object["models"].isNull()) {
-                                        return {};
-                                    }
-                                    QList<BaseModule *> arrays;
-                                    auto models = object["models"].toArray();
-                                    for (auto arr : models) {
-                                        QJsonObject model = arr.toObject();
-                                        arrays.push_back(fromJson(model));
-                                    }
-                                    return arrays;
-                                }),
-                                object["upModule"].isNull()
-                                  ? std::make_optional(object["upModule"].toString())
-                                  : std::nullopt);
+        return new HModuleModel(
+          object["name"].toString(),
+          object["displayName"].toString(),
+          object["description"].isNull() ? std::nullopt
+                                         : std::make_optional(object["description"].toString()),
+          std::invoke([object]() -> QList<BaseModule *> {
+              if (object["models"].isNull()) {
+                  return {};
+              }
+              QList<BaseModule *> arrays;
+              auto models = object["models"].toArray();
+              for (auto arr : models) {
+                  QJsonObject model = arr.toObject();
+                  arrays.push_back(fromJson(model));
+              }
+              return arrays;
+          }),
+          object["upModule"].isNull() ? std::make_optional(object["upModule"].toString())
+                                      : std::nullopt);
     } else if (object["objectName"].toString() == "vmodule") {
-        return new VModuleModel(object["name"].toString(),
-                                object["displayName"].toString(),
-                                object["description"].toString(),
-                                std::invoke([object]() -> QList<BaseModule *> {
-                                    if (object["models"].isNull()) {
-                                        return {};
-                                    }
-                                    QList<BaseModule *> arrays;
-                                    auto models = object["models"].toArray();
-                                    for (auto arr : models) {
-                                        QJsonObject model = arr.toObject();
-                                        arrays.push_back(fromJson(model));
-                                    }
-                                    return arrays;
-                                }),
-                                object["upModule"].isNull()
-                                  ? std::make_optional(object["upModule"].toString())
-                                  : std::nullopt);
+        return new VModuleModel(
+          object["name"].toString(),
+          object["displayName"].toString(),
+          object["description"].isNull() ? std::nullopt
+                                         : std::make_optional(object["description"].toString()),
+          std::invoke([object]() -> QList<BaseModule *> {
+              if (object["models"].isNull()) {
+                  return {};
+              }
+              QList<BaseModule *> arrays;
+              auto models = object["models"].toArray();
+              for (auto arr : models) {
+                  QJsonObject model = arr.toObject();
+                  arrays.push_back(fromJson(model));
+              }
+              return arrays;
+          }),
+          object["upModule"].isNull() ? std::make_optional(object["upModule"].toString())
+                                      : std::nullopt);
     } else {
         return new BaseModuleModel(object["name"].toString(),
                                    object["displayName"].toString(),
@@ -101,9 +102,16 @@ BaseModuleModel::BaseModuleModel(const QString &name,
 {
 }
 
+void
+BaseModuleModel::setNotify(bool notify)
+{
+    m_isNotify = notify;
+    Q_EMIT isNotifyChanged(m_isNotify);
+}
+
 HModuleModel::HModuleModel(const QString &name,
                            const QString &displayName,
-                           const QString &description,
+                           std::optional<QString> description,
                            QList<BaseModule *> models,
                            std::optional<QString> upModule,
                            QObject *parent)
@@ -114,6 +122,35 @@ HModuleModel::HModuleModel(const QString &name,
   , m_models(models)
   , m_upModule(upModule)
 {
+    for (auto model : m_models) {
+        if (model->type() == "base") {
+            auto modelnew = dynamic_cast<BaseModuleModel *>(model);
+            connect(modelnew, &BaseModuleModel::isNotifyChanged, this, &HModuleModel::setNotify);
+        } else if (model->type() == "hmodule") {
+            auto modelnew = dynamic_cast<HModuleModel *>(model);
+            connect(modelnew, &HModuleModel::isNotifyChanged, this, &HModuleModel::setNotify);
+        } else if (model->type() == "vmodule") {
+            auto modelnew = dynamic_cast<VModuleModel *>(model);
+            connect(modelnew, &VModuleModel::isNotifyChanged, this, &HModuleModel::setNotify);
+        }
+    }
+
+    setNotify(true);
+}
+
+QString
+HModuleModel::description() const
+{
+    if (m_description.has_value()) {
+        return m_description.value();
+    }
+    QString description;
+    for (const auto &model : m_models) {
+        description.push_back(model->displayName());
+        description.push_back(", ");
+    }
+    description.chop(2);
+    return description;
 }
 
 int
@@ -155,19 +192,38 @@ HModuleModel::insert_model(BaseModule *object, const QString &parentModule)
 {
     if (parentModule == name()) {
         m_models.append(object);
+        if (!m_description.has_value()) {
+            setNotify(true);
+            Q_EMIT descriptionChanged();
+        }
         return SUCCESSED;
     }
     for (auto model : models()) {
         if (Interfaces::insert_model(model, object, parentModule) == 0) {
+            setNotify(true);
             return SUCCESSED;
         }
     }
     return FAILED;
 }
 
+void
+HModuleModel::setNotify([[maybe_unused]] bool notify)
+{
+    for (auto model : m_models) {
+        if (model->isNotify()) {
+            m_isNotify = true;
+            Q_EMIT isNotifyChanged(m_isNotify);
+            return;
+        }
+    }
+    m_isNotify = false;
+    Q_EMIT isNotifyChanged(m_isNotify);
+}
+
 VModuleModel::VModuleModel(const QString &name,
                            const QString &displayName,
-                           const QString &description,
+                           std::optional<QString> description,
                            QList<BaseModule *> models,
                            std::optional<QString> upModule,
                            QObject *parent)
@@ -178,6 +234,34 @@ VModuleModel::VModuleModel(const QString &name,
   , m_models(models)
   , m_upModule(upModule)
 {
+    for (auto model : m_models) {
+        if (model->type() == "base") {
+            auto modelnew = dynamic_cast<BaseModuleModel *>(model);
+            connect(modelnew, &BaseModuleModel::isNotifyChanged, this, &VModuleModel::setNotify);
+        } else if (model->type() == "hmodule") {
+            auto modelnew = dynamic_cast<HModuleModel *>(model);
+            connect(modelnew, &HModuleModel::isNotifyChanged, this, &VModuleModel::setNotify);
+        } else if (model->type() == "vmodule") {
+            auto modelnew = dynamic_cast<VModuleModel *>(model);
+            connect(modelnew, &VModuleModel::isNotifyChanged, this, &VModuleModel::setNotify);
+        }
+    }
+    setNotify(true);
+}
+
+QString
+VModuleModel::description() const
+{
+    if (m_description.has_value()) {
+        return m_description.value();
+    }
+    QString description;
+    for (const auto &model : m_models) {
+        description.push_back(model->displayName());
+        description.push_back(", ");
+    }
+    description.chop(2);
+    return description;
 }
 
 int
@@ -219,28 +303,44 @@ VModuleModel::insert_model(BaseModule *object, const QString &parentModule)
 {
     if (parentModule == name()) {
         m_models.append(object);
-        return 0;
+        if (!m_description.has_value()) {
+            setNotify(true);
+            Q_EMIT descriptionChanged();
+        }
+        return SUCCESSED;
     }
     for (auto model : models()) {
-        if (Interfaces::insert_model(model, object, parentModule) == 0) {
-            return 0;
+        if (Interfaces::insert_model(model, object, parentModule) == SUCCESSED) {
+            setNotify(true);
+            return SUCCESSED;
         }
     }
-    return -1;
+    return FAILED;
+}
+
+void
+VModuleModel::setNotify([[maybe_unused]] bool notify)
+{
+    for (auto model : m_models) {
+        if (model->isNotify()) {
+            m_isNotify = true;
+            Q_EMIT isNotifyChanged(m_isNotify);
+            return;
+        }
+    }
+    m_isNotify = false;
+    Q_EMIT isNotifyChanged(m_isNotify);
 }
 
 QDebug
 operator<<(QDebug d, const BaseModule *model)
 {
-    using T = std::decay_t<decltype(model)>;
-    if constexpr (std::is_same_v<T, const BaseModuleModel *>) {
+    if (model->type() == "base") {
         d << dynamic_cast<const BaseModuleModel *>(model);
-    } else if constexpr (std::is_same_v<T, const HModuleModel *>) {
+    } else if (model->type() == "hmodule") {
         d << dynamic_cast<const HModuleModel *>(model);
-    } else if constexpr (std::is_same_v<T, const VModuleModel *>) {
+    } else if (model->type() == "vmodule") {
         d << dynamic_cast<const VModuleModel *>(model);
-    } else {
-        d << model;
     }
     return d;
 }

@@ -1,5 +1,7 @@
-import QtQuick
+import "."
+import QtQuick 2.15
 import QtQuick.Controls 2.15
+import org.deepin.dtk 1.0 as Dtk
 
 Row {
     id: page
@@ -12,24 +14,39 @@ Row {
         id: leftview
 
         height: parent.height
-        width: 100
+        width: 260
         focus: true
+        spacing: 10
+        leftMargin: 5
+        rightMargin: 5
+        topMargin: 5
+        bottomMargin: 5
 
         delegate: ItemDelegate {
-            width: 100
-            height: 50
+            width: 250
+            height: 60
             highlighted: ListView.isCurrentItem
             onClicked: {
                 leftview.currentIndex = index;
             }
 
-            Column {
-                Text {
-                    text: modelData.displayName
+            Row {
+                topPadding: 5
+
+                Dtk.QtIcon {
+                    name: "vlc"
+                    sourceSize: "50x50"
                 }
 
-                Text {
-                    text: modelData.description
+                Column {
+                    Text {
+                        text: modelData.displayName
+                    }
+
+                    Text {
+                        text: modelData.description
+                    }
+
                 }
 
             }
@@ -49,7 +66,7 @@ Row {
             Binding {
                 target: baseLoader.item
                 property: "width"
-                value: page.width - 100
+                value: page.width - leftview.width
             }
 
             Binding {
@@ -68,7 +85,7 @@ Row {
         PageLoaderV {
             model: page.model[leftview.currentIndex]
             pageHeight: page.height
-            pageWidth: page.width - 100
+            pageWidth: page.width - leftview.width
         }
 
     }
@@ -88,7 +105,7 @@ Row {
         PageLoaderH {
             model: page.model[leftview.currentIndex]
             pageHeight: page.height
-            pageWidth: page.width - 100
+            pageWidth: page.width - leftview.width
         }
 
     }

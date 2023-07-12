@@ -26,12 +26,6 @@ PluginA::pluginName() const
     return "PluginA";
 }
 
-QUrl
-PluginA::mainLink() const
-{
-    return QUrl("qrc:/qml/entrance.qml");
-}
-
 Interfaces::BaseModule *
 PluginA::topModule() const
 {

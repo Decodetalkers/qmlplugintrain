@@ -1,0 +1,10 @@
+<!DOCTYPE RCC>
+<RCC>
+    <qresource prefix="/Marine/qml/">
+        <file>HListView.qml</file>
+        <file>main.qml</file>
+        <file>PageLoaderH.qml</file>
+        <file>PageLoaderV.qml</file>
+        <file>VListView.qml</file>
+    </qresource>
+</RCC>
