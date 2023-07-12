@@ -29,9 +29,10 @@ public:
     virtual QString icon() const                                              = 0;
     virtual int insert_model(BaseModule *object, const QString &parentModule) = 0;
     virtual bool isNotify() const                                             = 0;
+    virtual bool isSpecial() const                                            = 0;
 
 public slots:
-    virtual void setNotify(bool active) = 0;
+    virtual void setNotify(bool notify) = 0;
 
 protected:
     BaseModule(QObject *parent = nullptr);
@@ -48,6 +49,7 @@ public:
                              QStringList searchpatterns,
                              std::optional<QString> upModule,
                              const QUrl &url,
+                             bool isSpecial,
                              QObject *parent = nullptr);
     Q_PROPERTY(QStringList searchpatterns READ searchpatterns NOTIFY searchpatternsChanged)
     inline QStringList searchpatterns() const { return m_searchpatterns; }
@@ -73,6 +75,9 @@ public:
     Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
     inline QString icon() const override { return m_icon; }
 
+    Q_PROPERTY(bool isSpecial READ isSpecial NOTIFY isSpecialChanged)
+    inline bool isSpecial() const override { return m_isSpecial; }
+
     int insert_model(BaseModule *object, const QString &parentModule) override { return -1; };
 
     inline std::optional<QString> upModule() { return m_upModule; }
@@ -97,6 +102,7 @@ signals:
     void typeChanged();
     void isNotifyChanged(bool);
     void iconChanged();
+    void isSpecialChanged();
 
 private:
     QString m_name;
@@ -106,6 +112,7 @@ private:
     QStringList m_searchpatterns;
     std::optional<QString> m_upModule;
     QUrl m_url;
+    bool m_isSpecial;
     bool m_isNotify = false;
 };
 
@@ -120,6 +127,7 @@ public:
                           std::optional<QString> description,
                           QList<BaseModule *> models,
                           std::optional<QString> upModule,
+                          bool isSpecial,
                           QObject *parent = nullptr);
     enum ModuleRole
     {
@@ -149,6 +157,9 @@ public:
     Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
     inline QString icon() const override { return m_icon; }
 
+    Q_PROPERTY(bool isSpecial READ isSpecial NOTIFY isSpecialChanged)
+    inline bool isSpecial() const override { return m_isSpecial; }
+
     inline std::optional<QString> upModule() { return m_upModule; }
 
     int insert_model(BaseModule *object, const QString &parentModule) override;
@@ -172,6 +183,7 @@ signals:
     void typeChanged();
     void isNotifyChanged(bool);
     void iconChanged();
+    void isSpecialChanged();
 
 private:
     QString m_name;
@@ -180,6 +192,7 @@ private:
     std::optional<QString> m_description;
     QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;
+    bool m_isSpecial;
     bool m_isNotify = false;
 };
 
@@ -194,6 +207,7 @@ public:
                           std::optional<QString> description,
                           QList<BaseModule *> models,
                           std::optional<QString> upModule,
+                          bool isSpecial,
                           QObject *parent = nullptr);
     enum ModuleRole
     {
@@ -223,6 +237,9 @@ public:
     Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
     inline QString icon() const override { return m_icon; }
 
+    Q_PROPERTY(bool isSpecial READ isSpecial NOTIFY isSpecialChanged)
+    inline bool isSpecial() const override { return m_isSpecial; }
+
     inline std::optional<QString> upModule() { return m_upModule; }
 
     int insert_model(BaseModule *object, const QString &parentModule) override;
@@ -246,6 +263,7 @@ signals:
     void typeChanged();
     void isNotifyChanged(bool);
     void iconChanged();
+    void isSpecialChanged();
 
 private:
     QString m_name;
@@ -254,6 +272,7 @@ private:
     std::optional<QString> m_description;
     QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;
+    bool m_isSpecial;
     bool m_isNotify = false;
 };
 QDebug

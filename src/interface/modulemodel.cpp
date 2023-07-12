@@ -35,7 +35,8 @@ BaseModule::fromJson(QJsonObject object)
               return arrays;
           }),
           object["upModule"].isNull() ? std::make_optional(object["upModule"].toString())
-                                      : std::nullopt);
+                                      : std::nullopt,
+          object["isSpecial"].isNull() ? false : object["isSpecial"].toBool());
     } else if (object["objectName"].toString() == "vmodule") {
         return new VModuleModel(
           object["name"].toString(),
@@ -56,29 +57,32 @@ BaseModule::fromJson(QJsonObject object)
               return arrays;
           }),
           object["upModule"].isNull() ? std::make_optional(object["upModule"].toString())
-                                      : std::nullopt);
+                                      : std::nullopt,
+          object["isSpecial"].isNull() ? false : object["isSpecial"].toBool());
     } else {
-        return new BaseModuleModel(object["name"].toString(),
-                                   object["displayName"].toString(),
-                                   object["description"].toString(),
-                                   object["icon"].isNull() ? "" : object["icon"].toString(),
-                                   std::invoke([object]() -> QStringList {
-                                       if (object["searchpatterns"].isNull()) {
-                                           return {};
-                                       }
+        return new BaseModuleModel(
+          object["name"].toString(),
+          object["displayName"].toString(),
+          object["description"].toString(),
+          object["icon"].isNull() ? "" : object["icon"].toString(),
+          std::invoke([object]() -> QStringList {
+              if (object["searchpatterns"].isNull()) {
+                  return {};
+              }
 
-                                       QStringList arrays;
-                                       auto patterns = object["searchpatterns"].toArray();
-                                       for (auto pattern : patterns) {
-                                           QString patt = pattern.toString();
-                                           arrays.push_back(patt);
-                                       }
-                                       return arrays;
-                                   }),
-                                   object["upModule"].isNull()
-                                     ? std::make_optional(object["upModule"].toString())
-                                     : std::nullopt,
-                                   QUrl(object["url"].toString()));
+              QStringList arrays;
+              auto patterns = object["searchpatterns"].toArray();
+              for (auto pattern : patterns) {
+                  QString patt = pattern.toString();
+                  arrays.push_back(patt);
+              }
+              return arrays;
+          }),
+          object["upModule"].isNull() ? std::make_optional(object["upModule"].toString())
+                                      : std::nullopt,
+          QUrl(object["url"].toString()),
+
+          object["isSpecial"].isNull() ? false : object["isSpecial"].toBool());
     }
 }
 
@@ -95,6 +99,7 @@ BaseModuleModel::BaseModuleModel(const QString &name,
                                  QStringList searchpatterns,
                                  std::optional<QString> upModule,
                                  const QUrl &url,
+                                 bool isSpecial,
                                  QObject *parent)
   : BaseModule(parent)
   , m_name(name)
@@ -104,6 +109,7 @@ BaseModuleModel::BaseModuleModel(const QString &name,
   , m_searchpatterns(searchpatterns)
   , m_upModule(upModule)
   , m_url(url)
+  , m_isSpecial(isSpecial)
 {
 }
 
@@ -120,6 +126,7 @@ HModuleModel::HModuleModel(const QString &name,
                            std::optional<QString> description,
                            QList<BaseModule *> models,
                            std::optional<QString> upModule,
+                           bool isSpecial,
                            QObject *parent)
   : BaseModule(parent)
   , m_name(name)
@@ -128,6 +135,7 @@ HModuleModel::HModuleModel(const QString &name,
   , m_icon(icon)
   , m_models(models)
   , m_upModule(upModule)
+  , m_isSpecial(isSpecial)
 {
     for (auto model : m_models) {
         if (model->type() == "base") {
@@ -234,6 +242,7 @@ VModuleModel::VModuleModel(const QString &name,
                            std::optional<QString> description,
                            QList<BaseModule *> models,
                            std::optional<QString> upModule,
+                           bool isSpecial,
                            QObject *parent)
   : BaseModule(parent)
   , m_name(name)
@@ -242,6 +251,7 @@ VModuleModel::VModuleModel(const QString &name,
   , m_icon(icon)
   , m_models(models)
   , m_upModule(upModule)
+  , m_isSpecial(isSpecial)
 {
     for (auto model : m_models) {
         if (model->type() == "base") {

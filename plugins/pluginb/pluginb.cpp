@@ -56,5 +56,6 @@ PluginA::topModule() const
                                       })},
                                      {"url", "qrc:/qml/entrancef.qml"}});
             return array;
-        })}});
+        })},
+       {"isSpecial", true}});
 }

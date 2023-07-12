@@ -24,7 +24,7 @@ Row {
 
         delegate: ItemDelegate {
             width: 250
-            height: 60
+            height: modelData.isSpecial ? 70 : 60
             highlighted: ListView.isCurrentItem
             onClicked: {
                 leftview.currentIndex = index;
@@ -33,9 +33,10 @@ Row {
             Row {
                 topPadding: 5
                 leftPadding: 10
+
                 Dtk.QtIcon {
                     name: modelData.icon
-                    sourceSize: "50x50"
+                    sourceSize: modelData.isSpecial ? "60x60" : "50x50"
                 }
 
                 Column {
@@ -44,6 +45,7 @@ Row {
                     }
 
                     Text {
+                        visible: modelData.isSpecial
                         text: modelData.description
                     }
 
