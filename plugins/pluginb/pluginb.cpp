@@ -33,12 +33,14 @@ PluginA::topModule() const
       {{"objectName", "vmodule"},
        {"name", "test2"},
        {"displayName", QObject::tr("testb")},
+       {"icon", "vlc"},
        {"description", QObject::tr("test33433")},
        {"models", std::invoke([]() -> QJsonArray {
             QJsonArray array;
             array.append(QJsonObject{{"objectName", "base"},
                                      {"name", "test2ff22"},
                                      {"displayName", QObject::tr("ffff232")},
+                                     {"icon", "vlc"},
                                      {"description", QObject::tr("test9999")},
                                      {"searchpatterns", std::invoke([]() -> QJsonArray {
                                           return {"sss", "sss", "bbb"};
@@ -46,6 +48,7 @@ PluginA::topModule() const
                                      {"url", "qrc:/qml/entranceb.qml"}});
             array.append(QJsonObject{{"objectName", "base"},
                                      {"name", "test44444444"},
+                                     {"icon", "vlc"},
                                      {"displayName", QObject::tr("test32ee32")},
                                      {"description", QObject::tr("test9999")},
                                      {"searchpatterns", std::invoke([]() -> QJsonArray {

@@ -16,8 +16,14 @@ registerGlobalTypes()
       "Marine.Global", 1, 0, "PluginLoader", [](QQmlEngine *, QJSEngine *) -> QObject * {
           return new PluginLoader;
       });
-    qmlRegisterUncreatableType<Interfaces::BaseModule>("Marine.Model", 1, 0, "ModuleModel", "Do it in Cpp");
-    qmlRegisterUncreatableType<Interfaces::BaseModuleModel>("Marine.Model", 1, 0, "ModuleModelBase", "Do it in Cpp");
+    qmlRegisterUncreatableType<Interfaces::BaseModule>(
+      "Marine.Model", 1, 0, "ModuleModel", "Do it in Cpp");
+    qmlRegisterUncreatableType<Interfaces::BaseModuleModel>(
+      "Marine.Model", 1, 0, "ModuleModelBase", "Do it in Cpp");
+    qmlRegisterUncreatableType<Interfaces::HModuleModel>(
+      "Marine.Model", 1, 0, "HModuleModel", "Do it in Cpp");
+    qmlRegisterUncreatableType<Interfaces::VModuleModel>(
+      "Marine.Model", 1, 0, "VModuleModel", "Do it in Cpp");
 }
 
 int

@@ -32,9 +32,9 @@ Row {
 
             Row {
                 topPadding: 5
-
+                leftPadding: 10
                 Dtk.QtIcon {
-                    name: "vlc"
+                    name: modelData.icon
                     sourceSize: "50x50"
                 }
 

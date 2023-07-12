@@ -33,7 +33,7 @@ PluginA::topModule() const
       {{"objectName", "hmodule"},
        {"name", "test1"},
        {"displayName", QObject::tr("test1")},
-       //{"description", QObject::tr("test33433")},
+       {"icon", "vlc"},
        {"models", std::invoke([]() -> QJsonArray {
             QJsonArray array;
             array.append(QJsonObject{{"objectName", "base"},

@@ -26,6 +26,7 @@ public:
     virtual QString type() const                                              = 0;
     virtual QString displayName() const                                       = 0;
     virtual QString description() const                                       = 0;
+    virtual QString icon() const                                              = 0;
     virtual int insert_model(BaseModule *object, const QString &parentModule) = 0;
     virtual bool isNotify() const                                             = 0;
 
@@ -43,6 +44,7 @@ public:
     explicit BaseModuleModel(const QString &name,
                              const QString &displayName,
                              const QString &description,
+                             const QString &icon,
                              QStringList searchpatterns,
                              std::optional<QString> upModule,
                              const QUrl &url,
@@ -68,6 +70,9 @@ public:
     Q_PROPERTY(bool isNotify READ isNotify WRITE setNotify NOTIFY isNotifyChanged)
     bool isNotify() const override { return m_isNotify; }
 
+    Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
+    inline QString icon() const override { return m_icon; }
+
     int insert_model(BaseModule *object, const QString &parentModule) override { return -1; };
 
     inline std::optional<QString> upModule() { return m_upModule; }
@@ -91,10 +96,12 @@ signals:
     void descriptionChanged();
     void typeChanged();
     void isNotifyChanged(bool);
+    void iconChanged();
 
 private:
     QString m_name;
     QString m_displayName;
+    QString m_icon;
     QString m_description;
     QStringList m_searchpatterns;
     std::optional<QString> m_upModule;
@@ -109,6 +116,7 @@ class HModuleModel final : public BaseModule
 public:
     explicit HModuleModel(const QString &name,
                           const QString &displayName,
+                          const QString &icon,
                           std::optional<QString> description,
                           QList<BaseModule *> models,
                           std::optional<QString> upModule,
@@ -138,6 +146,9 @@ public:
     Q_PROPERTY(bool isNotify READ isNotify WRITE setNotify NOTIFY isNotifyChanged)
     bool isNotify() const override { return m_isNotify; }
 
+    Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
+    inline QString icon() const override { return m_icon; }
+
     inline std::optional<QString> upModule() { return m_upModule; }
 
     int insert_model(BaseModule *object, const QString &parentModule) override;
@@ -160,10 +171,12 @@ signals:
     void modelsChanged();
     void typeChanged();
     void isNotifyChanged(bool);
+    void iconChanged();
 
 private:
     QString m_name;
     QString m_displayName;
+    QString m_icon;
     std::optional<QString> m_description;
     QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;
@@ -177,6 +190,7 @@ class VModuleModel final : public BaseModule
 public:
     explicit VModuleModel(const QString &name,
                           const QString &displayName,
+                          const QString &icon,
                           std::optional<QString> description,
                           QList<BaseModule *> models,
                           std::optional<QString> upModule,
@@ -206,6 +220,9 @@ public:
     Q_PROPERTY(bool isNotify READ isNotify WRITE setNotify NOTIFY isNotifyChanged)
     bool isNotify() const override { return m_isNotify; }
 
+    Q_PROPERTY(QString icon READ icon NOTIFY iconChanged)
+    inline QString icon() const override { return m_icon; }
+
     inline std::optional<QString> upModule() { return m_upModule; }
 
     int insert_model(BaseModule *object, const QString &parentModule) override;
@@ -228,10 +245,12 @@ signals:
     void modelsChanged();
     void typeChanged();
     void isNotifyChanged(bool);
+    void iconChanged();
 
 private:
     QString m_name;
     QString m_displayName;
+    QString m_icon;
     std::optional<QString> m_description;
     QList<BaseModule *> m_models;
     std::optional<QString> m_upModule;

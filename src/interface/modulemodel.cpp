@@ -19,6 +19,7 @@ BaseModule::fromJson(QJsonObject object)
         return new HModuleModel(
           object["name"].toString(),
           object["displayName"].toString(),
+          object["icon"].isNull() ? "" : object["icon"].toString(),
           object["description"].isNull() ? std::nullopt
                                          : std::make_optional(object["description"].toString()),
           std::invoke([object]() -> QList<BaseModule *> {
@@ -39,6 +40,7 @@ BaseModule::fromJson(QJsonObject object)
         return new VModuleModel(
           object["name"].toString(),
           object["displayName"].toString(),
+          object["icon"].isNull() ? "" : object["icon"].toString(),
           object["description"].isNull() ? std::nullopt
                                          : std::make_optional(object["description"].toString()),
           std::invoke([object]() -> QList<BaseModule *> {
@@ -59,6 +61,7 @@ BaseModule::fromJson(QJsonObject object)
         return new BaseModuleModel(object["name"].toString(),
                                    object["displayName"].toString(),
                                    object["description"].toString(),
+                                   object["icon"].isNull() ? "" : object["icon"].toString(),
                                    std::invoke([object]() -> QStringList {
                                        if (object["searchpatterns"].isNull()) {
                                            return {};
@@ -88,6 +91,7 @@ insert_model(BaseModule *topModule, BaseModule *object, const QString &parentMod
 BaseModuleModel::BaseModuleModel(const QString &name,
                                  const QString &displayName,
                                  const QString &description,
+                                 const QString &icon,
                                  QStringList searchpatterns,
                                  std::optional<QString> upModule,
                                  const QUrl &url,
@@ -96,6 +100,7 @@ BaseModuleModel::BaseModuleModel(const QString &name,
   , m_name(name)
   , m_displayName(displayName)
   , m_description(description)
+  , m_icon(icon)
   , m_searchpatterns(searchpatterns)
   , m_upModule(upModule)
   , m_url(url)
@@ -111,6 +116,7 @@ BaseModuleModel::setNotify(bool notify)
 
 HModuleModel::HModuleModel(const QString &name,
                            const QString &displayName,
+                           const QString &icon,
                            std::optional<QString> description,
                            QList<BaseModule *> models,
                            std::optional<QString> upModule,
@@ -119,6 +125,7 @@ HModuleModel::HModuleModel(const QString &name,
   , m_name(name)
   , m_displayName(displayName)
   , m_description(description)
+  , m_icon(icon)
   , m_models(models)
   , m_upModule(upModule)
 {
@@ -223,6 +230,7 @@ HModuleModel::setNotify([[maybe_unused]] bool notify)
 
 VModuleModel::VModuleModel(const QString &name,
                            const QString &displayName,
+                           const QString &icon,
                            std::optional<QString> description,
                            QList<BaseModule *> models,
                            std::optional<QString> upModule,
@@ -231,6 +239,7 @@ VModuleModel::VModuleModel(const QString &name,
   , m_name(name)
   , m_displayName(displayName)
   , m_description(description)
+  , m_icon(icon)
   , m_models(models)
   , m_upModule(upModule)
 {
