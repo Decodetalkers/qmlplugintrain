@@ -10,7 +10,7 @@ void
 registerGlobalTypes()
 {
     qmlRegisterSingletonType<GlobalConst>(
-      "PluginA.Global", 1, 0, "GlobalConst", [](QQmlEngine *, QJSEngine *) -> QObject * {
+      "PluginB.Global", 1, 0, "GlobalConst", [](QQmlEngine *, QJSEngine *) -> QObject * {
           return new GlobalConst;
       });
 }

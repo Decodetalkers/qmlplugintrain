@@ -20,6 +20,7 @@ ColumnLayout {
     }
 
     Button {
+        Layout.alignment: Qt.AlignHCenter
         text: "test"
         onClicked: {
             console.log(rootModel.isNotify);
