@@ -54,6 +54,7 @@ Row {
                     Text {
                         visible: modelData.isSpecial
                         text: modelData.description
+                        font.pointSize: 7
                     }
 
                 }
