@@ -19,7 +19,7 @@ Row {
             id: leftview
 
             height: page.height
-            width: 260
+            width: 270
             focus: true
             spacing: 10
             leftMargin: 5
@@ -28,8 +28,8 @@ Row {
             bottomMargin: 5
 
             delegate: ItemDelegate {
-                width: 250
-                height: modelData.isSpecial ? 70 : 60
+                width: 260
+                height: modelData.isSpecial ? 80 : 70
                 highlighted: ListView.isCurrentItem
                 onClicked: {
                     leftview.currentIndex = index;
@@ -42,12 +42,15 @@ Row {
 
                     Dtk.QtIcon {
                         name: modelData.icon
-                        sourceSize: modelData.isSpecial ? "60x60" : "50x50"
+                        sourceSize: modelData.isSpecial ? "70x70" : "60x60"
                     }
 
                     Column {
+                        anchors.verticalCenter: parent.verticalCenter
                         Text {
                             text: modelData.displayName
+                            font.pointSize: 15
+                            font.bold: true
                         }
 
                         Text {
@@ -59,7 +62,8 @@ Row {
                     }
 
                     Text {
-                        text: modelData.isNotify ? "o" : "x"
+                        text: "o"
+                        visible: modelData.isNotify
                     }
 
                 }

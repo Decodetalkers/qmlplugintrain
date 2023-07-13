@@ -11,9 +11,8 @@ Page {
     }
 
     Button {
-        text: "sss"
+        text: "Let's test it"
         onClicked: {
-            console.log(rootModel.isNotify);
             rootModel.isNotify = !rootModel.isNotify;
         }
     }
