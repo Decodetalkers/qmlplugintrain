@@ -19,7 +19,7 @@ void
 PluginLoader::load_plugins()
 {
     QDir plugindir(QCoreApplication::applicationDirPath());
-    plugindir.cd("plugins");
+    plugindir.cd("pluginexamples");
     QList<PluginInterface *> plugins;
     if (plugindir.exists()) {
         for (QString filename : plugindir.entryList(QDir::Files)) {

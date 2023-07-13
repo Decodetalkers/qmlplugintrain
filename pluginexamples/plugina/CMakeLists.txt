@@ -18,8 +18,9 @@ target_link_libraries(${LIBNAME} PUBLIC
     Qt::Quick
     Qt::Widgets
     Qt::QuickControls2
+    qmlpluginstrainInterface
 )
 
 set_target_properties(${LIBNAME} PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY "$<TARGET_FILE_DIR:qmlpluginstrain>/plugins"
+    LIBRARY_OUTPUT_DIRECTORY "$<TARGET_FILE_DIR:qmlpluginstrain>/pluginexamples"
 )

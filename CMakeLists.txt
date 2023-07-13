@@ -84,6 +84,17 @@ target_link_libraries(${PROJECT_NAME}
     qmlpluginstrainInterface
 )
 
-add_subdirectory(plugins/plugina)
-add_subdirectory(plugins/pluginb)
-add_subdirectory(plugins/pluginc)
+#add_custom_command(
+#    TARGET qmlpluginstrain
+#    POST_BUILD
+#    COMMAND
+#        ${CMAKE_COMMAND} -E copy
+#        ${CMAKE_CURRENT_LIST_DIR}/src/interface/qmldir
+#        $<TARGET_FILE_DIR:qmlpluginstrain>/qmldir
+#)
+
+add_subdirectory(pluginexamples/plugina)
+add_subdirectory(pluginexamples/pluginb)
+add_subdirectory(pluginexamples/pluginc)
+
+add_subdirectory(plugins/Marine/Model)
