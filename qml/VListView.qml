@@ -3,6 +3,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import org.deepin.dtk 1.0 as Dtk
 
+import QtQml 2.15
+
 Row {
     id: page
 
@@ -52,6 +54,10 @@ Row {
 
                 }
 
+                Text {
+                    text: modelData.isNotify ? "o" : "x"
+                }
+
             }
 
         }
@@ -76,6 +82,13 @@ Row {
                 target: baseLoader.item
                 property: "height"
                 value: page.height
+            }
+
+            Binding {
+                target: baseLoader.item
+                property: "rootModel"
+                value: page.model[leftview.currentIndex]
+                restoreMode: Binding.RestoreNone
             }
 
         }

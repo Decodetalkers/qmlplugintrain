@@ -7,6 +7,7 @@ add_library(${LIBNAME} SHARED
     dccPlugin.cpp
     qmldir
 )
+
 target_link_libraries(${LIBNAME}
     PUBLIC
     Qt::Quick

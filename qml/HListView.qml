@@ -1,7 +1,9 @@
 import "."
+
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import QtQml 2.15
 Page {
     id: page
 
@@ -42,6 +44,13 @@ Page {
                 target: baseLoader.item
                 property: "height"
                 value: page.height - header.height
+            }
+
+            Binding {
+                target: baseLoader.item
+                property: "rootModel"
+                value: page.model[header.currentIndex]
+                restoreMode: Binding.RestoreBindingOrValue
             }
 
         }
