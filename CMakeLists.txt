@@ -96,5 +96,7 @@ target_link_libraries(${PROJECT_NAME}
 add_subdirectory(pluginexamples/plugina)
 add_subdirectory(pluginexamples/pluginb)
 add_subdirectory(pluginexamples/pluginc)
+add_subdirectory(pluginexamples/plugind)
+add_subdirectory(pluginexamples/plugine)
 
 add_subdirectory(plugins/Marine/Model)

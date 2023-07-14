@@ -1,4 +1,4 @@
-#include "pluginb.h"
+#include "plugind.h"
 #include "GlobalConst.h"
 #include "modulemodel.h"
 #include <QJsonArray>
@@ -10,30 +10,29 @@ void
 registerGlobalTypes()
 {
     qmlRegisterSingletonType<GlobalConst>(
-      "PluginB.Global", 1, 0, "GlobalConst", [](QQmlEngine *, QJSEngine *) -> QObject * {
+      "PluginD.Global", 1, 0, "GlobalConst", [](QQmlEngine *, QJSEngine *) -> QObject * {
           return new GlobalConst;
       });
 }
 
-PluginB::PluginB()
+PluginD::PluginD()
 {
     registerGlobalTypes();
 }
 
 QString
-PluginB::pluginName() const
+PluginD::pluginName() const
 {
     return "PluginA";
 }
 
 Interfaces::BaseModule *
-PluginB::topModule() const
+PluginD::topModule() const
 {
     return Interfaces::BaseModule::fromJson(
       {{"objectName", "vmodule"},
-       {"name", "test22"},
-       {"upModule", "testc"},
-       {"displayName", QObject::tr("testb")},
+       {"name", "testd"},
+       {"displayName", QObject::tr("testd")},
        {"icon", "firefox"},
        {"description", QObject::tr("test33433")},
        {"models", std::invoke([]() -> QJsonArray {
@@ -46,7 +45,7 @@ PluginB::topModule() const
                                      {"searchpatterns", std::invoke([]() -> QJsonArray {
                                           return {"sss", "sss", "bbb"};
                                       })},
-                                     {"url", "qrc:/qml/entranceb.qml"}});
+                                     {"url", "qrc:/qml/entrancebb.qml"}});
             array.append(QJsonObject{{"objectName", "base"},
                                      {"name", "test44444444"},
                                      {"icon", "pinta"},
@@ -55,7 +54,7 @@ PluginB::topModule() const
                                      {"searchpatterns", std::invoke([]() -> QJsonArray {
                                           return {"sss", "sss", "bbb"};
                                       })},
-                                     {"url", "qrc:/qml/entrancef.qml"}});
+                                     {"url", "qrc:/qml/entranceff.qml"}});
             return array;
         })},
        {"isSpecial", true}});

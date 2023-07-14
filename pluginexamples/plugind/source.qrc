@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC>
+    <qresource prefix="/">
+        <file>qml/entrancebb.qml</file>
+        <file>qml/entranceff.qml</file>
+    </qresource>
+</RCC>

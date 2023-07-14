@@ -1,26 +1,26 @@
-#include "pluginc.h"
+#include "plugine.h"
 #include "modulemodel.h"
 #include <QJsonArray>
 
 #include <QQmlApplicationEngine>
 #include <QUrl>
 
-PluginC::PluginC()
+PluginE::PluginE()
 {
 }
 
 QString
-PluginC::pluginName() const
+PluginE::pluginName() const
 {
-    return "PluginC";
+    return "PluginE";
 }
 
 Interfaces::BaseModule *
-PluginC::topModule() const
+PluginE::topModule() const
 {
     return Interfaces::BaseModule::fromJson({{"objectName", "vmodule"},
-                                             {"name", "testc"},
-                                             {"displayName", QObject::tr("testc")},
+                                             {"name", "teste"},
+                                             {"displayName", QObject::tr("teste")},
                                              {"icon", "kate"},
                                              {"description", QObject::tr("test33433")},
                                              {"models", std::invoke([]() -> QJsonArray {
