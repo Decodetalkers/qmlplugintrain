@@ -32,6 +32,7 @@ Row {
         delegate: ItemDelegate {
             width: 260
             height: modelData.isSpecial ? 60 : 50
+            checked: ListView.isCurrentItem
             highlighted: ListView.isCurrentItem
             onClicked: {
                 leftview.currentIndex = index;
