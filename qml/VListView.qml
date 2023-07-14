@@ -64,6 +64,7 @@ Row {
                         visible: modelData.isSpecial
                         text: modelData.description
                         font.pointSize: 6
+                        color: "gray"
                     }
 
                 }

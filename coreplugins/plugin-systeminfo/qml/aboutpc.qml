@@ -8,7 +8,7 @@ import "aboutThisPc" as AboutThisPc
 import Marine.Model 1.0
 import SystemInfo.Base 1.0
 
-Page {
+ScrollabelPage {
     property ModuleModelBase rootModel
     id: root
     Component.onCompleted: {
@@ -21,8 +21,8 @@ Page {
 
         AboutThisPc.PcImage {
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: 200
-            Layout.preferredHeight: 200
+            Layout.preferredWidth: 250
+            Layout.preferredHeight: 250
         }
 
         AboutThisPc.HostName {

@@ -44,7 +44,7 @@ PluginSystemInfo::topModule() const
             array.append(
               QJsonObject{{"objectName", "base"},
                           {"name", "aboutpc"},
-                          {"displayName", QObject::tr("AboutPc")},
+                          {"displayName", QObject::tr("About This Pc")},
                           {"description", QObject::tr("show the info of pc")},
                           {"searchpatterns", std::invoke([]() -> QJsonArray { return {}; })},
                           {"url", "qrc:/qml/aboutpc.qml"}});
