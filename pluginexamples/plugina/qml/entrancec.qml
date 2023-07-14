@@ -7,6 +7,7 @@ Page {
     property ModuleModelBase rootModel
 
     Text {
+        anchors.horizontalCenter: parent.horizontalCenter
         text: "Greate!!!!!!!!!!!!!"
     }
 
