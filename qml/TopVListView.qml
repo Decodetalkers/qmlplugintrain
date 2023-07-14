@@ -21,7 +21,8 @@ Row {
             id: leftview
 
             height: page.height
-            width: 270
+            width: leftview.currentIndex < 0 ? 0 : 270
+            visible: leftview.currentIndex >= 0
             focus: true
             spacing: 10
             leftMargin: 5
@@ -131,10 +132,10 @@ Row {
     Component {
         id: welcomedefault
 
-        Text {
-            text: "welcome"
+        WelcomePage {
+            height: page.height
+            width: page.width - leftview.width
         }
-
     }
 
     Component {

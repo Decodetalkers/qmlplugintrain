@@ -73,8 +73,9 @@ Page {
     Component {
         id: welcomeDefault
 
-        Text {
-            text: "welcome"
+        WelcomePage {
+            height: header.height ?  page.height - header.height : page.height
+            width: page.width
         }
 
     }
