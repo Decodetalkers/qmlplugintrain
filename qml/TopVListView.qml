@@ -1,4 +1,5 @@
 import "."
+import "components"
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
@@ -69,8 +70,7 @@ Row {
 
                     }
 
-                    Text {
-                        text: "o"
+                    RedDot {
                         visible: modelData.isNotify
                     }
 

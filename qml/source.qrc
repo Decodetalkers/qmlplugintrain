@@ -7,5 +7,6 @@
         <file>PageLoaderV.qml</file>
         <file>VListView.qml</file>
         <file>TopVListView.qml</file>
+        <file>components/RedDot.qml</file>
     </qresource>
 </RCC>

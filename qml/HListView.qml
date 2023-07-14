@@ -1,4 +1,5 @@
 import "."
+import "components"
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
@@ -103,8 +104,7 @@ Page {
                         text: modelData.displayName
                     }
 
-                    Text {
-                        text: "o"
+                    RedDot {
                         visible: modelData.isNotify
                     }
 
