@@ -18,7 +18,7 @@ PluginC::pluginName() const
 Interfaces::BaseModule *
 PluginC::topModule() const
 {
-    return Interfaces::BaseModule::fromJson({{"objectName", "vmodule"},
+    return Interfaces::BaseModule::fromJson({{"objectName", "hmodule"},
                                              {"name", "test2"},
                                              {"displayName", QObject::tr("testc")},
                                              {"icon", "kate"},

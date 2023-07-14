@@ -34,8 +34,8 @@ BaseModule::fromJson(QJsonObject object)
               }
               return arrays;
           }),
-          object["upModule"].isNull() ? std::make_optional(object["upModule"].toString())
-                                      : std::nullopt,
+          object["upModule"].isNull() ? std::nullopt
+                                      : std::make_optional(object["upModule"].toString()),
           object["isSpecial"].isNull() ? false : object["isSpecial"].toBool());
     } else if (object["objectName"].toString() == "vmodule") {
         return new VModuleModel(
@@ -56,8 +56,8 @@ BaseModule::fromJson(QJsonObject object)
               }
               return arrays;
           }),
-          object["upModule"].isNull() ? std::make_optional(object["upModule"].toString())
-                                      : std::nullopt,
+          object["upModule"].isNull() ? std::nullopt
+                                      : std::make_optional(object["upModule"].toString()),
           object["isSpecial"].isNull() ? false : object["isSpecial"].toBool());
     } else {
         return new BaseModuleModel(
@@ -78,8 +78,8 @@ BaseModule::fromJson(QJsonObject object)
               }
               return arrays;
           }),
-          object["upModule"].isNull() ? std::make_optional(object["upModule"].toString())
-                                      : std::nullopt,
+          object["upModule"].isNull() ? std::nullopt
+                                      : std::make_optional(object["upModule"].toString()),
           QUrl(object["url"].toString()),
 
           object["isSpecial"].isNull() ? false : object["isSpecial"].toBool());
@@ -206,6 +206,16 @@ int
 HModuleModel::insert_model(BaseModule *object, const QString &parentModule)
 {
     if (parentModule == name()) {
+        if (object->type() == "base") {
+            auto modelnew = dynamic_cast<BaseModuleModel *>(object);
+            connect(modelnew, &BaseModuleModel::isNotifyChanged, this, &HModuleModel::setNotify);
+        } else if (object->type() == "hmodule") {
+            auto modelnew = dynamic_cast<HModuleModel *>(object);
+            connect(modelnew, &HModuleModel::isNotifyChanged, this, &HModuleModel::setNotify);
+        } else if (object->type() == "vmodule") {
+            auto modelnew = dynamic_cast<VModuleModel *>(object);
+            connect(modelnew, &VModuleModel::isNotifyChanged, this, &HModuleModel::setNotify);
+        }
         m_models.append(object);
         if (!m_description.has_value()) {
             setNotify(true);
@@ -321,6 +331,16 @@ int
 VModuleModel::insert_model(BaseModule *object, const QString &parentModule)
 {
     if (parentModule == name()) {
+        if (object->type() == "base") {
+            auto modelnew = dynamic_cast<BaseModuleModel *>(object);
+            connect(modelnew, &BaseModuleModel::isNotifyChanged, this, &VModuleModel::setNotify);
+        } else if (object->type() == "hmodule") {
+            auto modelnew = dynamic_cast<HModuleModel *>(object);
+            connect(modelnew, &HModuleModel::isNotifyChanged, this, &VModuleModel::setNotify);
+        } else if (object->type() == "vmodule") {
+            auto modelnew = dynamic_cast<VModuleModel *>(object);
+            connect(modelnew, &VModuleModel::isNotifyChanged, this, &VModuleModel::setNotify);
+        }
         m_models.append(object);
         if (!m_description.has_value()) {
             setNotify(true);

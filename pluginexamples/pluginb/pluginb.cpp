@@ -31,7 +31,8 @@ PluginB::topModule() const
 {
     return Interfaces::BaseModule::fromJson(
       {{"objectName", "vmodule"},
-       {"name", "test2"},
+       {"name", "test22"},
+       {"upModule", "test2"},
        {"displayName", QObject::tr("testb")},
        {"icon", "firefox"},
        {"description", QObject::tr("test33433")},

@@ -46,9 +46,34 @@ PluginLoader::load_plugins()
                   });
         for (auto plugin : plugins) {
             auto topModule = plugin->topModule();
+            if (topModule->upModule().has_value()) {
+                continue;
+            }
             m_modules.append(topModule);
+            plugins.removeOne(plugin);
             plugin->deleteLater();
         }
+
+        u_int plugin_count = plugins.length();
+        u_int plugin_count_later;
+        if (plugin_count == 0) {
+            Q_EMIT modulesChanged();
+            return;
+        }
+        do {
+            plugin_count = plugins.length();
+            for (auto module : m_modules) {
+                for (auto plugin : plugins) {
+                    auto childModule = plugin->topModule();
+                    if (Interfaces::insert_model(
+                          module, childModule, childModule->upModule().value()) == 0) {
+                        plugins.removeOne(plugin);
+                        plugin->deleteLater();
+                    }
+                }
+            }
+            plugin_count_later = plugins.length();
+        } while (plugin_count_later < plugin_count);
 
         Q_EMIT modulesChanged();
     }
