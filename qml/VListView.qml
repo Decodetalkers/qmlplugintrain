@@ -1,6 +1,8 @@
 import "."
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.1
+
 import org.deepin.dtk 1.0 as Dtk
 
 import QtQml 2.15
@@ -32,10 +34,14 @@ Row {
                 leftview.currentIndex = index;
             }
 
-            Row {
-                topPadding: 5
-                leftPadding: 10
+            RowLayout {
+                anchors.fill: parent
+                Layout.topMargin: 5
                 spacing: 10
+
+                Item {
+                    Layout.preferredWidth: 1
+                }
 
                 Dtk.QtIcon {
                     name: modelData.icon
@@ -43,12 +49,12 @@ Row {
                 }
 
                 Column {
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.fillWidth: true
                     Text {
                         text: modelData.displayName
                         font.pointSize: 15
                         font.bold: true
-
                     }
 
                     Text {
@@ -62,6 +68,10 @@ Row {
                 Text {
                     text: "o"
                     visible: modelData.isNotify
+                }
+
+                Item {
+                    Layout.preferredWidth: 10
                 }
 
             }

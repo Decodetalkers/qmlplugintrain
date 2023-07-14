@@ -2,6 +2,7 @@ import "."
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.1
 
 import QtQml 2.15
 Page {
@@ -95,7 +96,22 @@ Page {
             id: head
 
             TabButton {
-                text: modelData.displayName
+                contentItem: RowLayout {
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                        text: modelData.displayName
+                    }
+
+                    Text {
+                        text: "o"
+                        visible: modelData.isNotify
+                    }
+
+                    Item {
+                        Layout.preferredWidth: 10
+                    }
+                }
             }
 
         }
