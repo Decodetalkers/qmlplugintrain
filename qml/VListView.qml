@@ -31,7 +31,7 @@ Row {
 
         delegate: ItemDelegate {
             width: 260
-            height: modelData.isSpecial ? 80 : 70
+            height: modelData.isSpecial ? 60 : 50
             highlighted: ListView.isCurrentItem
             onClicked: {
                 leftview.currentIndex = index;
@@ -48,7 +48,7 @@ Row {
 
                 Dtk.QtIcon {
                     name: modelData.icon
-                    sourceSize: modelData.isSpecial ? "70x70" : "60x60"
+                    sourceSize: modelData.isSpecial ? "50x50" : "40x40"
                 }
 
                 Column {
@@ -56,14 +56,14 @@ Row {
                     Layout.fillWidth: true
                     Text {
                         text: modelData.displayName
-                        font.pointSize: 15
+                        font.pointSize: 14
                         font.bold: true
                     }
 
                     Text {
                         visible: modelData.isSpecial
                         text: modelData.description
-                        font.pointSize: 7
+                        font.pointSize: 6
                     }
 
                 }
