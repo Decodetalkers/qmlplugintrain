@@ -66,6 +66,7 @@ else()
         src/frame/PluginLoader.cpp
         ${Interface_SRCS}
         qml/source.qrc
+        misc/icons.qrc
     )
 endif()
 
