@@ -1,6 +1,6 @@
 import Marine.Global 1.0
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick 2.4
+import QtQuick.Controls 2.4
 import org.deepin.dtk 1.0 as Dtk
 
 Dtk.ApplicationWindow {
@@ -22,20 +22,28 @@ Dtk.ApplicationWindow {
                 width: 300
                 onTextChanged: {
                     menu.open()
+                    PluginLoader.getModel(text)
+                }
+                onAccepted: {
+                    menu.close()
+                    PluginLoader.getModel("")
                 }
 
             }
-
         }
 
     }
+
     Menu {
         id: menu
         width: 300
         x: searchedit.width / 2 - 165
         y: searchedit.y + searchedit.height
-        MenuItem {
-            text: "sss"
+        Repeater {
+            model: PluginLoader.searchPattern
+            MenuItem {
+                text: model.displayName
+            }
         }
     }
 

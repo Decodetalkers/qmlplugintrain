@@ -6,19 +6,117 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QPluginLoader>
+#include <QRegularExpression>
+#include <QStandardItem>
 #include <QTimer>
 #include <QUrl>
 
-PluginLoader::PluginLoader(QObject *parent)
-  : QObject(parent)
-  , m_model(new QStandardItemModel(this))
-  , m_proxyModel(new QSortFilterProxyModel(this))
+PluginModel::PluginModel(QObject *parent)
+  : QAbstractListModel(parent)
 {
-    load_plugins();
 }
 
 void
-PluginLoader::load_plugins()
+PluginModel::clear()
+{
+    beginResetModel();
+    m_results.clear();
+    endResetModel();
+}
+
+void
+PluginModel::insert(Interfaces::SearchResult &result)
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    m_results.push_back(result);
+    endInsertRows();
+}
+
+QVariant
+PluginModel::data(const QModelIndex &index, int role) const
+{
+    if (index.row() < rowCount()) {
+        return m_results[index.row()].display;
+    }
+    return QVariant();
+}
+
+int
+PluginModel::rowCount(const QModelIndex &) const
+{
+    return m_results.count();
+}
+
+QHash<int, QByteArray>
+PluginModel::roleNames() const
+{
+    static const QHash<int, QByteArray> roles{{Display, "displayName"}};
+    return roles;
+}
+
+PluginLoader::PluginLoader(QObject *parent)
+  : QObject(parent)
+  , m_model(new PluginModel(this))
+  , m_proxyModel(new QSortFilterProxyModel(this))
+{
+    loadPlugins();
+    resetModel();
+    setProxy();
+}
+
+void
+PluginLoader::setProxy()
+{
+    m_proxyModel->setSourceModel(m_model);
+}
+
+void
+PluginLoader::getModel(const QString &filter)
+{
+    if (filter.isEmpty()) {
+        resetModel();
+        return;
+    }
+    if (filter.contains("\\")) {
+        return;
+    }
+    auto re = QRegularExpression(filter, QRegularExpression::CaseInsensitiveOption);
+    m_proxyModel->setFilterRegularExpression(re);
+
+    Q_EMIT searchPatternChanged();
+}
+
+void
+PluginLoader::resetModel()
+{
+    m_model->clear();
+    for (auto searchResult : getAllRoutine()) {
+        m_model->insert(searchResult);
+    }
+    Q_EMIT searchPatternChanged();
+}
+
+QList<Interfaces::SearchResult>
+PluginLoader::getAllRoutine()
+{
+    auto modelLen = m_modules.length();
+    if (modelLen == 0) {
+        return {};
+    }
+    QList<Interfaces::SearchResult> results;
+
+    for (int index = 0; index < modelLen; index++) {
+        for (auto routine : m_modules[index]->getAllRoutine()) {
+            QList<int> routinetop = routine.routine;
+            routinetop.push_front(index);
+            results.push_back({routine.display, routinetop});
+        }
+    }
+    return results;
+}
+
+void
+PluginLoader::loadPlugins()
 {
     QDir plugindir(QCoreApplication::applicationDirPath());
     plugindir.cd("pluginexamples");
@@ -79,26 +177,4 @@ PluginLoader::load_plugins()
 
         Q_EMIT modulesChanged();
     }
-    for (auto routine : getAllRoutine()) {
-        qDebug() << routine;
-    }
-}
-
-QList<Interfaces::SearchResult>
-PluginLoader::getAllRoutine()
-{
-    auto modelLen = m_modules.length();
-    if (modelLen == 0) {
-        return {};
-    }
-    QList<Interfaces::SearchResult> results;
-
-    for (int index = 0; index < modelLen; index++) {
-        for (auto routine : m_modules[index]->getAllRoutine()) {
-            QList<int> routinetop = routine.routine;
-            routinetop.push_front(index);
-            results.push_back({routine.display, routinetop});
-        }
-    }
-    return results;
 }
