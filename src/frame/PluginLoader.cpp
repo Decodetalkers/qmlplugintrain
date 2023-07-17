@@ -11,6 +11,8 @@
 
 PluginLoader::PluginLoader(QObject *parent)
   : QObject(parent)
+  , m_model(new QStandardItemModel(this))
+  , m_proxyModel(new QSortFilterProxyModel(this))
 {
     load_plugins();
 }
@@ -65,7 +67,7 @@ PluginLoader::load_plugins()
             for (auto module : m_modules) {
                 for (auto plugin : plugins) {
                     auto childModule = plugin->topModule();
-                    if (Interfaces::insert_model(
+                    if (Interfaces::insertModel(
                           module, childModule, childModule->upModule().value()) == 0) {
                         plugins.removeOne(plugin);
                         plugin->deleteLater();
@@ -77,4 +79,26 @@ PluginLoader::load_plugins()
 
         Q_EMIT modulesChanged();
     }
+    for (auto routine : getAllRoutine()) {
+        qDebug() << routine;
+    }
+}
+
+QList<Interfaces::SearchResult>
+PluginLoader::getAllRoutine()
+{
+    auto modelLen = m_modules.length();
+    if (modelLen == 0) {
+        return {};
+    }
+    QList<Interfaces::SearchResult> results;
+
+    for (int index = 0; index < modelLen; index++) {
+        for (auto routine : m_modules[index]->getAllRoutine()) {
+            QList<int> routinetop = routine.routine;
+            routinetop.push_front(index);
+            results.push_back({routine.display, routinetop});
+        }
+    }
+    return results;
 }

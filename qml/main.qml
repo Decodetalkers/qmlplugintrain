@@ -13,16 +13,30 @@ Dtk.ApplicationWindow {
     }
 
     header: Dtk.TitleBar {
+        id: searchedit
         enableInWindowBlendBlur: true
 
         content: Item {
             Dtk.SearchEdit {
                 anchors.centerIn: parent
                 width: 300
+                onTextChanged: {
+                    menu.open()
+                }
+
             }
 
         }
 
+    }
+    Menu {
+        id: menu
+        width: 300
+        x: searchedit.width / 2 - 165
+        y: searchedit.y + searchedit.height
+        MenuItem {
+            text: "sss"
+        }
     }
 
 }

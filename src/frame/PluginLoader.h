@@ -3,6 +3,8 @@
 #include <modulemodel.h>
 
 #include <QObject>
+#include <QSortFilterProxyModel>
+#include <QStandardItemModel>
 #include <QUrl>
 
 class PluginLoader final : public QObject
@@ -19,7 +21,10 @@ signals:
 
 private:
     void load_plugins();
+    QList<Interfaces::SearchResult> getAllRoutine();
 
 private:
     QList<Interfaces::BaseModule *> m_modules;
+    QStandardItemModel *m_model;
+    QSortFilterProxyModel *m_proxyModel;
 };

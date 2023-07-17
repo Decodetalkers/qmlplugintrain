@@ -87,9 +87,9 @@ BaseModule::fromJson(QJsonObject object)
 }
 
 int
-insert_model(BaseModule *topModule, BaseModule *object, const QString &parentModule)
+insertModel(BaseModule *topModule, BaseModule *object, const QString &parentModule)
 {
-    return topModule->insert_model(object, parentModule);
+    return topModule->insertModel(object, parentModule);
 };
 
 BaseModuleModel::BaseModuleModel(const QString &name,
@@ -177,11 +177,11 @@ HModuleModel::rowCount(const QModelIndex &index) const
 QVariant
 HModuleModel::data(const QModelIndex &index, int role) const
 {
-    return get_model_data(index.row(), role);
+    return getModelData(index.row(), role);
 }
 
 QVariant
-HModuleModel::get_model_data(int row, int role) const
+HModuleModel::getModelData(int row, int role) const
 {
     const BaseModule *data = m_models[row];
     switch (role) {
@@ -194,6 +194,27 @@ HModuleModel::get_model_data(int row, int role) const
     }
 }
 
+QList<SearchResult>
+HModuleModel::getAllRoutine()
+{
+    QString displayName = m_displayName;
+    int modellen        = m_models.length();
+    if (modellen == 0) {
+        return {{m_displayName, {}}};
+    }
+    QList<SearchResult> results;
+    for (int index = 0; index < modellen; index++) {
+        auto routines = m_models[index]->getAllRoutine();
+        for (auto routine : routines) {
+            QString searchName     = QString("%1 -> %2").arg(displayName).arg(routine.display);
+            QList<int> routinePath = routine.routine;
+            routinePath.push_front(index);
+            results.push_back({searchName, routinePath});
+        }
+    }
+    return results;
+}
+
 QHash<int, QByteArray>
 HModuleModel::roleNames() const
 {
@@ -203,7 +224,7 @@ HModuleModel::roleNames() const
 }
 
 int
-HModuleModel::insert_model(BaseModule *object, const QString &parentModule)
+HModuleModel::insertModel(BaseModule *object, const QString &parentModule)
 {
     if (parentModule == name()) {
         if (object->type() == "base") {
@@ -224,7 +245,7 @@ HModuleModel::insert_model(BaseModule *object, const QString &parentModule)
         return SUCCESSED;
     }
     for (auto model : models()) {
-        if (Interfaces::insert_model(model, object, parentModule) == 0) {
+        if (Interfaces::insertModel(model, object, parentModule) == 0) {
             setNotify(true);
             return SUCCESSED;
         }
@@ -302,11 +323,11 @@ VModuleModel::rowCount(const QModelIndex &index) const
 QVariant
 VModuleModel::data(const QModelIndex &index, int role) const
 {
-    return get_model_data(index.row(), role);
+    return getModelData(index.row(), role);
 }
 
 QVariant
-VModuleModel::get_model_data(int row, int role) const
+VModuleModel::getModelData(int row, int role) const
 {
     const BaseModule *data = m_models[row];
     switch (role) {
@@ -328,7 +349,7 @@ VModuleModel::roleNames() const
 }
 
 int
-VModuleModel::insert_model(BaseModule *object, const QString &parentModule)
+VModuleModel::insertModel(BaseModule *object, const QString &parentModule)
 {
     if (parentModule == name()) {
         if (object->type() == "base") {
@@ -349,7 +370,7 @@ VModuleModel::insert_model(BaseModule *object, const QString &parentModule)
         return SUCCESSED;
     }
     for (auto model : models()) {
-        if (Interfaces::insert_model(model, object, parentModule) == SUCCESSED) {
+        if (Interfaces::insertModel(model, object, parentModule) == SUCCESSED) {
             setNotify(true);
             return SUCCESSED;
         }
@@ -369,6 +390,27 @@ VModuleModel::setNotify([[maybe_unused]] bool notify)
     }
     m_isNotify = false;
     Q_EMIT isNotifyChanged(m_isNotify);
+}
+
+QList<SearchResult>
+VModuleModel::getAllRoutine()
+{
+    QString displayName = m_displayName;
+    int modellen        = m_models.length();
+    if (modellen == 0) {
+        return {{m_displayName, {}}};
+    }
+    QList<SearchResult> results;
+    for (int index = 0; index < modellen; index++) {
+        auto routines = m_models[index]->getAllRoutine();
+        for (auto routine : routines) {
+            QString searchName     = QString("%1 -> %2").arg(displayName).arg(routine.display);
+            QList<int> routinePath = routine.routine;
+            routinePath.push_front(index);
+            results.push_back({searchName, routinePath});
+        }
+    }
+    return results;
 }
 
 QDebug
@@ -412,6 +454,16 @@ operator<<(QDebug d, const VModuleModel *model)
       << "name: " << model->name() << ","
       << "displayName: " << model->displayName() << ","
       << "models: " << model->models() << "}";
+    return d;
+}
+QDebug
+operator<<(QDebug d, const SearchResult &result)
+{
+    d << result.display << "     ";
+    d << "Top ";
+    for (auto routine : result.routine) {
+        d << "->" << routine;
+    }
     return d;
 }
 }
