@@ -1,4 +1,3 @@
-import "."
 import "components"
 
 import QtQuick 2.15
