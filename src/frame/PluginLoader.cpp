@@ -35,10 +35,14 @@ PluginModel::insert(Interfaces::SearchResult &result)
 QVariant
 PluginModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() < rowCount()) {
+    switch (role) {
+    case Display:
         return m_results[index.row()].display;
+    case Routine:
+        return QVariant::fromValue(m_results[index.row()].routine);
+    default:
+        return QVariant();
     }
-    return QVariant();
 }
 
 int
@@ -50,7 +54,7 @@ PluginModel::rowCount(const QModelIndex &) const
 QHash<int, QByteArray>
 PluginModel::roleNames() const
 {
-    static const QHash<int, QByteArray> roles{{Display, "displayName"}};
+    static const QHash<int, QByteArray> roles{{Display, "displayName"}, {Routine, "routine"}};
     return roles;
 }
 
@@ -75,7 +79,6 @@ PluginLoader::getModel(const QString &filter)
 {
     if (filter.isEmpty()) {
         resetModel();
-        return;
     }
     if (filter.contains("\\")) {
         return;

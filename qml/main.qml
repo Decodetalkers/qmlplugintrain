@@ -13,18 +13,24 @@ Dtk.ApplicationWindow {
     }
 
     header: Dtk.TitleBar {
-        id: searchedit
+        id: header
         enableInWindowBlendBlur: true
 
         content: Item {
             Dtk.SearchEdit {
+                id: searchedit
                 anchors.centerIn: parent
                 width: 300
                 onTextChanged: {
                     menu.open()
                     PluginLoader.getModel(text)
+                    if (text == "") {
+                        searchedit.focus = false
+                        menu.close()
+                    }
                 }
                 onAccepted: {
+                    searchedit.focus = false
                     menu.close()
                     PluginLoader.getModel("")
                 }
@@ -36,13 +42,17 @@ Dtk.ApplicationWindow {
 
     Menu {
         id: menu
+        focus: false
         width: 300
-        x: searchedit.width / 2 - 165
-        y: searchedit.y + searchedit.height
+        x: header.width / 2 - 165
+        y: header.y + header.height
         Repeater {
             model: PluginLoader.searchPattern
             MenuItem {
                 text: model.displayName
+                onTriggered : {
+                    console.log(model.routine)
+                }
             }
         }
     }
