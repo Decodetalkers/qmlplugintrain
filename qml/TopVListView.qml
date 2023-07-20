@@ -149,7 +149,21 @@ Row {
 
     }
 
+    function jump(index) {
+        leftview.currentIndex = index[0]
+        index.shift()
+        if (index.length > 0) {
+            if (page.model[leftview.currentIndex].type === "vmodule") {
+                loader.item.jump(index);
+                return
+            }
+            if (page.model[leftview.currentIndex].type === "hmodule")
+                loader.item.jump(index)
+        }
+    }
+
     Loader {
+        id: loader
         sourceComponent: {
             if (leftview.currentIndex < 0)
                 return welcomedefault;

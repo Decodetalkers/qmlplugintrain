@@ -8,6 +8,7 @@ Dtk.ApplicationWindow {
     Dtk.DWindow.enabled: true
 
     TopVListView {
+        id: mainlistview
         anchors.fill: parent
         model: PluginLoader.modules
     }
@@ -51,7 +52,7 @@ Dtk.ApplicationWindow {
             MenuItem {
                 text: model.displayName
                 onTriggered : {
-                    console.log(model.routine)
+                    mainlistview.jump(model.routine)
                 }
             }
         }

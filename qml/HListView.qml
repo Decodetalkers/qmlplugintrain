@@ -13,6 +13,7 @@ Page {
     property alias pageWidth: page.width
 
     Loader {
+        id: loader
         sourceComponent: {
             if (header.currentIndex < 0)
                 return welcomeDefault;
@@ -24,6 +25,19 @@ Page {
                 return vViewComponent;
 
             return hViewComponent;
+        }
+    }
+
+    function jump(index) {
+        header.currentIndex = index[0]
+        index.shift()
+        if (index.length > 0) {
+            if (page.model[header.currentIndex].type === "vmodule") {
+                loader.item.jump(index);
+                return
+            }
+            if (page.model[header.currentIndex].type === "hmodule")
+                loader.item.jump(index);
         }
     }
 
