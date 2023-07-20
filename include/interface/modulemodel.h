@@ -9,13 +9,20 @@
 #include <variant>
 
 namespace Interfaces {
+
+struct SearchResult
+{
+    QString display;
+    QList<int> routine;
+};
+
 class BaseModuleModel;
 class HModuleModel;
 class VModuleModel;
 class BaseModule;
 
 int
-insert_model(BaseModule *topModule, BaseModule *object, const QString &parentModule);
+insertModel(BaseModule *topModule, BaseModule *object, const QString &parentModule);
 
 class BaseModule : public QAbstractListModel
 {
@@ -23,14 +30,15 @@ class BaseModule : public QAbstractListModel
 
 public:
     static BaseModule *fromJson(QJsonObject object);
-    virtual QString type() const                                              = 0;
-    virtual QString displayName() const                                       = 0;
-    virtual QString description() const                                       = 0;
-    virtual QString icon() const                                              = 0;
-    virtual int insert_model(BaseModule *object, const QString &parentModule) = 0;
-    virtual bool isNotify() const                                             = 0;
-    virtual bool isSpecial() const                                            = 0;
-    virtual std::optional<QString> upModule()                                 = 0;
+    virtual QString type() const                                             = 0;
+    virtual QString displayName() const                                      = 0;
+    virtual QString description() const                                      = 0;
+    virtual QString icon() const                                             = 0;
+    virtual int insertModel(BaseModule *object, const QString &parentModule) = 0;
+    virtual bool isNotify() const                                            = 0;
+    virtual bool isSpecial() const                                           = 0;
+    virtual std::optional<QString> upModule()                                = 0;
+    virtual QList<SearchResult> getAllRoutine()                              = 0;
 
 public slots:
     virtual void setNotify(bool notify) = 0;
@@ -79,9 +87,11 @@ public:
     Q_PROPERTY(bool isSpecial READ isSpecial NOTIFY isSpecialChanged)
     inline bool isSpecial() const override { return m_isSpecial; }
 
-    int insert_model(BaseModule *object, const QString &parentModule) override { return -1; };
+    int insertModel(BaseModule *object, const QString &parentModule) override { return -1; };
 
     inline std::optional<QString> upModule() override { return m_upModule; }
+
+    QList<SearchResult> getAllRoutine() override { return {{m_displayName, {}}}; }
 
 public slots:
     void setNotify(bool notify) override;
@@ -163,13 +173,14 @@ public:
 
     inline std::optional<QString> upModule() override { return m_upModule; }
 
-    int insert_model(BaseModule *object, const QString &parentModule) override;
+    int insertModel(BaseModule *object, const QString &parentModule) override;
+    QList<SearchResult> getAllRoutine() override;
 
 public slots:
     void setNotify(bool notify) override;
 
 private:
-    QVariant get_model_data(int row, int role) const;
+    QVariant getModelData(int row, int role) const;
 
 private:
     int rowCount(const QModelIndex & = QModelIndex()) const override;
@@ -243,10 +254,11 @@ public:
 
     inline std::optional<QString> upModule() override { return m_upModule; }
 
-    int insert_model(BaseModule *object, const QString &parentModule) override;
+    int insertModel(BaseModule *object, const QString &parentModule) override;
+    QList<SearchResult> getAllRoutine() override;
 
 private:
-    QVariant get_model_data(int row, int role) const;
+    QVariant getModelData(int row, int role) const;
 
 private:
     int rowCount(const QModelIndex & = QModelIndex()) const override;
@@ -284,5 +296,6 @@ QDebug
 operator<<(QDebug d, const HModuleModel *model);
 QDebug
 operator<<(QDebug d, const VModuleModel *model);
-
+QDebug
+operator<<(QDebug d, const SearchResult &result);
 }
