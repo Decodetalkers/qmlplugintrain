@@ -8,8 +8,20 @@ Dtk.ApplicationWindow {
     visible: true
     Dtk.DWindow.enabled: true
 
+    TopGridView {
+        id: mainGridView
+        anchors.fill: parent
+        model: PluginLoader.modules
+        onClickElemented :function (index) {
+            mainGridView.visible = false
+            mainlistview.setIndex(index)
+            mainlistview.visible = true
+        }
+    }
+
     TopVListView {
         id: mainlistview
+        visible: false
         anchors.fill: parent
         model: PluginLoader.modules
     }
@@ -23,7 +35,8 @@ Dtk.ApplicationWindow {
             Dtk.IconButton {
                 id: unshow
                 icon.name: "arrow_ordinary_left"
-                visible: true
+                visible: mainlistview.visible
+                enabled: mainlistview.visible
                 hoverEnabled: true
                 onClicked: {
                     mainlistview.leftvisible = !mainlistview.leftvisible
@@ -36,14 +49,17 @@ Dtk.ApplicationWindow {
             Dtk.IconButton {
                 id: preBtn
                 icon.name: "arrow_ordinary_left"
-                visible: true
+                visible: mainlistview.visible
+                enabled: mainlistview.visible
                 hoverEnabled: true
-                onClicked: {
-                }
-
                 Dtk.ToolTip {
                     visible: preBtn.hovered
                     text: qsTr("Previous page")
+                }
+
+                onClicked: {
+                    mainlistview.visible = false
+                    mainGridView.visible = true
                 }
             }
             Dtk.SearchEdit {
@@ -80,6 +96,8 @@ Dtk.ApplicationWindow {
             MenuItem {
                 text: model.displayName
                 onTriggered : {
+                    mainGridView.visible = false
+                    mainlistview.visible = true
                     mainlistview.jump(model.routine)
                 }
             }

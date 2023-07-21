@@ -151,6 +151,10 @@ Row {
 
     }
 
+    function setIndex(index) {
+        leftview.currentIndex = index
+    }
+
     function jump(index) {
         leftview.currentIndex = index[0]
         index.shift()
