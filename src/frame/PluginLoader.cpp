@@ -1,14 +1,11 @@
 #include "PluginLoader.h"
 
-#include <QJsonArray>
 #include <baseInterface.h>
 
 #include <QCoreApplication>
 #include <QDir>
 #include <QPluginLoader>
 #include <QRegularExpression>
-#include <QStandardItem>
-#include <QTimer>
 #include <QUrl>
 
 PluginModel::PluginModel(QObject *parent)

@@ -10,8 +10,10 @@
 class PluginModel final : public QAbstractListModel
 {
     Q_OBJECT
+
 public:
     explicit PluginModel(QObject *parent = nullptr);
+
     enum RoutineRole
     {
         Display = Qt::DisplayRole,
@@ -34,6 +36,7 @@ private:
 class PluginLoader final : public QObject
 {
     Q_OBJECT
+
 public:
     explicit PluginLoader(QObject *parent = nullptr);
 

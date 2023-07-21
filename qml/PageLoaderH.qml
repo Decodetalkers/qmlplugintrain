@@ -27,6 +27,7 @@ Loader {
         property: "pageHeight"
         value: loader.pageHeight
     }
+
     function jump(index) {
         loader.item.jump(index)
     }
