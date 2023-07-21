@@ -1,6 +1,7 @@
 import Marine.Global 1.0
 import QtQuick 2.4
 import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0 as Dtk
 
 Dtk.ApplicationWindow {
@@ -17,11 +18,38 @@ Dtk.ApplicationWindow {
         id: header
         enableInWindowBlendBlur: true
 
-        content: Item {
+        content: RowLayout {
+            spacing: 10
+            Dtk.IconButton {
+                id: unshow
+                icon.name: "arrow_ordinary_left"
+                visible: true
+                hoverEnabled: true
+                onClicked: {
+                    mainlistview.leftvisible = !mainlistview.leftvisible
+                }
+                Dtk.ToolTip {
+                    visible: unshow.hovered
+                    text: qsTr("unshow the leftview")
+                }
+            }
+            Dtk.IconButton {
+                id: preBtn
+                icon.name: "arrow_ordinary_left"
+                visible: true
+                hoverEnabled: true
+                onClicked: {
+                }
+
+                Dtk.ToolTip {
+                    visible: preBtn.hovered
+                    text: qsTr("Previous page")
+                }
+            }
             Dtk.SearchEdit {
                 id: searchedit
-                anchors.centerIn: parent
-                width: 300
+                Layout.preferredWidth: 300
+                Layout.alignment: Qt.AlignCenter
                 onTextChanged: {
                     menu.open()
                     PluginLoader.getModel(text)
