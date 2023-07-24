@@ -9,7 +9,6 @@ Dtk.ApplicationWindow {
     Dtk.DWindow.enabled: true
 
     TopGridView {
-        topMargin: 10
         id: mainGridView
         anchors.fill: parent
         model: PluginLoader.modules

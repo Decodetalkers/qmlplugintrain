@@ -6,7 +6,6 @@
 #include <QUrl>
 
 #include <optional>
-#include <variant>
 
 namespace Interfaces {
 
