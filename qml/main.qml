@@ -9,6 +9,7 @@ Dtk.ApplicationWindow {
     Dtk.DWindow.enabled: true
 
     TopGridView {
+        topMargin: 10
         id: mainGridView
         anchors.fill: parent
         model: PluginLoader.modules
@@ -30,11 +31,11 @@ Dtk.ApplicationWindow {
         id: header
         enableInWindowBlendBlur: true
 
-        content: RowLayout {
+        leftContent : RowLayout {
             spacing: 10
             Dtk.IconButton {
                 id: unshow
-                icon.name: "arrow_ordinary_left"
+                icon.name: "window_sidebar"
                 visible: mainlistview.visible
                 enabled: mainlistview.visible
                 hoverEnabled: true
@@ -62,10 +63,12 @@ Dtk.ApplicationWindow {
                     mainGridView.visible = true
                 }
             }
+        }
+        content: Item {
             Dtk.SearchEdit {
                 id: searchedit
-                Layout.preferredWidth: 300
-                Layout.alignment: Qt.AlignCenter
+                width: 300
+                anchors.centerIn: parent
                 onTextChanged: {
                     menu.open()
                     PluginLoader.getModel(text)

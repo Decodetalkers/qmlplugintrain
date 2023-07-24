@@ -3,4 +3,7 @@
     <qresource prefix="/">
         <file>icons/deepin.png</file>
     </qresource>
+    <qresource prefix="icons/deepin/builtin">
+        <file>icons/window_sidebar.dci</file>
+    </qresource>
 </RCC>
