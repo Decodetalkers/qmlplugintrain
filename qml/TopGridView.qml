@@ -57,7 +57,7 @@ ScrollView {
             property bool isSpecial: topp.model.length > 0 ? topp.model[0].isSpecial : false
 
             columnSpacing: 0
-            rowSpacing: 0
+            rowSpacing: 20
 
             Repeater {
                 id: repeat
@@ -66,7 +66,7 @@ ScrollView {
                     width: 200
                     height: {
                         if (index == 0 && modelData.isSpecial)
-                            return 400;
+                            return 420;
 
                         return 200;
                     }
