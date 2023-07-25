@@ -17,15 +17,15 @@ ScrollView {
         id: control
 
         property int layerwidth: {
-            if (topp.width < 200)
-                return 200;
+            if (topp.width < 220)
+                return 220;
 
             var length = topp.model.length;
             if (topp.width > 2000 && length > 10)
                 return 2000;
 
-            var maxwidth = length * 200;
-            var windowmax = topp.width - topp.width % 200;
+            var maxwidth = length * 220 - 20;
+            var windowmax = topp.width - (topp.width + 20) % 220;
             return maxwidth > windowmax ? windowmax : maxwidth;
         }
 
@@ -56,7 +56,7 @@ ScrollView {
 
             property bool isSpecial: topp.model.length > 0 ? topp.model[0].isSpecial : false
 
-            columnSpacing: 0
+            columnSpacing: 20
             rowSpacing: 20
 
             Repeater {
@@ -74,7 +74,7 @@ ScrollView {
                         if (index == 0)
                             return 0;
 
-                        var itemcount = control.layerwidth / 200;
+                        var itemcount = (control.layerwidth + 20) / 220;
                         if (index < itemcount)
                             return index;
 
@@ -88,7 +88,7 @@ ScrollView {
                         if (index == 0)
                             return 0;
 
-                        var itemcount = control.layerwidth / 200;
+                        var itemcount = (control.layerwidth + 20) / 220;
                         if (index < itemcount)
                             return 0;
 
