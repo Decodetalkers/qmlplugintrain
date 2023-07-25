@@ -11,6 +11,8 @@ Row {
 
     property alias model: leftview.model
 
+    property bool leftvisible: true
+
     Rectangle {
         color: Dtk.DTK.palette.shadow
         width: leftview.width
@@ -20,8 +22,8 @@ Row {
             id: leftview
 
             height: page.height
-            width: leftview.currentIndex < 0 ? 0 : 270
-            visible: leftview.currentIndex >= 0
+            width: leftview.visible ? 270 : 0
+            visible: leftview.currentIndex >= 0 && page.leftvisible
             focus: true
             spacing: 10
             leftMargin: 5
@@ -147,6 +149,10 @@ Row {
             pageWidth: page.width - leftview.width
         }
 
+    }
+
+    function setIndex(index) {
+        leftview.currentIndex = index
     }
 
     function jump(index) {
