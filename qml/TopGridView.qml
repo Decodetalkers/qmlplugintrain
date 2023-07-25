@@ -15,40 +15,54 @@ ScrollView {
 
     Control {
         id: control
-        width: {
-            if (topp.width > 2000)
-                return 2000;
 
+        property int layerwidth: {
             if (topp.width < 200)
                 return 200;
 
-            return topp.width - topp.width % 200;
+            var length = topp.model.length;
+            if (topp.width > 2000 && length > 10)
+                return 2000;
+
+            var maxwidth = length * 200;
+            var windowmax = topp.width - topp.width % 200;
+            return maxwidth > windowmax ? windowmax : maxwidth;
         }
+
+        topPadding: 10
+        leftPadding: (topp.width - control.layerwidth) / 2
+        rightPadding: (topp.width - control.layerwidth) / 2
+        width: topp.width
         height: {
             var len = topp.model.length;
-            var itemcount = layout.width / 200;
+            var itemcount = topp.width / 200;
             if (layout.isSpecial) {
                 var realcount = len + 1;
-                var h =  realcount / itemcount
-                if (h % 1 == 0) {
-                    h =  h | 0
-                } else  {
-                    h = h | 0 + 1
-                }
+                var h = realcount / itemcount;
+                if (h % 1 == 0)
+                    h = h | 0;
+                else
+                    h = h | 0 + 1;
+                if (h == 1)
+                    return 400;
+
                 return h * 200;
             }
-
             return len / itemcount * 200;
         }
+
         contentItem: GridLayout {
             id: layout
 
             property bool isSpecial: topp.model.length > 0 ? topp.model[0].isSpecial : false
 
+            columnSpacing: 0
+            rowSpacing: 0
+
             Repeater {
                 id: repeat
 
-                Button {
+                Rectangle {
                     width: 200
                     height: {
                         if (index == 0 && modelData.isSpecial)
@@ -60,7 +74,7 @@ ScrollView {
                         if (index == 0)
                             return 0;
 
-                        var itemcount = control.width / 200;
+                        var itemcount = control.layerwidth / 200;
                         if (index < itemcount)
                             return index;
 
@@ -74,8 +88,7 @@ ScrollView {
                         if (index == 0)
                             return 0;
 
-                        var itemcount = control.width / 200;
-
+                        var itemcount = control.layerwidth / 200;
                         if (index < itemcount)
                             return 0;
 
@@ -93,18 +106,23 @@ ScrollView {
                         return 1;
                     }
 
-                    icon {
-                        name: modelData.icon
-                        width: 200
-                        height: {
-                            if (index == 0 && modelData.isSpecial)
-                                return 400;
-
-                            return 200;
+                    Button {
+                        anchors.fill: parent
+                        onClicked: {
+                            topp.clickElemented(index);
                         }
-                    }
-                    onClicked: {
-                        topp.clickElemented(index)
+
+                        icon {
+                            name: modelData.icon
+                            width: 200
+                            height: {
+                                if (index == 0 && modelData.isSpecial)
+                                    return 400;
+
+                                return 200;
+                            }
+                        }
+
                     }
 
                 }
