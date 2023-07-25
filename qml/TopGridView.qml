@@ -8,6 +8,11 @@ ScrollView {
     id: topp
 
     property alias model: repeat.model
+    readonly property int gridSpacing: 20
+    readonly property int elementHeight: 100
+    readonly property int elementWidth: 400
+    readonly property int elementHeightWidthSpacing: topp.gridSpacing + topp.elementHeight
+    readonly property int elementWidthWidthSpacing: topp.gridSpacing + topp.elementWidth
 
     signal clickElemented(int index)
 
@@ -17,15 +22,15 @@ ScrollView {
         id: control
 
         property int layerwidth: {
-            if (topp.width < 220)
-                return 220;
+            if (topp.width < topp.elementWidth + topp.gridSpacing)
+                return topp.elementWidth + topp.gridSpacing;
 
             var length = topp.model.length;
             if (topp.width > 2000 && length > 10)
                 return 2000;
 
-            var maxwidth = length * 220 - 20;
-            var windowmax = topp.width - (topp.width + 20) % 220;
+            var maxwidth = length * (topp.elementWidth + topp.gridSpacing) - topp.gridSpacing;
+            var windowmax = topp.width - (topp.width + topp.gridSpacing) % (topp.elementWidth + topp.gridSpacing);
             return maxwidth > windowmax ? windowmax : maxwidth;
         }
 
@@ -44,11 +49,11 @@ ScrollView {
                 else
                     h = h | 0 + 1;
                 if (h == 1)
-                    return 400;
+                    return 2 * topp.elementHeightWidthSpacing;
 
-                return h * 200;
+                return h * topp.elementHeightWidthSpacing;
             }
-            return len / itemcount * 200;
+            return len / itemcount * topp.elementHeightWidthSpacing;
         }
 
         contentItem: GridLayout {
@@ -63,18 +68,18 @@ ScrollView {
                 id: repeat
 
                 Rectangle {
-                    width: 200
+                    width: topp.elementWidth
                     height: {
                         if (index == 0 && modelData.isSpecial)
-                            return 420;
+                            return topp.elementHeight * 2 + topp.gridSpacing;
 
-                        return 200;
+                        return topp.elementHeight;
                     }
                     Layout.column: {
                         if (index == 0)
                             return 0;
 
-                        var itemcount = (control.layerwidth + 20) / 220;
+                        var itemcount = (control.layerwidth + topp.gridSpacing) / topp.elementWidthWidthSpacing;
                         if (index < itemcount)
                             return index;
 
@@ -88,7 +93,7 @@ ScrollView {
                         if (index == 0)
                             return 0;
 
-                        var itemcount = (control.layerwidth + 20) / 220;
+                        var itemcount = (control.layerwidth + topp.gridSpacing) / topp.elementWidthWidthSpacing;
                         if (index < itemcount)
                             return 0;
 
@@ -111,15 +116,59 @@ ScrollView {
                         onClicked: {
                             topp.clickElemented(index);
                         }
+                        ColumnLayout {
+                            anchors.fill: parent
+                            visible: index == 0 && layout.isSpecial
+                            Dtk.QtIcon {
+                                Layout.alignment: Qt.AlignHCenter
+                                name: modelData.icon
+                                sourceSize: "80x80"
+                            }
+                            Text {
+                                Layout.alignment: Qt.AlignHCenter
+                                text: modelData.displayName
+                                font.pointSize: 20
+                                font.bold: true
+                            }
 
-                        icon {
-                            name: modelData.icon
-                            width: 200
-                            height: {
-                                if (index == 0 && modelData.isSpecial)
-                                    return 400;
+                            Text {
+                                Layout.alignment: Qt.AlignHCenter
+                                text: modelData.description
+                                font.pointSize: 10
+                                color: "gray"
+                            }
+                            Item {
+                                Layout.preferredHeight: 10
+                            }
 
-                                return 200;
+                        }
+                        RowLayout {
+                            visible: index != 0 || !layout.isSpecial
+                            anchors.fill: parent
+                            Item {
+                                Layout.preferredWidth: 10
+                            }
+                            Dtk.QtIcon {
+                                name: modelData.icon
+                                sourceSize: "60x60"
+                            }
+                            ColumnLayout {
+                                Layout.alignment: Qt.AlignVCenter
+                                Layout.fillWidth: true
+                                Text {
+                                    text: modelData.displayName
+                                    font.pointSize: 20
+                                    font.bold: true
+                                }
+
+                                Text {
+                                    text: modelData.description
+                                    font.pointSize: 10
+                                    color: "gray"
+                                }
+                            }
+                            Item {
+                                Layout.fillWidth: true
                             }
                         }
 
