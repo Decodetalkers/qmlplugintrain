@@ -70,13 +70,13 @@ Row {
                 Column {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.fillWidth: true
-                    Text {
+                    Label {
                         text: displayName.elidedText
                         font.pointSize: 14
                         font.bold: true
                     }
 
-                    Text {
+                    Label {
                         visible: modelData.isSpecial
                         text: description.elidedText
                         font.pointSize: 6

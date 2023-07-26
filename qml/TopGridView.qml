@@ -149,14 +149,14 @@ ScrollView {
                                 name: modelData.icon
                                 sourceSize: "90x90"
                             }
-                            Text {
+                            Label {
                                 Layout.alignment: Qt.AlignHCenter
                                 text: displayName.elidedText
                                 font.pointSize: 20
                                 font.bold: true
                             }
 
-                            Text {
+                            Label {
                                 Layout.alignment: Qt.AlignHCenter
                                 text: description.elidedText
                                 font.pointSize: 10
@@ -196,13 +196,13 @@ ScrollView {
                             ColumnLayout {
                                 Layout.alignment: Qt.AlignVCenter
                                 Layout.fillWidth: true
-                                Text {
+                                Label {
                                     text: displayName1.elidedText
                                     font.pointSize: 20
                                     font.bold: true
                                 }
 
-                                Text {
+                                Label {
                                     text: description2.elidedText
                                     font.pointSize: 10
                                     color: "gray"
