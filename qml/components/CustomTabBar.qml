@@ -33,8 +33,16 @@ ScrollView {
                     onClicked : {
                         header.currentIndex = index
                     }
+                    indicator: RowLayout {
+                        RedDot {
+                            visible: modelData.isNotify
+                        }
+
+                        Item {
+                            Layout.preferredWidth: 10
+                        }
+                    }
                     contentItem: RowLayout {
-                        width: 10
                         anchors.fill: parent
                         Item {
                             Layout.preferredWidth: 10
@@ -50,14 +58,6 @@ ScrollView {
 
                         Item {
                             Layout.fillWidth: true
-                        }
-
-                        RedDot {
-                            visible: modelData.isNotify
-                        }
-
-                        Item {
-                            Layout.preferredWidth: 10
                         }
                     }
                 }
