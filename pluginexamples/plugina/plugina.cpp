@@ -32,7 +32,7 @@ PluginA::topModule() const
     return Interfaces::BaseModule::fromJson(
       {{"objectName", "hmodule"},
        {"name", "testa"},
-       {"displayName", QObject::tr("testa")},
+       {"displayName", QObject::tr("testa keyboard and lanugage")},
        {"icon", "vlc"},
        {"models", std::invoke([]() -> QJsonArray {
             QJsonArray array;

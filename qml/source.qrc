@@ -10,5 +10,6 @@
         <file>TopGridView.qml</file>
         <file>WelcomePage.qml</file>
         <file>components/RedDot.qml</file>
+        <file>components/CustomTabBar.qml</file>
     </qresource>
 </RCC>

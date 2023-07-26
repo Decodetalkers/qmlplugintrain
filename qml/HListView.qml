@@ -2,9 +2,8 @@ import "components"
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.1
-
 import QtQml 2.15
+
 Page {
     id: page
 
@@ -15,13 +14,13 @@ Page {
     Loader {
         id: loader
         sourceComponent: {
-            if (header.currentIndex < 0)
+            if (head.currentIndex < 0)
                 return welcomeDefault;
 
-            if (page.model[header.currentIndex].type === "base")
+            if (page.model[head.currentIndex].type === "base")
                 return baseView;
 
-            if (page.model[header.currentIndex].type === "vmodule")
+            if (page.model[head.currentIndex].type === "vmodule")
                 return vViewComponent;
 
             return hViewComponent;
@@ -29,14 +28,14 @@ Page {
     }
 
     function jump(index) {
-        header.currentIndex = index[0]
+        head.currentIndex = index[0]
         index.shift()
         if (index.length > 0) {
-            if (page.model[header.currentIndex].type === "vmodule") {
+            if (page.model[head.currentIndex].type === "vmodule") {
                 loader.item.jump(index);
                 return
             }
-            if (page.model[header.currentIndex].type === "hmodule")
+            if (page.model[head.currentIndex].type === "hmodule")
                 loader.item.jump(index);
         }
     }
@@ -47,7 +46,7 @@ Page {
         Loader {
             id: baseLoader
 
-            source: page.model[header.currentIndex].url
+            source: page.model[head.currentIndex].url
 
             Binding {
                 target: baseLoader.item
@@ -64,7 +63,7 @@ Page {
             Binding {
                 target: baseLoader.item
                 property: "rootModel"
-                value: page.model[header.currentIndex]
+                value: page.model[head.currentIndex]
                 restoreMode: Binding.RestoreBindingOrValue
             }
 
@@ -76,7 +75,7 @@ Page {
         id: vViewComponent
 
         PageLoaderV {
-            model: page.model[header.currentIndex]
+            model: page.model[head.currentIndex]
             pageHeight: page.height - header.height
             pageWidth: page.width
         }
@@ -97,39 +96,14 @@ Page {
         id: hViewComponent
 
         PageLoaderH {
-            model: page.model[header.currentIndex]
+            model: page.model[head.currentIndex]
             pageHeight: page.height - header.height
             pageWidth: page.width
         }
 
     }
 
-    header: TabBar {
-        id: header
-
-        Repeater {
-            id: head
-
-            TabButton {
-                contentItem: RowLayout {
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
-                        text: modelData.displayName
-                    }
-
-                    RedDot {
-                        visible: modelData.isNotify
-                    }
-
-                    Item {
-                        Layout.preferredWidth: 10
-                    }
-                }
-            }
-
-        }
-
+    header: CustomTabBar {
+        id: head
     }
-
 }

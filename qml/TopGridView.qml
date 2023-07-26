@@ -4,6 +4,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.11
 import org.deepin.dtk 1.0 as Dtk
 
+import "components"
+
 ScrollView {
     id: topp
 
@@ -116,24 +118,47 @@ ScrollView {
                         onClicked: {
                             topp.clickElemented(index);
                         }
+                        indicator: RowLayout {
+                            RedDot {
+                                visible: modelData.isNotify
+                            }
+                            Item {
+                                Layout.preferredWidth: 20
+                            }
+                        }
                         ColumnLayout {
                             anchors.fill: parent
                             visible: index == 0 && layout.isSpecial
+                            TextMetrics {
+                                id: description
+                                elide: Text.ElideMiddle
+                                elideWidth: topp.elementWidth
+                                font.pointSize: 10
+                                text: modelData.description
+                            }
+                            TextMetrics {
+                                id: displayName
+                                elide: Text.ElideRight
+                                elideWidth: topp.elementWidth
+                                font.pointSize: 20
+                                font.bold: true
+                                text: modelData.displayName
+                            }
                             Dtk.QtIcon {
                                 Layout.alignment: Qt.AlignHCenter
                                 name: modelData.icon
-                                sourceSize: "80x80"
+                                sourceSize: "90x90"
                             }
                             Text {
                                 Layout.alignment: Qt.AlignHCenter
-                                text: modelData.displayName
+                                text: displayName.elidedText
                                 font.pointSize: 20
                                 font.bold: true
                             }
 
                             Text {
                                 Layout.alignment: Qt.AlignHCenter
-                                text: modelData.description
+                                text: description.elidedText
                                 font.pointSize: 10
                                 color: "gray"
                             }
@@ -145,6 +170,22 @@ ScrollView {
                         RowLayout {
                             visible: index != 0 || !layout.isSpecial
                             anchors.fill: parent
+
+                            TextMetrics {
+                                id: description2
+                                elide: Text.ElideRight
+                                elideWidth: topp.elementWidth - 110
+                                font.pointSize: 10
+                                text: modelData.description
+                            }
+                            TextMetrics {
+                                id: displayName1
+                                elide: Text.ElideRight
+                                elideWidth: topp.elementWidth - 110
+                                font.pointSize: 20
+                                font.bold: true
+                                text: modelData.displayName
+                            }
                             Item {
                                 Layout.preferredWidth: 10
                             }
@@ -156,13 +197,13 @@ ScrollView {
                                 Layout.alignment: Qt.AlignVCenter
                                 Layout.fillWidth: true
                                 Text {
-                                    text: modelData.displayName
+                                    text: displayName1.elidedText
                                     font.pointSize: 20
                                     font.bold: true
                                 }
 
                                 Text {
-                                    text: modelData.description
+                                    text: description2.elidedText
                                     font.pointSize: 10
                                     color: "gray"
                                 }

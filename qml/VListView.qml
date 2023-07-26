@@ -29,14 +29,30 @@ Row {
         bottomMargin: 5
 
         delegate: ItemDelegate {
+            id: dl
             width: 260
             height: modelData.isSpecial ? 60 : 50
+            property int textWidth: modelData.isSpecial ? width - 95 : width - 85
             checked: ListView.isCurrentItem
             highlighted: ListView.isCurrentItem
             onClicked: {
                 leftview.currentIndex = index;
             }
-
+            TextMetrics {
+                id: description
+                elide: Text.ElideRight
+                elideWidth: dl.textWidth
+                font.pointSize: 7
+                text: modelData.description
+            }
+            TextMetrics {
+                id: displayName
+                elide: Text.ElideRight
+                elideWidth: dl.textWidth
+                font.pointSize: 15
+                font.bold: true
+                text: modelData.displayName
+            }
             RowLayout {
                 anchors.fill: parent
                 Layout.topMargin: 5
@@ -55,14 +71,14 @@ Row {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.fillWidth: true
                     Text {
-                        text: modelData.displayName
+                        text: displayName.elidedText
                         font.pointSize: 14
                         font.bold: true
                     }
 
                     Text {
                         visible: modelData.isSpecial
-                        text: modelData.description
+                        text: description.elidedText
                         font.pointSize: 6
                         color: "gray"
                     }
@@ -143,7 +159,6 @@ Row {
             pageHeight: page.height
             pageWidth: page.width - leftview.width
         }
-
     }
 
     function jump(index) {
