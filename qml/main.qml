@@ -6,7 +6,7 @@ import org.deepin.dtk 1.0 as Dtk
 
 Dtk.ApplicationWindow {
     visible: true
-    minimumWidth: 500
+    minimumWidth: 1000
     Dtk.DWindow.enabled: true
 
     TopGridView {

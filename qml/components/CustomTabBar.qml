@@ -53,6 +53,7 @@ ScrollView {
                             Layout.fillHeight: true
                             verticalAlignment: Qt.AlignVCenter
                             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                            font.bold : true
                             text: modelData.displayName
                         }
 
