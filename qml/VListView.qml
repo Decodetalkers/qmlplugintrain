@@ -110,6 +110,12 @@ Row {
                 restoreMode: Binding.RestoreNone
             }
 
+            Binding {
+                target: baseLoader.item
+                property: "z"
+                value: page.z - 1
+            }
+
         }
 
     }
@@ -121,6 +127,7 @@ Row {
             model: page.model[leftview.currentIndex]
             pageHeight: page.height
             pageWidth: page.width - leftview.width
+            z: page.z - 1
         }
 
     }
@@ -131,6 +138,7 @@ Row {
         WelcomePage {
             height: page.height
             width: page.width - leftview.width
+            z: page.z - 1
         }
 
     }
@@ -142,6 +150,7 @@ Row {
             model: page.model[leftview.currentIndex]
             pageHeight: page.height
             pageWidth: page.width - leftview.width
+            z: page.z - 1
         }
 
     }

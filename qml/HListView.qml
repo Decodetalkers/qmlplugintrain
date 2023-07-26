@@ -3,8 +3,8 @@ import "components"
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.1
-
 import QtQml 2.15
+
 Page {
     id: page
 
@@ -68,6 +68,12 @@ Page {
                 restoreMode: Binding.RestoreBindingOrValue
             }
 
+            Binding {
+                target: baseLoader.item
+                property: "z"
+                value: page.z - 1
+            }
+
         }
 
     }
@@ -79,6 +85,7 @@ Page {
             model: page.model[header.currentIndex]
             pageHeight: page.height - header.height
             pageWidth: page.width
+            z: page.z -1
         }
 
     }
@@ -89,6 +96,7 @@ Page {
         WelcomePage {
             height: header.height ?  page.height - header.height : page.height
             width: page.width
+            z: page.z -1
         }
 
     }
@@ -100,6 +108,7 @@ Page {
             model: page.model[header.currentIndex]
             pageHeight: page.height - header.height
             pageWidth: page.width
+            z: page.z -1
         }
 
     }

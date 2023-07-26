@@ -22,6 +22,7 @@ Dtk.ApplicationWindow {
 
     TopVListView {
         id: mainlistview
+        z: 999
         visible: false
         anchors.fill: parent
         model: PluginLoader.modules
@@ -29,6 +30,7 @@ Dtk.ApplicationWindow {
 
     header: Dtk.TitleBar {
         id: header
+        z: 1111
         enableInWindowBlendBlur: true
 
         leftContent : RowLayout {
@@ -92,6 +94,7 @@ Dtk.ApplicationWindow {
         id: menu
         focus: false
         width: 300
+        z: 1000
         x: header.width / 2 - 165
         y: header.y + header.height
         Repeater {
