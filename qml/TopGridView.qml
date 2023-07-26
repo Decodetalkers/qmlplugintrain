@@ -147,7 +147,7 @@ ScrollView {
                             Dtk.QtIcon {
                                 Layout.alignment: Qt.AlignHCenter
                                 name: modelData.icon
-                                sourceSize: "80x80"
+                                sourceSize: "90x90"
                             }
                             Text {
                                 Layout.alignment: Qt.AlignHCenter
