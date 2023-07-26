@@ -11,6 +11,8 @@ Page {
     default property alias content: pane.contentItem
 
     Flickable {
+        id: flickable
+        clip: true
         anchors.fill: parent
         contentHeight: pane.implicitHeight
         flickableDirection: Flickable.AutoFlickIfNeeded
@@ -23,6 +25,8 @@ Page {
 
         ScrollIndicator.vertical: ScrollIndicator {
         }
+
+        ScrollBar.vertical: ScrollBar { }
 
     }
 
