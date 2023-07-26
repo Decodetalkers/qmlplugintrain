@@ -6,6 +6,7 @@ import org.deepin.dtk 1.0 as Dtk
 
 Dtk.ApplicationWindow {
     visible: true
+    minimumWidth: 500
     Dtk.DWindow.enabled: true
 
     TopGridView {
@@ -79,7 +80,7 @@ Dtk.ApplicationWindow {
                 onAccepted: {
                     searchedit.focus = false
                     menu.close()
-                    PluginLoader.getModel("")
+                    PluginLoader.resetModel()
                 }
 
             }

@@ -48,6 +48,8 @@ public:
 
     Q_INVOKABLE void getModel(const QString &pattern);
 
+    Q_INVOKABLE void resetModel();
+
     enum RoutineRole
     {
         Display = Qt::DisplayRole,
@@ -61,7 +63,7 @@ signals:
 
 private:
     void setProxy();
-    void resetModel();
+    void initModel();
     QList<Interfaces::SearchResult> getAllRoutine();
     void loadPlugins();
 

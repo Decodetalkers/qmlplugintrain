@@ -61,7 +61,7 @@ PluginLoader::PluginLoader(QObject *parent)
   , m_proxyModel(new QSortFilterProxyModel(this))
 {
     loadPlugins();
-    resetModel();
+    initModel();
     setProxy();
 }
 
@@ -75,7 +75,7 @@ void
 PluginLoader::getModel(const QString &filter)
 {
     if (filter.isEmpty()) {
-        resetModel();
+        initModel();
     }
     if (filter.contains("\\")) {
         return;
@@ -88,6 +88,12 @@ PluginLoader::getModel(const QString &filter)
 
 void
 PluginLoader::resetModel()
+{
+    getModel("");
+}
+
+void
+PluginLoader::initModel()
 {
     m_model->clear();
     for (auto searchResult : getAllRoutine()) {
