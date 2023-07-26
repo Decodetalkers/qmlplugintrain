@@ -3,6 +3,7 @@
 
 import SystemInfo.Base 1.0
 import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.11
 import Marine.Model 1.0
 
@@ -14,11 +15,11 @@ ScrollabelPage {
         spacing: 10
         anchors.horizontalCenter: parent.horizontalCenter
 
-        Text {
+        Label {
             text: LicenseObject.privateLicenseTitle
             Layout.alignment: Qt.AlignHCenter
         }
-        Text {
+        Label {
             text: LicenseObject.privateLicense
             wrapMode: Text.Wrap
             Layout.preferredWidth: column.width

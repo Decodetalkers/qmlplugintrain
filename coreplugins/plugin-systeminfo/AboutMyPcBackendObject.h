@@ -4,6 +4,7 @@
 
 #include <QDebug>
 #include <QObject>
+#include <QUrl>
 
 #include <optional>
 
@@ -19,6 +20,12 @@ public:
     Q_PROPERTY(QString isLaptop READ isLaptop NOTIFY isLaptopChanged)
 
     inline bool isLaptop() { return m_isLaptop; }
+
+    Q_PROPERTY(QString copyright READ copyright NOTIFY baseInformationChanged)
+    inline QString copyright() const { return m_copyright; }
+
+    Q_PROPERTY(QUrl logo READ logo NOTIFY baseInformationChanged)
+    inline QUrl logo() const { return m_logo; }
 
     Q_PROPERTY(QString StaticHostname READ staticHostname WRITE setStaticHostname NOTIFY
                  staticHostnameChanged)
@@ -70,6 +77,8 @@ signals:
 private:
     bool m_isLaptop;
     QString m_staticHostName;
+    QString m_copyright;
+    QUrl m_logo;
     std::optional<QString> m_edition;
     std::optional<QString> m_cputype;
     std::optional<QString> m_processor;

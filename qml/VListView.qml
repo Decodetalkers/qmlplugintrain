@@ -27,6 +27,7 @@ Row {
         rightMargin: 5
         topMargin: 5
         bottomMargin: 5
+        clip: true
 
         delegate: ItemDelegate {
             id: dl

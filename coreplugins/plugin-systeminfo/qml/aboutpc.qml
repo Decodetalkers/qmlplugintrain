@@ -8,6 +8,8 @@ import "aboutThisPc" as AboutThisPc
 import Marine.Model 1.0
 import SystemInfo.Base 1.0
 
+import org.deepin.dtk 1.0 as Dtk
+
 ScrollabelPage {
     property ModuleModelBase rootModel
     id: root
@@ -36,5 +38,29 @@ ScrollabelPage {
         }
 
     }
-
+    footer: ColumnLayout {
+        Item {
+            Layout.preferredHeight: 5
+        }
+        RowLayout {
+            Item {
+                Layout.fillWidth: true
+            }
+            Dtk.QtIcon {
+                source: AboutMyPc.logo
+                sourceSize: "100x20"
+            }
+            Label {
+                text: AboutMyPc.copyright
+                font.pointSize: 12
+                font.bold: true
+            }
+            Item {
+                Layout.fillWidth: true
+            }
+        }
+        Item {
+            Layout.preferredHeight: 5
+        }
+    }
 }
