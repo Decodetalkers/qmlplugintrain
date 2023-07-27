@@ -133,7 +133,9 @@ PluginLoader::loadPlugins()
             QObject *plugin = pluginLoader.instance();
             if (plugin) {
                 PluginInterface *pd = qobject_cast<PluginInterface *>(plugin);
-                plugins.push_back(pd);
+                if (pd->visible()) {
+                    plugins.push_back(pd);
+                }
             }
         }
         // TODO: this just handle position on the top

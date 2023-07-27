@@ -11,6 +11,7 @@ public:
     virtual QString pluginName() const                = 0;
     virtual Interfaces::BaseModule *topModule() const = 0;
     virtual std::optional<u_int> position() const { return std::nullopt; }
+    virtual bool visible() const { return true; }
 };
 
 #define PluginInterface_id "PLUGININTERFACE"

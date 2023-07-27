@@ -14,4 +14,5 @@ public:
     QString pluginName() const override;
     Interfaces::BaseModule *topModule() const override;
     std::optional<u_int> position() const override { return 2; }
+    bool visible() const override { return true; }
 };
