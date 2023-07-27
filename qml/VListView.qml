@@ -43,14 +43,14 @@ Row {
                 id: description
                 elide: Text.ElideRight
                 elideWidth: dl.textWidth
-                font.pointSize: 7
+                font.pointSize: 6
                 text: modelData.description
             }
             TextMetrics {
                 id: displayName
                 elide: Text.ElideRight
                 elideWidth: dl.textWidth
-                font.pointSize: 15
+                font.pointSize: 12
                 font.bold: true
                 text: modelData.displayName
             }
@@ -73,7 +73,7 @@ Row {
                     Layout.fillWidth: true
                     Label {
                         text: displayName.elidedText
-                        font.pointSize: 14
+                        font.pointSize: 12
                         font.bold: true
                     }
 

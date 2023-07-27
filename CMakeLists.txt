@@ -18,7 +18,7 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt${QT_VERSION} COMPONENTS Quick Widgets QuickControls2 REQUIRED)
 find_package(Dtk COMPONENTS Core Gui)
-find_package(DtkDeclarative)
+find_package(DtkDeclarative REQUIRED)
 file(GLOB_RECURSE Interface_SRCS
     "./include/interface/*.h"
 )

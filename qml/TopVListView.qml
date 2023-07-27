@@ -34,7 +34,7 @@ Row {
             delegate: ItemDelegate {
                 id: dl
                 width: 260
-                height: modelData.isSpecial ? 80 : 70
+                height: modelData.isSpecial ? 60 : 50
                 property int textWidth: modelData.isSpecial ? width - 125 : width - 115
                 checked: ListView.isCurrentItem
                 highlighted: ListView.isCurrentItem
@@ -52,7 +52,7 @@ Row {
                     id: displayName
                     elide: Text.ElideRight
                     elideWidth: dl.textWidth
-                    font.pointSize: 15
+                    font.pointSize: 12
                     font.bold: true
                     text: modelData.displayName
                 }
@@ -68,7 +68,7 @@ Row {
 
                     Dtk.QtIcon {
                         name: modelData.icon
-                        sourceSize: modelData.isSpecial ? "70x70" : "60x60"
+                        sourceSize: modelData.isSpecial ? "50x50" : "40x40"
                     }
 
                     Column {
@@ -76,7 +76,7 @@ Row {
                         Layout.fillWidth: true
                         Label {
                             text: displayName.elidedText
-                            font.pointSize: 15
+                            font.pointSize: 12
                             font.bold: true
                         }
 
