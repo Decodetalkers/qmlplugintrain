@@ -1,6 +1,7 @@
 #include "dccPlugin.h"
 #include "modulemodel.h"
 #include <QtQml/QtQml>
+#include <string_view>
 
 void
 DccPlugin::registerTypes(const char *uri)

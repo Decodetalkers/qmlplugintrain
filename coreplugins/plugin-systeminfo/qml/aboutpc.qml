@@ -5,7 +5,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.11
 import "aboutThisPc" as AboutThisPc
-import Marine.Model 1.0
+import Marine.Control 1.0
 import SystemInfo.Base 1.0
 
 import org.deepin.dtk 1.0 as Dtk

@@ -1,4 +1,4 @@
-module Marine.Model
+module Marine.Control
 
 plugin qmlpluginstrainplugin
 

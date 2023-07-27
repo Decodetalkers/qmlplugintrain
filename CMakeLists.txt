@@ -97,4 +97,4 @@ add_subdirectory(oldpluginloader)
 
 add_subdirectory(coreplugins/plugin-systeminfo)
 
-add_subdirectory(plugins/Marine/Model)
+add_subdirectory(plugins/Marine/Control)
