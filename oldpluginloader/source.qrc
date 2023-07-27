@@ -1,0 +1,6 @@
+<!DOCTYPE RCC>
+<RCC>
+    <qresource prefix="/oldpluginloader/">
+        <file>qml/oldpluginloader.qml</file>
+    </qresource>
+</RCC>

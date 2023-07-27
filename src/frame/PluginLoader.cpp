@@ -1,6 +1,6 @@
 #include "PluginLoader.h"
 
-#include <baseInterface.h>
+#include <pluginInterface.h>
 
 #include <QCoreApplication>
 #include <QDir>

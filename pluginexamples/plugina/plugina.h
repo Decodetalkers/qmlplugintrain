@@ -1,6 +1,6 @@
 #pragma once
 
-#include <baseInterface.h>
+#include <pluginInterface.h>
 
 class PluginA final: public PluginInterface
 {
