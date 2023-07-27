@@ -96,6 +96,7 @@ Dtk.ApplicationWindow {
                     MenuItem {
                         text: model.displayName
                         onTriggered : {
+                            console.log(model.icon)
                             mainGridView.visible = false
                             mainlistview.visible = true
                             mainlistview.jump(model.routine)

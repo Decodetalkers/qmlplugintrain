@@ -11,6 +11,7 @@ namespace Interfaces {
 
 struct SearchResult
 {
+    QString icon;
     QString display;
     QList<int> routine;
 };
@@ -90,7 +91,7 @@ public:
 
     inline std::optional<QString> upModule() override { return m_upModule; }
 
-    QList<SearchResult> getAllRoutine() override { return {{m_displayName, {}}}; }
+    QList<SearchResult> getAllRoutine() override { return {{m_icon, m_displayName, {}}}; }
 
 public slots:
     void setNotify(bool notify) override;

@@ -18,6 +18,7 @@ public:
     {
         Display = Qt::DisplayRole,
         Routine,
+        Icon,
     };
     Q_ENUM(RoutineRole)
 

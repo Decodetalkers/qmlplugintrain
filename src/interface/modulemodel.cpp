@@ -209,7 +209,7 @@ HModuleModel::getAllRoutine()
             QString searchName     = QString("%1 -> %2").arg(displayName).arg(routine.display);
             QList<int> routinePath = routine.routine;
             routinePath.push_front(index);
-            results.push_back({searchName, routinePath});
+            results.push_back({routine.icon, searchName, routinePath});
         }
     }
     return results;
@@ -407,7 +407,7 @@ VModuleModel::getAllRoutine()
             QString searchName     = QString("%1 -> %2").arg(displayName).arg(routine.display);
             QList<int> routinePath = routine.routine;
             routinePath.push_front(index);
-            results.push_back({searchName, routinePath});
+            results.push_back({routine.icon, searchName, routinePath});
         }
     }
     return results;

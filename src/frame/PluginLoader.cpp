@@ -37,6 +37,8 @@ PluginModel::data(const QModelIndex &index, int role) const
         return m_results[index.row()].display;
     case Routine:
         return QVariant::fromValue(m_results[index.row()].routine);
+    case Icon:
+        return m_results[index.row()].icon;
     default:
         return QVariant();
     }
@@ -51,7 +53,8 @@ PluginModel::rowCount(const QModelIndex &) const
 QHash<int, QByteArray>
 PluginModel::roleNames() const
 {
-    static const QHash<int, QByteArray> roles{{Display, "displayName"}, {Routine, "routine"}};
+    static const QHash<int, QByteArray> roles{
+      {Display, "displayName"}, {Routine, "routine"}, {Icon, "icon"}};
     return roles;
 }
 
@@ -115,7 +118,7 @@ PluginLoader::getAllRoutine()
         for (auto routine : m_modules[index]->getAllRoutine()) {
             QList<int> routinetop = routine.routine;
             routinetop.push_front(index);
-            results.push_back({routine.display, routinetop});
+            results.push_back({routine.icon, routine.display, routinetop});
         }
     }
     return results;
