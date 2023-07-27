@@ -85,24 +85,22 @@ Dtk.ApplicationWindow {
                 }
 
             }
-        }
-
-    }
-
-    Menu {
-        id: menu
-        focus: false
-        width: 300
-        x: header.width / 2 - 165
-        y: header.y + header.height
-        Repeater {
-            model: PluginLoader.searchPattern
-            MenuItem {
-                text: model.displayName
-                onTriggered : {
-                    mainGridView.visible = false
-                    mainlistview.visible = true
-                    mainlistview.jump(model.routine)
+            Menu {
+                id: menu
+                focus: false
+                width: 300
+                x: searchedit.x
+                y: searchedit.height
+                Repeater {
+                    model: PluginLoader.searchPattern
+                    MenuItem {
+                        text: model.displayName
+                        onTriggered : {
+                            mainGridView.visible = false
+                            mainlistview.visible = true
+                            mainlistview.jump(model.routine)
+                        }
+                    }
                 }
             }
         }
