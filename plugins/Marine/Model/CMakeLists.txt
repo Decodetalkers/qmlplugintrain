@@ -6,6 +6,7 @@ add_library(${LIBNAME} SHARED
     dccPlugin.h
     dccPlugin.cpp
     qmldir
+    source.qrc
 )
 
 target_link_libraries(${LIBNAME}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QPointer>
+#include <QPushButton>
 #include <QQuickPaintedItem>
 #include <QWidget>
 #include <pluginInterface.h>

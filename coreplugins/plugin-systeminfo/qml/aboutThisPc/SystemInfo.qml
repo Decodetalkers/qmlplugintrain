@@ -1,11 +1,11 @@
 // Copyright (C) 2017 The Qt Company Ltd.
 // SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
-import "../widgets" as DCCWidget
 import SystemInfo.Base 1.0
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.11
+import Marine.Model 1.0
 
 GroupBox {
     ColumnLayout {
@@ -13,7 +13,7 @@ GroupBox {
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
 
-        DCCWidget.SettingRowItem {
+        SettingRowItem {
             Layout.fillWidth: true
 
             Text {
@@ -27,7 +27,7 @@ GroupBox {
 
         }
 
-        DCCWidget.SettingRowItem {
+        SettingRowItem {
             Layout.fillWidth: true
 
             Text {
@@ -41,7 +41,7 @@ GroupBox {
 
         }
 
-        DCCWidget.SettingRowItem {
+        SettingRowItem {
             Layout.fillWidth: true
 
             Text {
@@ -55,7 +55,7 @@ GroupBox {
 
         }
 
-        DCCWidget.SettingRowItem {
+        SettingRowItem {
             Layout.fillWidth: true
 
             Text {
@@ -69,7 +69,7 @@ GroupBox {
 
         }
 
-        DCCWidget.SettingRowItem {
+        SettingRowItem {
             Layout.fillWidth: true
 
             Text {
@@ -83,7 +83,7 @@ GroupBox {
 
         }
 
-        DCCWidget.SettingRowItem {
+        SettingRowItem {
             Layout.fillWidth: true
 
             Text {

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/Marine">
+        <file>SettingRowItem.qml</file>
+    </qresource>
+</RCC>

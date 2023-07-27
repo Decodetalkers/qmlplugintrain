@@ -1,3 +1,5 @@
 module Marine.Model
 
 plugin qmlpluginstrainplugin
+
+SettingRowItem 1.0 qrc:/Marine/SettingRowItem.qml

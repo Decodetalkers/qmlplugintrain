@@ -9,9 +9,21 @@ registerGlobalTypes()
     qmlRegisterType<WidgetItem>("OldPluginLoader", 1, 0, "OldPluginLoader");
 }
 
+static QPushButton *BACKEND = nullptr;
+
+QPushButton *
+get_pushbutton()
+{
+    if (BACKEND) {
+        return BACKEND;
+    }
+
+    return new QPushButton("Abcd");
+}
+
 WidgetItem::WidgetItem(QQuickItem *parent)
   : QQuickPaintedItem(parent)
-  , m_widget(new QPushButton("Abcd"))
+  , m_widget(get_pushbutton())
 {
     setAcceptTouchEvents(true);
     setAcceptedMouseButtons(Qt::AllButtons);
