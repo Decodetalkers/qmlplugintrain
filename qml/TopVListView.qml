@@ -34,8 +34,8 @@ Row {
             delegate: ItemDelegate {
                 id: dl
                 width: 260
-                height: modelData.isSpecial ? 60 : 50
-                property int textWidth: modelData.isSpecial ? width - 125 : width - 115
+                height: modelData.isSpecial ? 70 : 60
+                property int textWidth: modelData.isSpecial ? width - 115 : width - 100
                 checked: ListView.isCurrentItem
                 highlighted: ListView.isCurrentItem
                 onClicked: {
@@ -67,8 +67,9 @@ Row {
                     }
 
                     Dtk.QtIcon {
+                        Layout.alignment: Qt.AlignVCenter
                         name: modelData.icon
-                        sourceSize: modelData.isSpecial ? "50x50" : "40x40"
+                        sourceSize: modelData.isSpecial ? "60x60" : "40x40"
                     }
 
                     Column {
