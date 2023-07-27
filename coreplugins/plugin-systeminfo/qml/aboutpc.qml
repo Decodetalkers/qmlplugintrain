@@ -10,7 +10,7 @@ import SystemInfo.Base 1.0
 
 import org.deepin.dtk 1.0 as Dtk
 
-ScrollabelPage {
+ScrollablePage {
     property ModuleModelBase rootModel
     id: root
     Component.onCompleted: {

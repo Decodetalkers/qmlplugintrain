@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/Marine">
         <file>SettingRowItem.qml</file>
+        <file>ScrollablePage.qml</file>
     </qresource>
 </RCC>
