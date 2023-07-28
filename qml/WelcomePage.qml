@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.11
 
 ColumnLayout {
@@ -18,7 +19,7 @@ ColumnLayout {
         Layout.preferredHeight: 30
     }
 
-    Text {
+    Label {
         Layout.alignment : Qt.AlignHCenter
         font.pointSize: 10
         text: "Welcome to Deepin Control Center"

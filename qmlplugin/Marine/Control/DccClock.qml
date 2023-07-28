@@ -31,7 +31,7 @@ Item {
 
     Item {
         anchors.centerIn: parent
-        width: 200; height: 240
+        width: 200; height: 200
 
         Image { id: background; source: "qrc:/image/clock.png"; visible: clock.night == false }
         Image { source: "qrc:/image/clock-night.png"; visible: clock.night == true }

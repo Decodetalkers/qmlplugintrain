@@ -172,6 +172,11 @@ HModuleModel::description() const
     if (m_description.has_value()) {
         return m_description.value();
     }
+
+    if (m_models.isEmpty()) {
+        return m_name;
+    }
+
     QString description;
     for (const auto &model : m_models) {
         description.push_back(model->displayName());
@@ -318,6 +323,11 @@ VModuleModel::description() const
     if (m_description.has_value()) {
         return m_description.value();
     }
+
+    if (m_models.isEmpty()) {
+        return m_name;
+    }
+
     QString description;
     for (const auto &model : m_models) {
         description.push_back(model->displayName());

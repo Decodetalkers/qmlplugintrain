@@ -96,5 +96,6 @@ add_subdirectory(pluginexamples/plugine)
 #add_subdirectory(oldpluginloader)
 
 add_subdirectory(coreplugins/plugin-systeminfo)
+add_subdirectory(coreplugins/plugin-datetime)
 
 add_subdirectory(qmlplugin/Marine/Control)
