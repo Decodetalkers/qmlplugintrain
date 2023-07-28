@@ -1,6 +1,6 @@
 <!DOCTYPE RCC>
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/plugind">
         <file>qml/entrancebb.qml</file>
         <file>qml/entranceff.qml</file>
     </qresource>

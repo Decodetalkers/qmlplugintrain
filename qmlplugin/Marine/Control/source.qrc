@@ -4,5 +4,14 @@
         <file>SettingRowItem.qml</file>
         <file>ScrollablePage.qml</file>
         <file>DccTabBar.qml</file>
+        <file>DccClock.qml</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>image/center.png</file>
+        <file>image/hour.png</file>
+        <file>image/minute.png</file>
+        <file>image/second.png</file>
+        <file>image/clock.png</file>
+        <file>image/clock-night.png</file>
     </qresource>
 </RCC>

@@ -5,12 +5,15 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.11
 
 Page {
-
     property ModuleModelBase rootModel
     ColumnLayout {
         anchors.fill: parent
         Item {
             Layout.fillHeight: true
+        }
+        DccClock {
+            Layout.alignment : Qt.AlignHCenter
+            shift: 8
         }
         Button {
             Layout.alignment : Qt.AlignHCenter

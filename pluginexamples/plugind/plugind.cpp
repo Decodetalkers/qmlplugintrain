@@ -45,7 +45,7 @@ PluginD::topModule() const
                                      {"searchpatterns", std::invoke([]() -> QJsonArray {
                                           return {"sss", "sss", "bbb"};
                                       })},
-                                     {"url", "qrc:/qml/entrancebb.qml"}});
+                                     {"url", "qrc:/plugind/qml/entrancebb.qml"}});
             array.append(QJsonObject{{"objectName", "base"},
                                      {"name", "test44444444"},
                                      {"icon", "pinta"},
@@ -54,7 +54,7 @@ PluginD::topModule() const
                                      {"searchpatterns", std::invoke([]() -> QJsonArray {
                                           return {"sss", "sss", "bbb"};
                                       })},
-                                     {"url", "qrc:/qml/entranceff.qml"}});
+                                     {"url", "qrc:/plugind/qml/entranceff.qml"}});
             return array;
         })},
        {"isSpecial", true}});
