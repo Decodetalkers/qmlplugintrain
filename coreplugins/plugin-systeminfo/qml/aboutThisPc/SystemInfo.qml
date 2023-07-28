@@ -16,12 +16,12 @@ GroupBox {
         SettingRowItem {
             Layout.fillWidth: true
 
-            Text {
+            Label {
                 text: qsTr("edition: ")
                 Layout.fillWidth: true
             }
 
-            Text {
+            Label {
                 text: AboutMyPc.edition
             }
 
@@ -30,12 +30,12 @@ GroupBox {
         SettingRowItem {
             Layout.fillWidth: true
 
-            Text {
+            Label {
                 text: qsTr("type: ")
                 Layout.fillWidth: true
             }
 
-            Text {
+            Label {
                 text: AboutMyPc.cputype
             }
 
@@ -44,12 +44,12 @@ GroupBox {
         SettingRowItem {
             Layout.fillWidth: true
 
-            Text {
+            Label {
                 text: qsTr("processor: ")
                 Layout.fillWidth: true
             }
 
-            Text {
+            Label {
                 text: AboutMyPc.processor
             }
 
@@ -58,12 +58,12 @@ GroupBox {
         SettingRowItem {
             Layout.fillWidth: true
 
-            Text {
+            Label {
                 text: qsTr("memory: ")
                 Layout.fillWidth: true
             }
 
-            Text {
+            Label {
                 text: AboutMyPc.memory
             }
 
@@ -72,12 +72,12 @@ GroupBox {
         SettingRowItem {
             Layout.fillWidth: true
 
-            Text {
+            Label {
                 text: qsTr("Graphics Platform: ")
                 Layout.fillWidth: true
             }
 
-            Text {
+            Label {
                 text: AboutMyPc.graphicsPlatform
             }
 
@@ -86,12 +86,12 @@ GroupBox {
         SettingRowItem {
             Layout.fillWidth: true
 
-            Text {
+            Label {
                 text: qsTr("kernel: ")
                 Layout.fillWidth: true
             }
 
-            Text {
+            Label {
                 text: AboutMyPc.kernel
             }
 
