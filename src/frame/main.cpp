@@ -27,7 +27,7 @@ main(int argc, char *argv[])
 
     registerGlobalTypes();
     QQmlApplicationEngine engine;
-    engine.addImportPath(QString("%1/plugins").arg((QCoreApplication::applicationDirPath())));
+    engine.addImportPath(QString("%1/qmlplugin").arg((QCoreApplication::applicationDirPath())));
 
     Dtk::Core::DLogManager::registerConsoleAppender();
     QQuickStyle::setStyle("Chameleon");
