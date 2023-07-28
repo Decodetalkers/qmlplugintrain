@@ -13,7 +13,7 @@ GroupBox {
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
 
-        SettingRowItem {
+        SettingRowLayout {
             Layout.fillWidth: true
 
             Label {
@@ -41,7 +41,7 @@ GroupBox {
 
         }
 
-        SettingRowItem {
+        SettingRowLayout {
             Layout.fillWidth: true
 
             Label {
@@ -55,7 +55,7 @@ GroupBox {
 
         }
 
-        SettingRowItem {
+        SettingRowLayout {
             Layout.fillWidth: true
 
             Label {
@@ -69,7 +69,7 @@ GroupBox {
 
         }
 
-        SettingRowItem {
+        SettingRowLayout {
             Layout.fillWidth: true
 
             Label {
@@ -83,7 +83,7 @@ GroupBox {
 
         }
 
-        SettingRowItem {
+        SettingRowLayout {
             Layout.fillWidth: true
 
             Label {

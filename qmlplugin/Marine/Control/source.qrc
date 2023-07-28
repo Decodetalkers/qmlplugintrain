@@ -1,7 +1,7 @@
 <!DOCTYPE RCC>
 <RCC>
     <qresource prefix="/Marine">
-        <file>SettingRowItem.qml</file>
+        <file>SettingRowLayout.qml</file>
         <file>ScrollablePage.qml</file>
         <file>DccTabBar.qml</file>
         <file>DccClock.qml</file>

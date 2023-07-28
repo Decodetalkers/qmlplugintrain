@@ -22,7 +22,7 @@ ScrollablePage {
             Layout.preferredHeight: 5
         }
 
-        SettingRowItem {
+        SettingRowLayout {
             Layout.alignment : Qt.AlignHCenter
             implicitWidth: root.width > 1500 ? 1400 : root.width - 100
             Label {
