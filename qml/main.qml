@@ -9,6 +9,7 @@ Dtk.ApplicationWindow {
     minimumWidth: 1000
     minimumHeight: 500
     Dtk.DWindow.enabled: true
+    flags: Qt.Window | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint | Qt.WindowTitleHint
 
     TopGridView {
         id: mainGridView

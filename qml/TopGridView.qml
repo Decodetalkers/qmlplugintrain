@@ -71,6 +71,7 @@ ScrollView {
 
                 Rectangle {
                     width: topp.elementWidth
+                    color: "transparent"
                     height: {
                         if (index == 0 && modelData.isSpecial)
                             return topp.elementHeight * 2 + topp.gridSpacing;
