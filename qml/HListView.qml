@@ -17,7 +17,7 @@ Page {
     Loader {
         id: loader
         sourceComponent: {
-            if (header.currentIndex < 0)
+            if (header.currentIndex < 0 || page.model.length === 0)
                 return welcomeDefault;
 
             if (page.model[header.currentIndex].type === "base")
@@ -109,7 +109,7 @@ Page {
     header: MarineControl.DccTabBar {
         id: header
 
-        property int currentIndex: head.model.length == 0 ? -1 : 0
+        property int currentIndex: page.model.length != 0 ? 0 : -1
 
         Repeater {
             id: head

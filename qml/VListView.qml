@@ -178,7 +178,7 @@ Row {
     Loader {
         id: loader
         sourceComponent: {
-            if (leftview.currentIndex < 0)
+            if (leftview.currentIndex < 0 || page.model.length === 0)
                 return welcomedefault;
 
             if (page.model[leftview.currentIndex].type === "base")
