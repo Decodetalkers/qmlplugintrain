@@ -5,6 +5,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.11
 import QtQml 2.15
 
+import org.deepin.dtk 1.0 as Dtk
+
 import Marine.Control 1.0 as MarineControl
 
 Page {
@@ -115,12 +117,13 @@ Page {
         Repeater {
             id: head
 
-            Button {
+            Dtk.ToolButton {
                 checkable: false
                 onClicked: {
                     header.currentIndex = index;
                 }
                 highlighted: index === header.currentIndex
+                checked: index === header.currentIndex
 
                 indicator: RowLayout {
                     RedDot {
