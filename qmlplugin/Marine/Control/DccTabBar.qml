@@ -8,8 +8,6 @@ ScrollView {
 
     default property alias content: corelayout.children
 
-    property alias currentIndex: header.currentIndex
-
     clip: true
 
     Control {
@@ -21,8 +19,6 @@ ScrollView {
 
         contentItem: RowLayout {
             id: header
-
-            property int currentIndex: head.model.length == 0 ? -1 : 0
 
             Item {
                 Layout.fillWidth: true

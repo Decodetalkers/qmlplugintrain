@@ -108,6 +108,9 @@ Page {
 
     header: MarineControl.DccTabBar {
         id: header
+
+        property int currentIndex: head.model.length == 0 ? -1 : 0
+
         Repeater {
             id: head
 
