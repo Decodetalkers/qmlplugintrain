@@ -5,3 +5,5 @@ plugin qmlpluginstrainplugin
 SettingRowItem 1.0 qrc:/Marine/SettingRowItem.qml
 
 ScrollablePage 1.0 qrc:/Marine/ScrollablePage.qml
+
+DccTabBar 1.0 qrc:/Marine/DccTabBar.qml

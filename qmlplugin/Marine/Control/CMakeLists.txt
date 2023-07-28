@@ -1,6 +1,7 @@
 set(LIBNAME qmlpluginstrainplugin)
 
 find_package(Qt${QT_VERSION} COMPONENTS Quick Widgets QuickControls2 REQUIRED)
+find_package(DtkDeclarative REQUIRED)
 
 add_library(${LIBNAME} SHARED
     dccPlugin.h
@@ -14,6 +15,7 @@ target_link_libraries(${LIBNAME}
     Qt::Quick
     Qt::Widgets
     Qt::QuickControls2
+    ${DtkDeclarative_LIBRARIES}
 )
 
 target_include_directories(${LIBNAME} PUBLIC

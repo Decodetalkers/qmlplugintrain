@@ -2,7 +2,10 @@ import "components"
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.11
 import QtQml 2.15
+
+import Marine.Control 1.0 as MarineControl
 
 Page {
     id: page
@@ -14,13 +17,13 @@ Page {
     Loader {
         id: loader
         sourceComponent: {
-            if (head.currentIndex < 0)
+            if (header.currentIndex < 0)
                 return welcomeDefault;
 
-            if (page.model[head.currentIndex].type === "base")
+            if (page.model[header.currentIndex].type === "base")
                 return baseView;
 
-            if (page.model[head.currentIndex].type === "vmodule")
+            if (page.model[header.currentIndex].type === "vmodule")
                 return vViewComponent;
 
             return hViewComponent;
@@ -28,14 +31,14 @@ Page {
     }
 
     function jump(index) {
-        head.currentIndex = index[0]
+        header.currentIndex = index[0]
         index.shift()
         if (index.length > 0) {
-            if (page.model[head.currentIndex].type === "vmodule") {
+            if (page.model[header.currentIndex].type === "vmodule") {
                 loader.item.jump(index);
                 return
             }
-            if (page.model[head.currentIndex].type === "hmodule")
+            if (page.model[header.currentIndex].type === "hmodule")
                 loader.item.jump(index);
         }
     }
@@ -46,7 +49,7 @@ Page {
         Loader {
             id: baseLoader
 
-            source: page.model[head.currentIndex].url
+            source: page.model[header.currentIndex].url
 
             Binding {
                 target: baseLoader.item
@@ -63,7 +66,7 @@ Page {
             Binding {
                 target: baseLoader.item
                 property: "rootModel"
-                value: page.model[head.currentIndex]
+                value: page.model[header.currentIndex]
                 restoreMode: Binding.RestoreBindingOrValue
             }
 
@@ -75,7 +78,7 @@ Page {
         id: vViewComponent
 
         PageLoaderV {
-            model: page.model[head.currentIndex]
+            model: page.model[header.currentIndex]
             pageHeight: page.height - header.height
             pageWidth: page.width
         }
@@ -96,14 +99,60 @@ Page {
         id: hViewComponent
 
         PageLoaderH {
-            model: page.model[head.currentIndex]
+            model: page.model[header.currentIndex]
             pageHeight: page.height - header.height
             pageWidth: page.width
         }
 
     }
 
-    header: CustomTabBar {
-        id: head
+    header: MarineControl.DccTabBar {
+        id: header
+        Repeater {
+            id: head
+
+            Button {
+                checkable: false
+                onClicked: {
+                    header.currentIndex = index;
+                }
+                highlighted: index === header.currentIndex
+
+                indicator: RowLayout {
+                    RedDot {
+                        visible: modelData.isNotify
+                    }
+
+                    Item {
+                        Layout.preferredWidth: 10
+                    }
+
+                }
+
+                contentItem: RowLayout {
+                    anchors.fill: parent
+
+                    Item {
+                        Layout.preferredWidth: 10
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        verticalAlignment: Qt.AlignVCenter
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        font.bold: true
+                        text: modelData.displayName
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
+                }
+
+            }
+
+        }
     }
 }
