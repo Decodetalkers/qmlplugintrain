@@ -16,10 +16,14 @@ Page {
     property alias pageHeight: page.height
     property alias pageWidth: page.width
 
+    onModelChanged: {
+        header.currentIndex = page.model.length != 0 ? 0 : -1
+    }
+
     Loader {
         id: loader
         sourceComponent: {
-            if (header.currentIndex < 0 || page.model.length === 0)
+            if (header.currentIndex < 0)
                 return welcomeDefault;
 
             if (page.model[header.currentIndex].type === "base")
