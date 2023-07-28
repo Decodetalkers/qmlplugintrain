@@ -21,9 +21,9 @@ registerGlobalTypes()
 int
 main(int argc, char *argv[])
 {
-    QApplication::setApplicationName("Marine");
-    QApplication::setOrganizationName("QtProject");
-    QApplication app(argc, argv);
+    QGuiApplication::setApplicationName("Marine");
+    QGuiApplication::setOrganizationName("QtProject");
+    QGuiApplication app(argc, argv);
 
     registerGlobalTypes();
     QQmlApplicationEngine engine;

@@ -93,7 +93,7 @@ add_subdirectory(pluginexamples/pluginc)
 add_subdirectory(pluginexamples/plugind)
 add_subdirectory(pluginexamples/plugine)
 
-add_subdirectory(oldpluginloader)
+#add_subdirectory(oldpluginloader)
 
 add_subdirectory(coreplugins/plugin-systeminfo)
 
