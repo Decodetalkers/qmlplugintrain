@@ -108,6 +108,7 @@ Page {
 
     header: MarineControl.DccTabBar {
         id: header
+        visible: page.model.length != 0
 
         property int currentIndex: page.model.length != 0 ? 0 : -1
 
