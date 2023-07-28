@@ -47,7 +47,7 @@ PluginSystemInfo::topModule() const
                           {"displayName", QObject::tr("About This Pc")},
                           {"description", QObject::tr("show the info of pc")},
                           {"searchpatterns", std::invoke([]() -> QJsonArray { return {}; })},
-                          {"url", "qrc:/qml/aboutpc.qml"}});
+                          {"url", "qrc:/SystemInfo/qml/aboutpc.qml"}});
             array.append(QJsonObject{
               {"objectName", "vmodule"},
               {"name", "licenses"},
@@ -61,7 +61,7 @@ PluginSystemInfo::topModule() const
                                  {"description", QObject::tr("Edition License")},
                                  {"icon", "dcc_version"},
                                  {"searchpatterns", std::invoke([]() -> QJsonArray { return {}; })},
-                                 {"url", "qrc:/qml/gnulicense.qml"}});
+                                 {"url", "qrc:/SystemInfo/qml/gnulicense.qml"}});
                    array.append(
                      QJsonObject{{"objectName", "base"},
                                  {"name", "privacyPolicy"},
@@ -69,8 +69,7 @@ PluginSystemInfo::topModule() const
                                  {"description", QObject::tr("privacyPolicy")},
                                  {"icon", "dcc_privacy_policy"},
                                  {"searchpatterns", std::invoke([]() -> QJsonArray { return {}; })},
-                                 {"url", "qrc:/qml/privatelicense.qml"}});
-                   return array;
+                                 {"url", "qrc:/SystemInfo/qml/privatelicense.qml"}});
                    return array;
                })}});
             return array;

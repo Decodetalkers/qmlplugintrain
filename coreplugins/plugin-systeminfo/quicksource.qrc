@@ -1,6 +1,6 @@
 <!DOCTYPE RCC>
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/SystemInfo">
         <file>qml/aboutpc.qml</file>
         <file>qml/gnulicense.qml</file>
         <file>qml/privatelicense.qml</file>
