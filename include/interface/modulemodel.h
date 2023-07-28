@@ -93,6 +93,10 @@ public:
 
     QList<SearchResult> getAllRoutine() override { return {{m_icon, m_displayName, {}}}; }
 
+    Q_INVOKABLE void appendPattern(const QString &pattern);
+
+    Q_INVOKABLE void cleanPattern();
+
 public slots:
     void setNotify(bool notify) override;
 

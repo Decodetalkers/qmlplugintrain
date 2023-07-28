@@ -120,6 +120,19 @@ BaseModuleModel::setNotify(bool notify)
     Q_EMIT isNotifyChanged(m_isNotify);
 }
 
+void
+BaseModuleModel::appendPattern(const QString &pattern) {
+    m_searchpatterns.push_back(pattern);
+    Q_EMIT searchpatternsChanged();
+}
+
+void
+BaseModuleModel::cleanPattern()
+{
+    m_searchpatterns.clear();
+    Q_EMIT searchpatternsChanged();
+}
+
 HModuleModel::HModuleModel(const QString &name,
                            const QString &displayName,
                            const QString &icon,
