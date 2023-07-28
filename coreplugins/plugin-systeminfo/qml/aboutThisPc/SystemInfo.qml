@@ -27,7 +27,7 @@ GroupBox {
 
         }
 
-        SettingRowItem {
+        SettingRowLayout {
             Layout.fillWidth: true
 
             Label {
