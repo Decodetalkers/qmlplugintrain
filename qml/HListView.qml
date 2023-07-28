@@ -125,17 +125,6 @@ Page {
                 highlighted: index === header.currentIndex
                 checked: index === header.currentIndex
 
-                indicator: RowLayout {
-                    RedDot {
-                        visible: modelData.isNotify
-                    }
-
-                    Item {
-                        Layout.preferredWidth: 10
-                    }
-
-                }
-
                 contentItem: RowLayout {
                     anchors.fill: parent
 
@@ -153,7 +142,16 @@ Page {
                     }
 
                     Item {
+                        visible: modelData.isNotify
                         Layout.fillWidth: true
+                    }
+
+                    RedDot {
+                        visible: modelData.isNotify
+                    }
+
+                    Item {
+                        Layout.preferredWidth: 10
                     }
 
                 }
