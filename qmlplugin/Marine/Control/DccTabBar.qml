@@ -7,6 +7,7 @@ ScrollView {
     id: page
 
     default property alias content: corelayout.children
+    property alias btngroup: group
 
     clip: true
 
@@ -16,6 +17,10 @@ ScrollView {
         width: page.width
         topPadding: 2
         bottomPadding: 2
+
+        ButtonGroup {
+            id: group
+        }
 
         contentItem: RowLayout {
             id: header

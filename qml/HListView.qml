@@ -122,12 +122,12 @@ Page {
             id: head
 
             Dtk.ToolButton {
-                checkable: false
+                checkable: true
                 onClicked: {
                     header.currentIndex = index;
                 }
-                highlighted: index === header.currentIndex
                 checked: index === header.currentIndex
+                ButtonGroup.group : header.btngroup
 
                 contentItem: RowLayout {
                     anchors.fill: parent
