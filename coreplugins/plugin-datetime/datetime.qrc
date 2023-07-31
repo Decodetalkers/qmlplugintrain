@@ -2,5 +2,6 @@
 <RCC>
     <qresource prefix="/Datetime">
         <file>qml/timesettings.qml</file>
+        <file>qml/regionandformat.qml</file>
     </qresource>
 </RCC>

@@ -9,3 +9,5 @@ ScrollablePage 1.0 qrc:/Marine/ScrollablePage.qml
 DccTabBar 1.0 qrc:/Marine/DccTabBar.qml
 
 DccClock 1.0 qrc:/Marine/DccClock.qml
+
+SettingGroup 1.0 qrc:/Marine/SettingGroup.qml

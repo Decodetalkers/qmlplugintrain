@@ -5,6 +5,7 @@
         <file>ScrollablePage.qml</file>
         <file>DccTabBar.qml</file>
         <file>DccClock.qml</file>
+        <file>SettingGroup.qml</file>
     </qresource>
     <qresource prefix="/">
         <file>image/center.png</file>

@@ -30,6 +30,11 @@ PluginDatetime::topModule() const
                                      {"displayName", tr("Time Settings")},
                                      {"description", tr("About set Time")},
                                      {"url", "qrc:/Datetime/qml/timesettings.qml"}}));
+           array.append(QJsonObject({{"objectName", "base"},
+                                     {"name", "regionandformat"},
+                                     {"displayName", tr("Region And Format")},
+                                     {"description", tr("Place to set region and format")},
+                                     {"url", "qrc:/Datetime/qml/regionandformat.qml"}}));
            return array;
        })},
     });
