@@ -8,8 +8,10 @@ Control {
 
     default property alias content: content.children
     property alias title: title.text
+    property alias columnspacing: center.spacing
 
     contentItem: ColumnLayout {
+        id: center
         RowLayout {
             Item {
                 Layout.preferredWidth: 2
