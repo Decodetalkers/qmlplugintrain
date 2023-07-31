@@ -14,7 +14,7 @@ Item {
     property int seconds
     property real shift
     property bool night: false
-    property bool internationalTime: true //Unset for local time
+    property bool internationalTime: false //Unset for local time
 
     function timeChanged() {
         var date = new Date;

@@ -6,12 +6,16 @@ import QtQuick 2.15
 
 ScrollablePage {
     id: root
+
     property ModuleModelBase rootModel
     property int year
     property int month
     property int day
+    property int hours
+    property int minutes
 
     property int itemWidth: root.width > 1500 ? 1400 : root.width - 100
+
     Item {
         Timer {
             interval: 100; running: true; repeat: true;
@@ -24,7 +28,10 @@ ScrollablePage {
         year = date.getFullYear();
         month = date.getMonth() + 1;
         day = date.getDate();
+        hours = date.getHours();
+        minutes = date.getMinutes();
     }
+
     ColumnLayout {
         anchors.horizontalCenter: parent.horizontalCenter
 
@@ -34,7 +41,6 @@ ScrollablePage {
 
         DccClock {
             Layout.alignment : Qt.AlignHCenter
-            shift: 8
         }
 
         Item {
@@ -70,6 +76,52 @@ ScrollablePage {
                     ListElement { text: "1.debian.pool.ntp.org" }
                     ListElement { text: "1.debian.pool.ntp.org" }
                     ListElement { text: "1.debian.pool.ntp.org" }
+                }
+            }
+        }
+        SettingRowLayout {
+            color: "transparent"
+            Layout.alignment : Qt.AlignHCenter
+            implicitWidth: root.width > 1500 ? 1400 : root.width - 100
+            implicitHeight: 60
+            Rectangle {
+                color: "transparent"
+                Layout.fillWidth: true
+                implicitHeight: 60
+                Label {
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    text: root.hours
+                    font.pointSize: 25
+                    font.bold: true
+                }
+            }
+            Rectangle {
+                color: "transparent"
+                Layout.fillWidth: true
+                implicitHeight: 60
+                Label {
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    text: ":"
+                    font.pointSize: 25
+                    font.bold: true
+                }
+            }
+            Rectangle {
+                color: "transparent"
+                Layout.fillWidth: true
+                implicitHeight: 60
+
+                Label {
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    font.pointSize: 25
+                    text: root.minutes
+                    font.bold: true
                 }
             }
         }
