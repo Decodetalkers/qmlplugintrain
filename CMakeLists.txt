@@ -17,8 +17,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt${QT_VERSION} COMPONENTS Quick Widgets QuickControls2 REQUIRED)
-find_package(Dtk COMPONENTS Core Gui)
-find_package(DtkDeclarative REQUIRED)
+find_package(Dtk COMPONENTS Core Gui Declarative)
 file(GLOB_RECURSE Interface_SRCS
     "./include/interface/*.h"
 )
@@ -48,7 +47,6 @@ if (QT_VERSION STREQUAL "6")
         ${Interface_SRCS}
     )
 
-    # Not Format Me
     qt_add_qml_module(${PROJECT_NAME}
         URI Marine
         VERSION 1.0
@@ -74,14 +72,13 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     include/interface
 )
 
-target_link_libraries(${PROJECT_NAME}
-    PUBLIC
+target_link_libraries(${PROJECT_NAME} PUBLIC
     Qt::Quick
     Qt::Widgets
     Qt::QuickControls2
     Dtk::Gui
     Dtk::Core
-    ${DtkDeclarative_LIBRARIES}
+    Dtk::Declarative
     qmlpluginstrainInterface
 )
 

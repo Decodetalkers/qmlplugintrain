@@ -29,6 +29,9 @@ main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.addImportPath(QString("%1/qmlplugin").arg((QCoreApplication::applicationDirPath())));
 
+    Dtk::Core::DLogManager::setLogFormat(
+      "%{time}{yy-MM-ddTHH:mm:ss.zzz} [%{type}] [%{category}] <%{function}> %{message}\n");
+
     Dtk::Core::DLogManager::registerConsoleAppender();
     QQuickStyle::setStyle("Chameleon");
 

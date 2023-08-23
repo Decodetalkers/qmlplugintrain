@@ -7,9 +7,9 @@
 
 #include <math.h>
 
-const QString HostnameService   = QStringLiteral("org.freedesktop.hostname1");
-const QString HostnamePath      = QStringLiteral("/org/freedesktop/hostname1");
-const QString HostnameInterface = QStringLiteral("org.freedesktop.hostname1");
+const QString HOSTNAME_SERVICE   = QStringLiteral("org.freedesktop.hostname1");
+const QString HOSTNAME_PATH      = QStringLiteral("/org/freedesktop/hostname1");
+const QString HOSTNAME_INTERFACE = QStringLiteral("org.freedesktop.hostname1");
 
 const QString PLATFORM_NAME = std::visit([]() -> QString {
     QString platformname = QGuiApplication::platformName();
@@ -60,9 +60,9 @@ AboutMyPcBackendObject::AboutMyPcBackendObject(QObject *parent)
   , m_memory(std::nullopt)
   , m_graphicsPlatform(PLATFORM_NAME)
   , m_kernel(std::nullopt)
-  , m_hostname1Inter(new DDBusInterface(HostnameService,
-                                        HostnamePath,
-                                        HostnameInterface,
+  , m_hostname1Inter(new DDBusInterface(HOSTNAME_SERVICE,
+                                        HOSTNAME_PATH,
+                                        HOSTNAME_INTERFACE,
                                         QDBusConnection::systemBus(),
                                         this))
 {
@@ -113,7 +113,8 @@ AboutMyPcBackendObject::active()
         }
     });
 
-    m_logo = QUrl::fromLocalFile(DSysInfo::distributionOrgLogo(DSysInfo::Distribution, DSysInfo::Normal));
+    m_logo =
+      QUrl::fromLocalFile(DSysInfo::distributionOrgLogo(DSysInfo::Distribution, DSysInfo::Normal));
     m_edition   = std::visit([]() -> QString {
         QString version;
         if (DSysInfo::uosType() == DSysInfo::UosServer ||
