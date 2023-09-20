@@ -48,7 +48,7 @@ ScrollablePage {
             }
             Dtk.QtIcon {
                 source: AboutMyPc.logo
-                sourceSize: "100x20"
+                sourceSize: "20x20"
             }
             Label {
                 text: AboutMyPc.copyright
